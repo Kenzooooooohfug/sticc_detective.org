@@ -98,6 +98,70 @@ h1.cur::after,h2.cur::after,h3.cur::after{margin-left:2px}
 .brand img{width:260px;max-width:45%;height:auto;mix-blend-mode:screen}
 @media(max-width:560px){.brand{flex-direction:column;text-align:center}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}#fx{display:none}}
+
+/* ===== mobile improvements + Telegram icon ===== */
+body{min-height:100dvh;-webkit-text-size-adjust:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+.sm{min-height:38px}
+footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+footer li a{display:inline-block;padding:5px 0}
+html:lang(km) body{line-height:1.85}
+[tabindex="-1"]:focus{outline:none}
+.fab{position:fixed;z-index:30;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;display:block;box-shadow:0 6px 22px rgba(0,0,0,.6),0 0 0 3px rgba(7,9,10,.85);transition:transform .15s}
+.fab svg{display:block;width:100%;height:100%}
+.fab:hover{transform:scale(1.06)}.fab:active{transform:scale(.95)}
+@media(max-width:820px){
+body{background-attachment:scroll}
+#burger{min-width:44px;font-size:20px;line-height:1}
+nav{max-height:calc(100dvh - 60px - env(safe-area-inset-top,0px));overflow-y:auto;padding:4px 20px 16px}
+nav li{border-bottom:1px solid var(--line)}nav li:last-child{border:0}
+nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
+.page{padding:36px 0 56px}
+.hero{gap:28px}
+.lead{font-size:1.02rem}
+}
+@media(max-width:640px){
+.tools .btn{display:none}
+.row{flex-direction:column}.row .btn,.row button{width:100%}
+.tb{padding:12px;font-size:12.5px;min-height:170px}
+.card{padding:18px}
+.grid{grid-template-columns:1fr}
+.fg{flex-direction:column;gap:22px}
+.brand img{max-width:70%}
+.logo{font-size:14px}
+}
+@media(max-width:480px){
+.flow{grid-template-columns:1fr}
+.flow div{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px}
+.flow div::before{margin:0}
+}
+
+/* ===== How it works + chat pictures ===== */
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:40px 28px;margin:36px 0 8px}
+.hs h3{margin:10px 0 4px;font-size:1.1rem}.hs>p{margin:0 0 16px;color:var(--mut);font-size:.95rem}
+.sn{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid var(--g);color:var(--g);border-radius:6px;font:700 14px var(--mono)}
+.phone{width:min(100%,290px);margin:0 auto;background:#0e1621;border:1px solid #2b3b4a;border-radius:28px;padding:8px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+.ph-top{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#17212b;border-radius:20px 20px 0 0;font-size:14px;color:#e8eef4}
+.ph-top small{display:block;color:#7d8e9e;font-size:11px;line-height:1.2}
+.av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#1f9d63,#2b78b8);font:700 15px var(--mono);color:#fff}
+.ph-body{min-height:300px;padding:12px;display:flex;flex-direction:column;gap:8px;background:#0e1621;border-radius:0 0 20px 20px}
+.bub{max-width:88%;padding:8px 11px;border-radius:14px;font:13px/1.45 var(--sans);color:#e8eef4;overflow-wrap:anywhere}
+.bub.in{align-self:flex-start;background:#182533;border-bottom-left-radius:4px}
+.bub.out{align-self:flex-end;background:#2b5278;border-bottom-right-radius:4px}
+.file{display:flex;gap:9px;align-items:center}.file i{flex:none;width:32px;height:32px;border-radius:50%;background:#3d8fd1;display:grid;place-items:center;font:700 10px var(--mono);font-style:normal}
+.file small{color:#a9bccd}
+.vd{font:700 12px var(--mono);letter-spacing:.5px}.vd.g{color:var(--g)}.vd.y{color:var(--y)}.vd.r{color:var(--r)}
+.sbar{flex:1;background:#0e1621;border-radius:18px;padding:8px 14px;color:#7d8e9e;font-size:14px}
+.sbar.t{color:#e8eef4}
+.gr{height:46px;border-radius:10px;background:#17212b;opacity:.55}
+.res{display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;background:#17212b;color:#e8eef4;font-size:14px}
+.res small{color:#7d8e9e}.res em{margin-left:auto;font:600 10px var(--mono);font-style:normal;color:#7d8e9e;border:1px solid #2b3b4a;border-radius:4px;padding:1px 5px}
+.svc{align-self:center;background:#182533;color:#9fb1c1;border-radius:12px;padding:3px 10px;font-size:11px}
+.startbtn{margin-top:auto;text-align:center;background:#3d8fd1;color:#fff;font-weight:700;border-radius:10px;padding:12px;letter-spacing:.06em}
+.mini{margin-top:16px;border:1px solid #2b3b4a;border-radius:14px;overflow:hidden;background:#0e1621}
+.mini .ph-top{padding:8px 12px;border-radius:0;font-size:12.5px}.mini .av{width:26px;height:26px;font-size:12px}
+.mini .ph-body{min-height:0;padding:10px;gap:6px;border-radius:0}.mini .bub{font-size:12px;padding:6px 9px}
 </style>
 </head>
 <body>
@@ -107,6 +171,7 @@ h1.cur::after,h2.cur::after,h3.cur::after{margin-left:2px}
 <a class="logo" href="#home" aria-label="STICC_DETECTIVE home"><img data-logo="e" alt="" width="36" height="36"><span>STICC<b>_</b>DETECTIVE</span></a>
 <nav id="nav" aria-label="Main"><ul>
 <li><a class="l" href="#home" data-i18n="nav_home">Home</a></li>
+<li><a class="l" href="#howto" data-i18n="nav_how">How it works</a></li>
 <li><a class="l" href="#features" data-i18n="nav_feat">Security Features</a></li>
 <li><a class="l" href="#intel" data-i18n="nav_intel">Threat Intelligence</a></li>
 <li><a class="l" href="#about" data-i18n="nav_about">About</a></li>
@@ -137,6 +202,14 @@ h1.cur::after,h2.cur::after,h3.cur::after{margin-left:2px}
 <p class="lead" data-i18n="demo_p">A frontend-only replay. Real scanning runs on a secured backend connected to the bot.</p>
 <div class="term" style="margin-top:20px"><div class="th"><span>sticc@demo:~$</span><button class="sm" id="run" data-i18n="run">Run Demo</button></div>
 <div class="tb" id="t2" aria-live="polite"></div></div>
+</div></section>
+
+<section class="page" data-page="howto"><div class="wrap">
+<h2 data-i18n="nav_how">How it works</h2>
+<p class="lead" data-i18n="how_p">Start in under a minute. Everything happens inside Telegram, with nothing to install.</p>
+<div class="how" id="how"></div>
+<div class="note">Screens are illustrations with sample data, not live results.</div>
+<div class="row"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a><a class="btn ghost" href="#features">See all features</a><a class="btn ghost" href="#intel">What the verdicts mean</a></div>
 </div></section>
 
 <section class="page" data-page="features"><div class="wrap">
@@ -204,11 +277,13 @@ h1.cur::after,h2.cur::after,h3.cur::after{margin-left:2px}
 <footer><div class="wrap">
 <div class="fg">
 <div><div class="logo">STICC<b>_</b>DETECTIVE</div><p style="color:var(--mut);max-width:260px" data-i18n="foot_p">Security checks for Telegram communities.</p></div>
-<div><b>Navigate</b><ul><li><a href="#home">Home</a></li><li><a href="#features">Features</a></li><li><a href="#intel">Threat Intelligence</a></li><li><a href="#about">About</a></li><li><a href="#profile">Owner Profile</a></li></ul></div>
+<div><b>Navigate</b><ul><li><a href="#home">Home</a></li><li><a href="#howto">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#intel">Threat Intelligence</a></li><li><a href="#about">About</a></li><li><a href="#profile">Owner Profile</a></li></ul></div>
 <div><b>Legal</b><ul><li><a data-cfg="SUPPORT_URL" hidden>Support</a></li><li><a href="#privacy">Privacy Policy</a></li><li><a href="#terms">Terms of Use</a></li></ul></div>
 </div>
 <p class="disc" data-i18n="disc">Disclaimer: security scanning cannot guarantee detection of every threat. Always use caution with unknown files and links.</p>
 </div></footer>
+
+<a class="fab" data-cfg="BOT_URL" hidden aria-label="Open the bot on Telegram" title="Open the bot on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#229ed9"/><path d="M16.906 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" fill="#fff"/></svg></a>
 
 <script>
 const CONFIG={BOT_USERNAME:"sticcckys_secutiry_bot",DASHBOARD_URL:"",SUPPORT_URL:""};
@@ -228,7 +303,33 @@ $$('a[data-cfg="BOT_URL"]').forEach(a=>a.addEventListener("click",e=>{try{const 
 /* features */
 const ico={file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 3 7 3 7H3s3-1 3-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',rep:'<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/>',lang:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3"/>',gauge:'<path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/>'};
 const F=[["file","File Scanning","Checks supported files through VirusTotal integration."],["link","URL Security Checks","Analyzes links for potential security risks."],["eye","Telegram Group Monitoring","Checks shared files and alerts when configured conditions are met."],["bell","Threat Alerts","Displays suspicious scan results and warnings."],["rep","Detailed Scan Reports","Presents available analysis results."],["lang","Khmer and English Support","Use the bot and this site in either language."],["key","Administrator Controls","Restricts configuration actions to authorized administrators."],["gauge","Performance Controls","Uses caching and concurrency limits to help manage scan requests."]];
-$("#fgrid").innerHTML=F.map(([i,t,d],n)=>`<article class="card"><svg viewBox="0 0 24 24" aria-hidden="true">${ico[i]}</svg><h3 data-i18n="f${n}t">${t}</h3><p data-i18n="f${n}d">${d}</p></article>`).join("");
+/* chat pictures */
+const BU="@"+CONFIG.BOT_USERNAME.replace("@","");
+const H=(n,t)=>`<div class="ph-top"><span class="av">${n[0]}</span><span><b>${n}</b><small>${t}</small></span></div>`;
+const bu=(t,o)=>`<div class="bub ${o?"out":"in"}">${t}</div>`;
+const fl=n=>`<div class="file"><i>PDF</i><span>${n}<br><small>240 KB</small></span></div>`;
+const vd=(c,t,d)=>`<span class="vd ${c}">${t}</span><br>${d}`;
+const BOT=H("STICC_DETECTIVE","bot");
+const mini=(b,h)=>`<div class="mini" role="img" aria-label="Sample chat with the bot">${h||BOT}<div class="ph-body">${b}</div></div>`;
+const MINI=[
+mini(bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported."))),
+mini(bu("https://example.com/offer",1)+bu(vd("y","SUSPICIOUS","Some indicators found. Review manually."))),
+mini('<div class="svc">STICC_DETECTIVE is in this group</div>'+bu("setup.exe",0)+bu(vd("r","MALICIOUS","Shared file flagged. Do not open it.")),H("Community","group")),
+mini(bu(vd("r","THREAT ALERT","A shared file was flagged as harmful."))+bu(vd("y","WARNING","A link needs manual review."))),
+mini(bu(fl("report.pdf"),1)+bu("<b>Scan report</b><br>Item: report.pdf<br>Status: completed<br>Verdict: <span class=\"vd g\">CLEAN</span>")),
+mini(bu("Choose language")+bu("ខ្មែរ",1)+bu("បានប្តូរទៅភាសាខ្មែរ។")),
+mini(bu("Change settings",1)+bu("Only administrators can change settings.")),
+mini(bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","Result reused from a recent scan.")))];
+const ph=(al,top,b)=>`<div class="phone" role="img" aria-label="${al}">${top}<div class="ph-body">${b}</div></div>`;
+const HS=[
+["Open Telegram and tap Search","On your phone, open Telegram and tap the search bar at the top.",ph("Telegram search bar",`<div class="ph-top"><span class="sbar">Search</span></div>`,'<div class="gr"></div><div class="gr"></div><div class="gr"></div>')],
+["Search for the bot","Type sticc_detective. Open the result marked as a bot.",ph("Searching for the bot",`<div class="ph-top"><span class="sbar t">sticc_detective</span></div>`,`<div class="res"><span class="av">S</span><span><b>STICC_DETECTIVE</b><br><small class="botu">${BU}</small></span><em>BOT</em></div>`)],
+["Press Start","Tap Start at the bottom of the chat to begin.",ph("Bot chat with a Start button",BOT,bu("Send me a file or a link and I will check it.")+'<div class="startbtn">START</div>')],
+["Send a file","Attach a file and send it. The bot checks it with security providers such as VirusTotal and replies with a verdict.",ph("Sending a file to the bot",BOT,bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported.")))],
+["Send a link","Paste a link the same way to see a verdict before you open it.",ph("Sending a link to the bot",BOT,bu("https://example.com/offer",1)+bu(vd("y","SUSPICIOUS","Some indicators found. Review manually.")))],
+["Add it to your group","Add the bot to your group so it can check shared files and alert you.",ph("Bot alert in a group",H("Community","group"),'<div class="svc">STICC_DETECTIVE is in this group</div>'+bu("setup.exe",0)+bu(vd("r","MALICIOUS","Shared file flagged. Do not open it.")))]];
+$("#how").innerHTML=HS.map(([t,d,p],n)=>`<article class="hs"><span class="sn">${n+1}</span><h3>${t}</h3><p>${d}</p>${p}</article>`).join("");
+$("#fgrid").innerHTML=F.map(([i,t,d],n)=>`<article class="card"><svg viewBox="0 0 24 24" aria-hidden="true">${ico[i]}</svg><h3 data-i18n="f${n}t">${t}</h3><p data-i18n="f${n}d">${d}</p>${MINI[n]}</article>`).join("");
 
 /* router */
 const pages=$$(".page"),links=$$("a.l");
@@ -242,7 +343,7 @@ addEventListener("hashchange",route);
 $("#burger").onclick=e=>{const o=$("#nav").classList.toggle("open");e.currentTarget.setAttribute("aria-expanded",o)};
 
 /* i18n */
-const KM={nav_home:"ទំព័រដើម",nav_feat:"មុខងារសុវត្ថិភាព",nav_intel:"ព័ត៌មានគំរាមកំហែង",nav_about:"អំពីយើង",launch:"បើកម៉ាស៊ីនស្កេន",openbot:"បើកបូត",
+const KM={nav_how:"របៀបប្រើប្រាស់",how_p:"ចាប់ផ្តើមក្នុងរយៈពេលតិចជាងមួយនាទី។ អ្វីៗទាំងអស់ធ្វើឡើងក្នុង Telegram ដោយមិនចាំបាច់ដំឡើងអ្វីទេ។",nav_home:"ទំព័រដើម",nav_feat:"មុខងារសុវត្ថិភាព",nav_intel:"ព័ត៌មានគំរាមកំហែង",nav_about:"អំពីយើង",launch:"បើកម៉ាស៊ីនស្កេន",openbot:"បើកបូត",
 h1:"ការពារ <em>លំហឌីជីថលរបស់អ្នក។</em>",sub:"ការត្រួតពិនិត្យឯកសារ និងតំណភ្ជាប់ដោយឆ្លាតវៃ សម្រាប់សហគមន៍ Telegram ដែលមានសុវត្ថិភាពជាង។",cta1:"ស្វែងរកមុខងារសុវត្ថិភាព",cta2:"ជួបស្ថាបនិក",
 demonote:"ទិន្នន័យសាកល្បងតែប៉ុណ្ណោះ។ មិនមែនជាការស្កេនផ្ទាល់ ឬស្ថិតិគំរាមកំហែងពិតទេ។",demo_h:"ការបង្ហាញតាមទែមីណាល់",demo_p:"ការបង្ហាញលើផ្នែកខាងមុខប៉ុណ្ណោះ។ ការស្កេនពិតដំណើរការលើប្រព័ន្ធខាងក្រោយដែលមានសុវត្ថិភាព។",run:"ដំណើរការសាកល្បង",
 feat_p:"ការត្រួតពិនិត្យជាក់ស្តែងសម្រាប់ឯកសារ និងតំណភ្ជាប់ក្នុង Telegram។ គ្មានឧបករណ៍សុវត្ថិភាពណាអាចរកឃើញគ្រប់ការគំរាមកំហែងទេ។",
