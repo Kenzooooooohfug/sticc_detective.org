@@ -220,7 +220,7 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 
 <section class="page" data-page="intel"><div class="wrap">
 <div class="tag">// architecture</div><h2 data-type data-i18n="nav_intel">Threat Intelligence</h2>
-<p class="lead" data-i18n="intel_p">How a result travels from a Telegram message to a user alert. External providers such as VirusTotal contribute analysis results.</p>
+<p class="lead" data-i18n="intel_p">How a result travels from a Telegram message to a user alert. STICC_DETECTIVE coordinates security checks and presents the resulting threat assessments.</p>
 <div class="flow"><div>Telegram Message</div><div>File / URL Detection</div><div>Security Analysis</div><div>Result Validation</div><div>Threat Classification</div><div>User Alert</div></div>
 <h2 data-i18n="verd">Verdict classes</h2>
 <div class="grid">
@@ -235,7 +235,7 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <div class="prose">
 <p data-i18n="about1">STICC_DETECTIVE helps Telegram communities identify suspicious files and potentially dangerous links through automated security checks.</p>
 <p data-i18n="about2">It combines external threat intelligence with clear verdicts, so administrators and members can decide what to open and what to avoid.</p>
-<p data-i18n="about3">Results are an aid to judgment, not a guarantee of safety.</p></div>
+<p data-i18n="about3">Results are an aid to judgment, not a guarantee of safety.</p><p><strong>Privacy first:</strong> Our purpose is to scan and analyze security risks, not to personally read your documents. Automated analysis and third-party processing may still inspect file data.</p></div>
 <div class="row"><a class="btn" href="#profile" data-i18n="meet">Meet the owner →</a></div>
 </div></section>
 
@@ -269,7 +269,7 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 </div></section>
 
 <section class="page" data-page="privacy"><div class="wrap prose"><h2>Privacy Policy</h2>
-<p>Template: replace with your real policy. State what files, links, and Telegram identifiers are processed, which providers receive them, and how long data is retained.</p></div></section>
+<p><strong>Your privacy matters.</strong> STICC_DETECTIVE is designed to analyze submitted files and links for potential security threats, not to manually read or review your private documents. Security analysis may involve automated inspection of file contents, metadata, and threat indicators. Depending on the bot configuration, submitted files, file hashes, URLs, or related data may be shared with third-party security services. Do not submit sensitive documents unless you are comfortable with this processing.</p><p>This is a summary of the intended service behavior, not a complete privacy policy. Before launch, publish accurate details about what is collected, which external services receive data, retention periods, and deletion/contact options.</p></div></section>
 <section class="page" data-page="terms"><div class="wrap prose"><h2>Terms of Use</h2>
 <p>Template: replace with your real terms. Scan results are informational and provided without warranty.</p></div></section>
 </main>
@@ -302,7 +302,7 @@ $$("[data-cfg]").forEach(a=>{const u=CONFIG[a.dataset.cfg];if(u){a.href=u;a.hidd
 $$('a[data-cfg="BOT_URL"]').forEach(a=>a.addEventListener("click",e=>{try{const tg=Telegram.WebApp;if(tg.initData){e.preventDefault();tg.openTelegramLink(a.href)}}catch(x){}}));
 /* features */
 const ico={file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 3 7 3 7H3s3-1 3-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',rep:'<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/>',lang:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3"/>',gauge:'<path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/>'};
-const F=[["file","File Scanning","Checks supported files through VirusTotal integration."],["link","URL Security Checks","Analyzes links for potential security risks."],["eye","Telegram Group Monitoring","Checks shared files and alerts when configured conditions are met."],["bell","Threat Alerts","Displays suspicious scan results and warnings."],["rep","Detailed Scan Reports","Presents available analysis results."],["lang","Khmer and English Support","Use the bot and this site in either language."],["key","Administrator Controls","Restricts configuration actions to authorized administrators."],["gauge","Performance Controls","Uses caching and concurrency limits to help manage scan requests."]];
+const F=[["file","File Scanning","STICC_DETECTIVE analyzes supported files for potential security threats."],["link","URL Security Checks","Analyzes links for potential security risks."],["eye","Telegram Group Monitoring","Checks shared files and alerts when configured conditions are met."],["bell","Threat Alerts","Displays suspicious scan results and warnings."],["rep","Detailed Scan Reports","Presents available analysis results."],["lang","Khmer and English Support","Use the bot and this site in either language."],["key","Administrator Controls","Restricts configuration actions to authorized administrators."],["gauge","Performance Controls","Uses caching and concurrency limits to help manage scan requests."]];
 /* chat pictures */
 const BU="@"+CONFIG.BOT_USERNAME.replace("@","");
 const H=(n,t)=>`<div class="ph-top"><span class="av">${n[0]}</span><span><b>${n}</b><small>${t}</small></span></div>`;
@@ -323,9 +323,9 @@ mini(bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","Result reused from a recent scan
 const ph=(al,top,b)=>`<div class="phone" role="img" aria-label="${al}">${top}<div class="ph-body">${b}</div></div>`;
 const HS=[
 ["Open Telegram and tap Search","On your phone, open Telegram and tap the search bar at the top.",ph("Telegram search bar",`<div class="ph-top"><span class="sbar">Search</span></div>`,'<div class="gr"></div><div class="gr"></div><div class="gr"></div>')],
-["Search for the bot","Type sticc_detective. Open the result marked as a bot.",ph("Searching for the bot",`<div class="ph-top"><span class="sbar t">sticc_detective</span></div>`,`<div class="res"><span class="av">S</span><span><b>STICC_DETECTIVE</b><br><small class="botu">${BU}</small></span><em>BOT</em></div>`)],
+["Search for the bot","Search for @sticcckys_secutiry_bot. Open the result marked as a bot.",ph("Searching for the bot",`<div class="ph-top"><span class="sbar t">@sticcckys_secutiry_bot</span></div>`,`<div class="res"><span class="av">S</span><span><b>STICC_DETECTIVE</b><br><small class="botu">${BU}</small></span><em>BOT</em></div>`)],
 ["Press Start","Tap Start at the bottom of the chat to begin.",ph("Bot chat with a Start button",BOT,bu("Send me a file or a link and I will check it.")+'<div class="startbtn">START</div>')],
-["Send a file","Attach a file and send it. The bot checks it with security providers such as VirusTotal and replies with a verdict.",ph("Sending a file to the bot",BOT,bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported.")))],
+["Send a file","Attach a file and send it. STICC_DETECTIVE analyzes the file for security threats and replies with a verdict.",ph("Sending a file to the bot",BOT,bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported.")))],
 ["Send a link","Paste a link the same way to see a verdict before you open it.",ph("Sending a link to the bot",BOT,bu("https://example.com/offer",1)+bu(vd("y","SUSPICIOUS","Some indicators found. Review manually.")))],
 ["Add it to your group","Add the bot to your group so it can check shared files and alert you.",ph("Bot alert in a group",H("Community","group"),'<div class="svc">STICC_DETECTIVE is in this group</div>'+bu("setup.exe",0)+bu(vd("r","MALICIOUS","Shared file flagged. Do not open it.")))]];
 $("#how").innerHTML=HS.map(([t,d,p],n)=>`<article class="hs"><span class="sn">${n+1}</span><h3>${t}</h3><p>${d}</p>${p}</article>`).join("");
@@ -347,8 +347,8 @@ const KM={nav_how:"របៀបប្រើប្រាស់",how_p:"ចាប�
 h1:"ការពារ <em>លំហឌីជីថលរបស់អ្នក។</em>",sub:"ការត្រួតពិនិត្យឯកសារ និងតំណភ្ជាប់ដោយឆ្លាតវៃ សម្រាប់សហគមន៍ Telegram ដែលមានសុវត្ថិភាពជាង។",cta1:"ស្វែងរកមុខងារសុវត្ថិភាព",cta2:"ជួបស្ថាបនិក",
 demonote:"ទិន្នន័យសាកល្បងតែប៉ុណ្ណោះ។ មិនមែនជាការស្កេនផ្ទាល់ ឬស្ថិតិគំរាមកំហែងពិតទេ។",demo_h:"ការបង្ហាញតាមទែមីណាល់",demo_p:"ការបង្ហាញលើផ្នែកខាងមុខប៉ុណ្ណោះ។ ការស្កេនពិតដំណើរការលើប្រព័ន្ធខាងក្រោយដែលមានសុវត្ថិភាព។",run:"ដំណើរការសាកល្បង",
 feat_p:"ការត្រួតពិនិត្យជាក់ស្តែងសម្រាប់ឯកសារ និងតំណភ្ជាប់ក្នុង Telegram។ គ្មានឧបករណ៍សុវត្ថិភាពណាអាចរកឃើញគ្រប់ការគំរាមកំហែងទេ។",
-f0t:"ស្កេនឯកសារ",f0d:"ពិនិត្យឯកសារដែលគាំទ្រតាមរយៈ VirusTotal។",f1t:"ពិនិត្យសុវត្ថិភាព URL",f1d:"វិភាគតំណភ្ជាប់ដើម្បីរកហានិភ័យសុវត្ថិភាព។",f2t:"ត្រួតពិនិត្យក្រុម Telegram",f2d:"ពិនិត្យឯកសារដែលបានចែករំលែក ហើយជូនដំណឹងតាមលក្ខខណ្ឌដែលបានកំណត់។",f3t:"ការជូនដំណឹងគំរាមកំហែង",f3d:"បង្ហាញលទ្ធផលស្កេនគួរឱ្យសង្ស័យ និងការព្រមាន។",f4t:"របាយការណ៍ស្កេនលម្អិត",f4d:"បង្ហាញលទ្ធផលវិភាគដែលមាន។",f5t:"គាំទ្រខ្មែរ និងអង់គ្លេស",f5d:"ប្រើបូត និងគេហទំព័រនេះជាភាសាណាមួយ។",f6t:"ការគ្រប់គ្រងអ្នកគ្រប់គ្រង",f6d:"កំណត់សកម្មភាពកំណត់រចនាសម្ព័ន្ធសម្រាប់អ្នកគ្រប់គ្រងដែលមានសិទ្ធិ។",f7t:"ការគ្រប់គ្រងប្រតិបត្តិការ",f7d:"ប្រើឃ្លាំងសម្ងាត់ និងដែនកំណត់ដំណើរការស្របគ្នា ដើម្បីគ្រប់គ្រងសំណើស្កេន។",
-intel_p:"របៀបដែលលទ្ធផលធ្វើដំណើរពីសារ Telegram ទៅការជូនដំណឹង។ អ្នកផ្តល់សេវាខាងក្រៅដូចជា VirusTotal ជួយផ្តល់លទ្ធផលវិភាគ។",verd:"ប្រភេទលទ្ធផល",
+f0t:"ស្កេនឯកសារ",f0d:"STICC_DETECTIVE វិភាគឯកសារដែលគាំទ្រ ដើម្បីរកហានិភ័យសុវត្ថិភាព។",f1t:"ពិនិត្យសុវត្ថិភាព URL",f1d:"វិភាគតំណភ្ជាប់ដើម្បីរកហានិភ័យសុវត្ថិភាព។",f2t:"ត្រួតពិនិត្យក្រុម Telegram",f2d:"ពិនិត្យឯកសារដែលបានចែករំលែក ហើយជូនដំណឹងតាមលក្ខខណ្ឌដែលបានកំណត់។",f3t:"ការជូនដំណឹងគំរាមកំហែង",f3d:"បង្ហាញលទ្ធផលស្កេនគួរឱ្យសង្ស័យ និងការព្រមាន។",f4t:"របាយការណ៍ស្កេនលម្អិត",f4d:"បង្ហាញលទ្ធផលវិភាគដែលមាន។",f5t:"គាំទ្រខ្មែរ និងអង់គ្លេស",f5d:"ប្រើបូត និងគេហទំព័រនេះជាភាសាណាមួយ។",f6t:"ការគ្រប់គ្រងអ្នកគ្រប់គ្រង",f6d:"កំណត់សកម្មភាពកំណត់រចនាសម្ព័ន្ធសម្រាប់អ្នកគ្រប់គ្រងដែលមានសិទ្ធិ។",f7t:"ការគ្រប់គ្រងប្រតិបត្តិការ",f7d:"ប្រើឃ្លាំងសម្ងាត់ និងដែនកំណត់ដំណើរការស្របគ្នា ដើម្បីគ្រប់គ្រងសំណើស្កេន។",
+intel_p:"របៀបដែលលទ្ធផលធ្វើដំណើរពីសារ Telegram ទៅការជូនដំណឹង។ ប្រព័ន្ធ STICC_DETECTIVE ជួយផ្តល់លទ្ធផលវិភាគ។",verd:"ប្រភេទលទ្ធផល",
 v1:"អ្នកផ្តល់សេវាបានត្រឡប់លទ្ធផលដោយគ្មានការរកឃើញ។",v2:"រកឃើញសញ្ញាមួយចំនួន។ ណែនាំឱ្យពិនិត្យដោយដៃ។",v3:"អ្នកផ្តល់សេវាបានដាក់ទង់ថាមានគ្រោះថ្នាក់។",v4:"គ្មានលទ្ធផល កំហុស ឬអស់ពេល។ មិនត្រូវបានចាត់ទុកថាសុវត្ថិភាពទេ។",
 about1:"STICC_DETECTIVE ជួយសហគមន៍ Telegram កំណត់អត្តសញ្ញាណឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលអាចមានគ្រោះថ្នាក់ តាមរយៈការត្រួតពិនិត្យសុវត្ថិភាពស្វ័យប្រវត្តិ។",about2:"វាផ្សំព័ត៌មានគំរាមកំហែងខាងក្រៅជាមួយលទ្ធផលច្បាស់លាស់ ដើម្បីជួយអ្នកសម្រេចចិត្តថាត្រូវបើកអ្វី។",about3:"លទ្ធផលគឺជាជំនួយក្នុងការវិនិច្ឆ័យ មិនមែនការធានាសុវត្ថិភាពទេ។",
 foot_p:"ការត្រួតពិនិត្យសុវត្ថិភាពសម្រាប់សហគមន៍ Telegram។",
