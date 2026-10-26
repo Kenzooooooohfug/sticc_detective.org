@@ -99,6 +99,17 @@ h1.cur::after,h2.cur::after,h3.cur::after{margin-left:2px}
 @media(max-width:560px){.brand{flex-direction:column;text-align:center}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}#fx{display:none}}
 
+/* ===== V2: balanced cyber + modern visual system ===== */
+:root{--bg:#070b12;--bg2:#0e1720;--line:#203442;--tx:#e5f2f5;--mut:#9aafbc;--g:#49f4a2;--c:#6acaff}
+body{background-image:radial-gradient(ellipse at 80% 4%,rgba(44,130,168,.15),transparent 40%),linear-gradient(rgba(46,76,90,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(46,76,90,.15) 1px,transparent 1px);background-size:auto,52px 52px,52px 52px}
+header{background:rgba(7,11,18,.88)}
+.hero{min-height:420px}.hero h1{font-weight:850;letter-spacing:-2px}.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}.hero-chips span{font:700 10px var(--mono);color:var(--c);border:1px solid #285064;background:rgba(30,74,92,.22);border-radius:99px;padding:6px 10px}
+.card,.owner,.trust,.soon,.mission,.ai-panel{box-shadow:0 12px 40px rgba(0,0,0,.16);background:linear-gradient(150deg,rgba(20,36,47,.96),rgba(9,18,26,.96))}
+.card:hover{border-color:var(--c);box-shadow:0 14px 38px rgba(56,167,208,.12)}
+.capacity{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:28px 0 14px;padding:22px 26px;border:1px solid #276a5a;border-radius:14px;background:linear-gradient(110deg,rgba(57,255,136,.12),rgba(66,167,230,.07))}.capacity>div{display:flex;align-items:center;gap:20px}.capacity-number{font:800 3.2rem var(--mono);color:var(--g);line-height:1}.capacity-number span{font-size:1.2rem;margin-left:3px}.capacity strong{font-size:1rem}.capacity p{margin:3px 0 0;color:var(--mut);font-size:.9rem;max-width:440px}
+.video-stage{margin:30px 0 20px;min-height:370px;aspect-ratio:16/8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;position:relative;overflow:hidden;border:1px solid #315064;border-radius:20px;background:radial-gradient(circle at 50% 45%,rgba(48,154,185,.2),transparent 48%),repeating-linear-gradient(0deg,transparent 0 36px,rgba(91,186,225,.06) 37px),linear-gradient(135deg,#101d2b,#060b13)}.video-stage:before{content:"";position:absolute;inset:12px;border:1px solid rgba(106,202,255,.12);border-radius:12px;pointer-events:none}.video-orb{height:94px;width:94px;display:grid;place-items:center;border-radius:50%;color:var(--g);background:rgba(57,255,136,.09);border:1px solid rgba(57,255,136,.5);box-shadow:0 0 60px rgba(57,255,136,.13)}.video-eyebrow{font:11px var(--mono);letter-spacing:2px;color:var(--c)}.video-stage strong{font:700 clamp(1.2rem,3vw,2rem) var(--mono)}.video-stage small{color:var(--mut);padding:0 20px}
+.cyber-avatar svg{stroke:var(--g);opacity:.9}.cyber-avatar .avatar-label{position:absolute;bottom:15px;font-size:12px;letter-spacing:2px;background:#071015;padding:1px 7px;border-radius:5px}.telegram-contact{gap:9px;background:#112e42;color:#dff6ff;border-color:#229ed9}.telegram-contact:hover{box-shadow:0 0 18px rgba(34,158,217,.3)}
+@media(max-width:600px){.capacity{padding:18px}.capacity>div{align-items:flex-start;gap:14px}.capacity-number{font-size:2.5rem}.video-stage{min-height:280px;aspect-ratio:auto}.hero{min-height:0}}
 /* ===== mobile improvements + Telegram icon ===== */
 body{min-height:100dvh;-webkit-text-size-adjust:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 .wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
@@ -173,6 +184,11 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 .mission p{margin:0 auto 10px;max-width:640px;color:var(--mut)}.mission b{display:block;font-size:1.15rem;color:var(--tx)}
 .strength-icon{display:block;font-size:25px;margin-bottom:10px}.ai-panel{margin-top:52px;border:1px solid #285245;border-radius:14px;padding:26px;background:linear-gradient(135deg,rgba(57,255,136,.065),rgba(124,196,255,.025))}.ai-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}.ai-head .pill{margin-top:8px}.ai-panel .grid{margin-top:20px}.strength-grid{margin-bottom:14px}@media(max-width:600px){.ai-panel{padding:18px}}
 .engine-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0}.engine-strip>div{padding:16px;background:#0e1714;border:1px solid #285245;border-radius:10px}.engine-strip strong{display:block;color:#39ff88;font:700 14px var(--mono)}.engine-strip small{display:block;color:#8ba69b;margin-top:5px}@media(max-width:700px){.engine-strip{grid-template-columns:1fr}}
+
+.purpose-panel{margin-top:32px;padding:clamp(20px,4vw,38px);border:1px solid #315064;border-radius:18px;background:linear-gradient(145deg,rgba(25,46,55,.85),rgba(7,13,17,.94));max-width:960px}
+.purpose-panel h3{font-size:1.28rem;color:var(--g);margin:20px 0 10px}.purpose-panel h3:first-child{margin-top:0}.purpose-panel p{color:var(--tx);line-height:1.85;max-width:820px}.purpose-panel .statement{font-weight:700;color:#e6fff1}.purpose-panel .motto{font:700 clamp(1rem,2.5vw,1.3rem) var(--mono);color:var(--c)}
+.video-stage video{width:100%;height:auto;max-height:550px;display:block;background:#060b13;border-radius:14px}.video-stage:has(video){display:block;min-height:0;aspect-ratio:auto;padding:12px}.video-stage .demo-label{padding:10px 8px;color:var(--mut);font-size:12px}
+.demo-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:14px 8px 4px}.demo-controls button{min-width:150px}.demo-controls button:focus-visible{outline:2px solid var(--c)}
 </style>
 </head>
 <body>
@@ -182,12 +198,13 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <a class="logo" href="#home" aria-label="STICC_DETECTIVE home"><img data-logo="e" alt="" width="36" height="36"><span>STICC<b>_</b>DETECTIVE</span></a>
 <nav id="nav" aria-label="Main"><ul>
 <li><a class="l" href="#home" data-i18n="nav_home">Home</a></li>
+<li><a class="l" href="#demo" data-i18n="nav_demo">Video Demo</a></li>
 <li><a class="l" href="#howto" data-i18n="nav_how">How it works</a></li>
 <li><a class="l" href="#features" data-i18n="nav_feat">Security Features</a></li>
 <li><a class="l" href="#intel" data-i18n="nav_intel">Threat Intelligence</a></li>
 <li><a class="l" href="#new" data-i18n="nav_road">Our Security Power</a></li>
 <li><a class="l" href="#about" data-i18n="nav_about">About</a></li>
-<li><a class="l" href="#profile" data-i18n="nav_prof">Owner Profile</a></li>
+<li><a class="l" href="#profile" data-i18n="nav_prof">Meet the Founder</a></li>
 </ul></nav>
 <div class="tools">
 <button class="ghost sm" id="lang" aria-label="Switch language">EN / ខ្មែរ</button>
@@ -200,7 +217,8 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <main id="main">
 <section class="page" data-page="home"><div class="wrap">
 <div class="hero"><div>
-<div class="tag" data-type data-i18n="tg1">// security operations</div>
+<div class="tag" data-type data-i18n="tg1">// security operations · 50 MB FILE SCANNING</div>
+<div class="hero-chips"><span>◉ TELEGRAM SECURITY</span><span>50 MB FILE LIMIT</span><span>EN / ខ្មែរ</span></div>
 <h1 data-type data-i18n="h1">DEFEND YOUR <em>DIGITAL SPACE.</em></h1>
 <p class="lead" data-type data-i18n="sub">Intelligent file and URL security checks for safer Telegram communities.</p>
 <p class="tag" style="letter-spacing:0;text-transform:none">Telegram: <a data-cfg="BOT_URL" hidden>@sticcckys_secutiry_bot</a></p><div class="row"><a class="btn" href="#features" data-i18n="cta1">Explore Security Features</a><a class="btn ghost" href="#profile" data-i18n="cta2">Meet the Founder</a><a class="btn ghost" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a></div>
@@ -210,14 +228,20 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <div class="tb" id="t1"></div><div class="prog" aria-hidden="true"><span id="p1"></span></div></div>
 <div class="note" data-i18n="demonote">Demonstration data only. Not live scanning or real threat statistics.</div></div></div>
 
-<div class="trust"><h2 data-i18n="trust_h">Your files stay private</h2><p data-i18n="trust_p">We do not read, take or steal your private documents. When you send a file or link to STICC_DETECTIVE, we only scan and analyze it to give you the result you asked for.</p><a class="btn ghost" href="#privacy" data-i18n="trust_b">Read our privacy promise</a></div>
-<div class="soon"><span class="pill ai" data-i18n="ai_status">AI-POWERED</span><h2 data-i18n="ai_tease_title">Claude AI Security Intelligence</h2><p data-i18n="ai_tease_body">Claude AI enhances scanner findings with clearer threat explanations, scam-message review, and cybersecurity guidance.</p><a class="btn ghost" href="#new" data-i18n="ai_tease_link">Explore our strengths</a></div>
+<div class="trust"><h2 data-i18n="trust_h">Security scanning with privacy in mind</h2><p data-i18n="trust_p">Files and links you submit are processed to provide a security result. Scanning may involve external security providers. Avoid submitting highly confidential documents to online scanners.</p><a class="btn ghost" href="#privacy" data-i18n="trust_b">How scanning handles your data</a></div>
+<div class="soon"><span class="pill ai" data-i18n="ai_status">AI FEATURES · PLANNED</span><h2 data-i18n="ai_tease_title">Claude AI Security Intelligence</h2><p data-i18n="ai_tease_body">Planned Claude AI features aim to explain security findings and offer clearer cybersecurity guidance. Availability depends on implementation and testing.</p><a class="btn ghost" href="#new" data-i18n="ai_tease_link">Explore our strengths</a></div>
 <h2 style="margin-top:56px" data-i18n="demo_h">Terminal demonstration</h2>
 <p class="lead" data-i18n="demo_p">A frontend-only replay. Real scanning runs on a secured backend connected to the bot.</p>
 <div class="term" style="margin-top:20px"><div class="th"><span>sticc@demo:~$</span><button class="sm" id="run" data-i18n="run">Run Demo</button></div>
 <div class="tb" id="t2" aria-live="polite"></div></div>
 </div></section>
 
+<section class="page" data-page="demo"><div class="wrap">
+<div class="tag">// SEE THE SYSTEM IN ACTION</div><h2 data-i18n="demo_video_title">Watch STICC_DETECTIVE in Action</h2>
+<p class="lead" data-i18n="demo_video_desc">Watch a sample animated walkthrough of the Telegram scanning experience. This is a concept demo, not an actual scan.</p>
+<div class="video-stage"><video id="demoVideo" autoplay muted loop playsinline preload="auto" aria-label="Illustrative STICC_DETECTIVE demonstration video"><source src="STICC_DETECTIVE_sample_demo.mp4" type="video/mp4">Your browser does not support HTML5 video.</video><div class="demo-controls"><button type="button" id="demoPlayback" class="ghost" aria-label="Pause demonstration">⏸ Pause</button><button type="button" id="demoSound" class="ghost" aria-pressed="false" aria-label="Enable technical sound effects">♫ Tech Sound: Off</button></div><div class="demo-label" data-i18n="video_sample_label">CONCEPT DEMO — simulated Telegram conversation, not a real scan. Keep the MP4 beside this HTML file.</div></div>
+<div class="row"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot on Telegram</a><a class="btn ghost" href="#howto" data-i18n="demo_guide">Explore the illustrated guide</a></div>
+</div></section>
 <section class="page" data-page="howto"><div class="wrap">
 <h2 data-i18n="nav_how">How it works</h2>
 <p class="lead" data-i18n="how_p">Start in under a minute. Everything happens inside Telegram, with nothing to install.</p>
@@ -229,6 +253,7 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <section class="page" data-page="features"><div class="wrap">
 <div class="tag">// capabilities</div><h2 data-type data-i18n="nav_feat">Security Features</h2>
 <p class="lead" data-i18n="feat_p">Practical checks for files and links shared in Telegram. No security tool can detect every threat.</p>
+<div class="capacity"><div><span class="capacity-number">50<span>MB</span></span><div><strong data-i18n="limit_title">File scanning support</strong><p data-i18n="limit_desc">Send supported files up to 50 MB through our Telegram bot for security analysis.</p></div></div><a class="btn ghost" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a></div>
 <div class="grid" id="fgrid"></div><div class="grid"><article class="card"><h3>🛡️ Dual-Engine Threat Detection</h3><p>STICC_DETECTIVE security scanning with optional Hybrid Analysis for additional investigation.</p></article><article class="card"><h3>🧠 Claude AI Threat Interpretation</h3><p>AI-assisted explanations of scanner findings, suspicious messages, and security questions.</p></article></div><div class="note" data-i18n="feature_note">Scanning architecture: STICC_DETECTIVE (primary) + Hybrid Analysis (optional) + Claude AI (interpretation). Claude is not a third malware scanning engine.</div>
 </div></section>
 
@@ -250,27 +275,38 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <p data-i18n="about1">STICC_DETECTIVE helps Telegram communities identify suspicious files and potentially dangerous links through automated security checks.</p>
 <p data-i18n="about2">It combines external threat intelligence with clear verdicts, so administrators and members can decide what to open and what to avoid.</p>
 <p data-i18n="about3">Results are an aid to judgment, not a guarantee of safety.</p></div>
-<div class="row"><a class="btn" href="#profile" data-i18n="meet">Meet the owner →</a></div>
+<div class="row"><a class="btn" href="#profile" data-i18n="meet">Meet the founder →</a></div>
 </div></section>
 
 <section class="page" data-page="profile"><div class="wrap">
-<div class="tag" data-i18n="tg4">// owner profile</div><h2 data-i18n="pf_h">Owner Profile</h2>
+<div class="tag" data-i18n="tg4">// meet the founder</div><h2 data-i18n="pf_h">Meet the Founder</h2>
 <article class="owner">
-<div class="avatar" role="img" aria-label="Profile picture placeholder"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="38" r="17"/><path d="M16 92c2-22 16-32 34-32s32 10 34 32"/></svg><span>?</span></div>
+<div class="avatar cyber-avatar" role="img" aria-label="Anonymous cybersecurity avatar, temporary profile image"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 43 33 20 50 12 67 20 76 43 70 65 50 80 30 65Z"/><path d="M31 44h38M37 48l8 5m18-5-8 5M40 62h20M50 12v11"/><path d="M24 43 12 56m64-13 12 13M30 65 22 88m48-23 8 23"/></svg><span class="avatar-label">DEV</span></div>
 <div class="oi">
 <div class="role" data-i18n="whoami">$ whoami</div>
-<h3 data-i18n="oname">EaMengheang</h3>
+<h3 data-i18n="oname">Ea Mengheang</h3>
 <div class="role" data-i18n="orole">Founder &amp; Developer of STICC_DETECTIVE</div>
-<p data-i18n="odesc">Develops STICC_DETECTIVE’s security systems, transforming suspicious files and malicious link signals into accessible, actionable digital safety insights for everyone — freely.</p>
+<p data-i18n="odesc">I created STICC_DETECTIVE to help people recognize digital threats and make safer decisions online.</p>
 <div class="row" style="margin:18px 0 0"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a>
+<a class="btn telegram-contact" href="https://t.me/mengheangea" target="_blank" rel="noopener noreferrer" aria-label="Contact founder Ea Mengheang on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><circle cx="12" cy="12" r="12" fill="#229ED9"/><path d="M17.6 7.3 15.4 17c-.1.5-.4.6-.8.4l-2.7-2-1.3 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2-.1-.3-.3-.1l-6.6 4.2-2.8-.9c-.6-.2-.6-.6.1-.9l10.9-4.2c.5-.2.9.1.8.9Z" fill="white"/></svg><span data-i18n="contact_founder">Contact Founder</span></a>
 <button class="ghost" id="more" aria-expanded="false" aria-controls="moreinfo"><span data-i18n="pf_more">More info</span><span data-i18n="pf_less" hidden>Hide info</span></button></div>
 </div></article>
+<section class="purpose-panel" aria-label="Our purpose, mission and vision">
+<h3 data-i18n="purpose_h">Our Purpose</h3>
+<p data-i18n="purpose_1" class="statement">STICC_DETECTIVE was created with one main purpose: <strong>to make cybersecurity simple, accessible, and free for everyone.</strong></p>
+<p data-i18n="purpose_2">Every day, people receive unknown files, suspicious links, and potentially harmful messages through Telegram and other digital platforms. Many users cannot easily recognize these threats, putting their devices, personal information, and online accounts at risk.</p>
+<p data-i18n="purpose_3">STICC_DETECTIVE aims to help solve this problem by providing an intelligent Telegram security assistant that can analyze suspicious files and links, identify potential threats, and explain security risks in a way everyone can understand.</p>
+<p data-i18n="purpose_4">Our goal is not just to detect threats, but also to <strong>educate users, raise cybersecurity awareness, and help people make safer decisions before trusting unknown digital content.</strong></p>
+<h3 data-i18n="mission_h">Our Mission</h3>
+<p class="statement" data-i18n="mission_1">To make digital security accessible to everyone, regardless of their technical knowledge or financial situation.</p>
+<h3 data-i18n="vision_h">Our Vision</h3>
+<p class="statement" data-i18n="vision_1">To build a safer digital community where people can recognize online threats, protect their information, and use technology with greater confidence.</p>
+<h3 data-i18n="motto_h">Our Motto</h3>
+<p class="motto" data-i18n="motto_1">STICC_DETECTIVE — Smarter Security. Safer Digital Life.</p>
+</section>
 <div id="moreinfo" class="recbox" hidden role="region" aria-label="Owner details">
-<div class="th"><span>~/owner/record.txt</span><span>EaMengheang</span></div>
-<div class="rec"><span class="k" data-i18n="k1">Name</span><span class="val" data-i18n="v1n">EaMengheang</span></div>
-<div class="rec"><span class="k" data-i18n="k2">Date of birth</span><span class="val" data-i18n="v2n">17 May 2008</span></div>
-<div class="rec"><span class="k" data-i18n="k3">Current company</span><span class="val" data-i18n="v3n">Huy Yun Agriculture</span></div>
-<div class="rec"><span class="k" data-i18n="k4">Position</span><span class="val" data-i18n="v4n">I.T. &amp; Director’s Secretary</span></div>
+<div class="th"><span>~/owner/record.txt</span><span>Ea Mengheang</span></div>
+<div class="rec"><span class="k" data-i18n="k1">Name</span><span class="val" data-i18n="v1n">Ea Mengheang</span></div>
 <div class="rec"><span class="k" data-i18n="k5">Project</span><span class="val" data-i18n="v5n">Founder &amp; Developer, STICC_DETECTIVE</span></div>
 </div>
 <h2 style="margin-top:48px" data-i18n="pf_f">Focus</h2>
@@ -279,7 +315,7 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <article class="card"><h3 data-i18n="c2t">Threat signals</h3><p data-i18n="c2d">Turns suspicious file and malicious link signals into clear verdicts.</p></article>
 <article class="card"><h3 data-i18n="c3t">Open to everyone</h3><p data-i18n="c3d">Delivers accessible, actionable safety insights, freely.</p></article>
 </div>
-<div class="brand"><img data-logo="f" alt="STICC DETECTIVE logo, created by EaMengheang" width="260" height="208"><div><div class="tag" data-i18n="tg5">// brand</div><p data-i18n="brandp">STICC DETECTIVE — created by EaMengheang.</p></div></div>
+<div class="brand"><img data-logo="f" alt="STICC DETECTIVE logo, created by Ea Mengheang" width="260" height="208"><div><div class="tag" data-i18n="tg5">// brand</div><p data-i18n="brandp">STICC DETECTIVE — created by Ea Mengheang.</p></div></div>
 </div></section>
 
 <section class="page" data-page="new"><div class="wrap rm">
@@ -294,8 +330,8 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <article class="card"><span class="strength-icon">🔓</span><h3 data-i18n="strength5t">Free for everyone</h3><p data-i18n="strength5d">Built around a simple mission: make useful digital-safety tools accessible without a user subscription.</p></article>
 <article class="card"><span class="strength-icon">⚙️</span><h3 data-i18n="strength6t">Practical automation</h3><p data-i18n="strength6d">Security checks and alerts work inside Telegram, where users already share files and links.</p></article>
 </div>
-<div class="ai-panel"><div class="ai-head"><div><div class="tag" data-i18n="ai_tag">// AI-powered security intelligence</div><h2 data-i18n="ai_title">Claude AI Integration</h2></div><span class="pill ai" data-i18n="ai_status">AI-POWERED</span></div>
-<p class="lead" data-i18n="ai_intro">Claude AI interprets security findings, reviews suspicious messages, and explains digital risks in Khmer and English. Malware scanning is handled by STICC_DETECTIVE and, when enabled, Hybrid Analysis.</p>
+<div class="ai-panel"><div class="ai-head"><div><div class="tag" data-i18n="ai_tag">// AI-powered security intelligence</div><h2 data-i18n="ai_title">Claude AI Integration</h2></div><span class="pill ai" data-i18n="ai_status">AI FEATURES · PLANNED</span></div>
+<p class="lead" data-i18n="ai_intro">Planned Claude AI tools aim to interpret security findings, review suspicious messages, and explain digital risks in Khmer and English. Malware scanning is handled by STICC_DETECTIVE and, when enabled, Hybrid Analysis.</p>
 <div class="grid"><article class="card"><h3 data-i18n="ai1t">🧠 AI Threat Explanations</h3><p data-i18n="ai1d">Turn technical scan results into understandable safety guidance.</p></article><article class="card"><h3 data-i18n="ai2t">🔍 Scam Message Review</h3><p data-i18n="ai2d">Highlight possible scam indicators in messages users choose to submit.</p></article><article class="card"><h3 data-i18n="ai3t">💬 AI Security Assistant</h3><p data-i18n="ai3d">Answer general cybersecurity questions in Khmer and English.</p></article></div>
 <div class="note" data-i18n="ai_note">Claude AI provides guidance, not a malware scan or guarantee of safety. Hybrid Analysis is an optional second scanning engine.</div></div>
 <div class="mission"><p data-i18n="mission_text">Our mission: making practical cybersecurity tools free and accessible to everyone.</p><b data-i18n="mission_tagline">STICC_DETECTIVE — Smarter Security. Safer Digital Life.</b></div>
@@ -307,20 +343,20 @@ nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
 <h3>What we do</h3>
 <p>When you send a file or link to the bot, STICC_DETECTIVE scans and analyzes it to produce the result you asked for: a verdict and a report.</p>
 <h3>What we do not do</h3>
-<p>We do not read, take or steal your private documents. We do not use what you send for anything other than the scan you requested.</p>
-<h3>AI features</h3>
-<p>If you use an AI feature, such as scam analysis or the security assistant, the message you submit is processed by an AI model to write your answer.</p>
+<p>STICC_DETECTIVE is designed to analyze submissions for security threats, not to provide human document-reading services. However, file content may be processed by scanning systems and external providers. Do not upload sensitive or confidential documents.</p>
+<h3>Third-party analysis</h3><p>Security analysis may use third-party threat intelligence and scanning services. Their handling and retention policies may apply to submissions. Only submit content you have permission to share.</p><h3>AI features</h3>
+<p>If AI features become available and you choose to use them, submitted messages may be processed by a third-party AI service. We will distinguish these features from malware scanning.</p>
 <h3>Your choice</h3>
 <p>Only send what you want checked. If a document is highly confidential, do not send it to any online scanner, including ours.</p></div></section>
 <section class="page" data-page="terms"><div class="wrap prose"><h2>Terms of Use</h2>
-<p>Template: replace with your real terms. Scan results are informational and provided without warranty.</p></div></section>
+<p>STICC_DETECTIVE provides informational security assessments, not guarantees of safety. Only submit files and links you have permission to analyze. Do not rely on a clean verdict as proof that an item is harmless. Service availability and supported file sizes may change.</p></div></section>
 </main>
 
 <footer><div class="wrap">
 <div class="fg">
 <div><div class="logo">STICC<b>_</b>DETECTIVE</div><p style="color:var(--mut);max-width:260px" data-i18n="foot_p">Security checks for Telegram communities.</p></div>
-<div><b>Navigate</b><ul><li><a href="#home">Home</a></li><li><a href="#howto">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#intel">Threat Intelligence</a></li><li><a href="#new">What’s New</a></li><li><a href="#about">About</a></li><li><a href="#profile">Owner Profile</a></li></ul></div>
-<div><b>Legal</b><ul><li><a data-cfg="SUPPORT_URL" hidden>Support</a></li><li><a href="#privacy">Privacy Policy</a></li><li><a href="#terms">Terms of Use</a></li></ul></div>
+<div><b>Navigate</b><ul><li><a href="#home">Home</a></li><li><a href="#demo">Video Demo</a></li><li><a href="#howto">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#intel">Threat Intelligence</a></li><li><a href="#new">What’s New</a></li><li><a href="#about">About</a></li><li><a href="#profile">Meet the Founder</a></li></ul></div>
+<div><b>Contact</b><ul><li><a href="https://t.me/mengheangea" target="_blank" rel="noopener noreferrer">✈ Telegram · @mengheangea</a></li></ul><b>Legal</b><ul><li><a data-cfg="SUPPORT_URL" hidden>Support</a></li><li><a href="#privacy">Privacy Policy</a></li><li><a href="#terms">Terms of Use</a></li></ul></div>
 </div>
 <p class="disc" data-i18n="disc">Disclaimer: security scanning cannot guarantee detection of every threat. Always use caution with unknown files and links.</p>
 </div></footer>
@@ -385,7 +421,7 @@ addEventListener("hashchange",route);
 $("#burger").onclick=e=>{const o=$("#nav").classList.toggle("open");e.currentTarget.setAttribute("aria-expanded",o)};
 
 /* i18n */
-const KM={nav_road:"មានអ្វីថ្មី",road_p:"ថ្មីៗពី STICC_DETECTIVE៖ ឧបករណ៍ថ្មី ការកែលម្អ និងមុខងារ AI។",trust_h:"ឯកសាររបស់អ្នកនៅតែជាឯកជន",trust_p:"យើងមិនអាន យក ឬលួចឯកសារឯកជនរបស់អ្នកទេ។ នៅពេលអ្នកផ្ញើឯកសារ ឬតំណភ្ជាប់មក STICC_DETECTIVE យើងគ្រាន់តែស្កេន និងវិភាគវា ដើម្បីផ្តល់លទ្ធផលដែលអ្នកស្នើសុំ។",trust_b:"អានការសន្យាអំពីឯកជនភាព",nav_how:"របៀបប្រើប្រាស់",how_p:"ចាប់ផ្តើមក្នុងរយៈពេលតិចជាងមួយនាទី។ អ្វីៗទាំងអស់ធ្វើឡើងក្នុង Telegram ដោយមិនចាំបាច់ដំឡើងអ្វីទេ។",nav_home:"ទំព័រដើម",nav_feat:"មុខងារសុវត្ថិភាព",nav_intel:"ព័ត៌មានគំរាមកំហែង",nav_about:"អំពីយើង",launch:"បើកម៉ាស៊ីនស្កេន",openbot:"បើកបូត",
+const KM={nav_demo:"វីដេអូបង្ហាញ",demo_video_title:"មើលការប្រើប្រាស់ STICC_DETECTIVE",demo_video_desc:"កន្លែងសម្រាប់វីដេអូបង្ហាញការស្កេនតាម Telegram។ វីដេអូនឹងមាននៅពេលក្រោយ។",video_coming:"វីដេអូបង្ហាញ នឹងមកដល់ឆាប់ៗ",video_note:"នេះជាកន្លែងទុកសម្រាប់វីដេអូ មិនទាន់មានវីដេអូពិតទេ។",demo_guide:"មើលការណែនាំជារូបភាព",limit_title:"គាំទ្រការស្កេនឯកសារ",limit_desc:"ផ្ញើឯកសារដែលគាំទ្រទំហំរហូតដល់ 50 MB ទៅបូត Telegram ដើម្បីវិភាគសុវត្ថិភាព។",contact_founder:"ទាក់ទងអ្នកបង្កើត",nav_road:"មានអ្វីថ្មី",road_p:"ថ្មីៗពី STICC_DETECTIVE៖ ឧបករណ៍ថ្មី ការកែលម្អ និងមុខងារ AI។",trust_h:"ឯកសាររបស់អ្នកនៅតែជាឯកជន",trust_p:"យើងមិនអាន យក ឬលួចឯកសារឯកជនរបស់អ្នកទេ។ នៅពេលអ្នកផ្ញើឯកសារ ឬតំណភ្ជាប់មក STICC_DETECTIVE យើងគ្រាន់តែស្កេន និងវិភាគវា ដើម្បីផ្តល់លទ្ធផលដែលអ្នកស្នើសុំ។",trust_b:"អានការសន្យាអំពីឯកជនភាព",nav_how:"របៀបប្រើប្រាស់",how_p:"ចាប់ផ្តើមក្នុងរយៈពេលតិចជាងមួយនាទី។ អ្វីៗទាំងអស់ធ្វើឡើងក្នុង Telegram ដោយមិនចាំបាច់ដំឡើងអ្វីទេ។",nav_home:"ទំព័រដើម",nav_feat:"មុខងារសុវត្ថិភាព",nav_intel:"ព័ត៌មានគំរាមកំហែង",nav_about:"អំពីយើង",launch:"បើកម៉ាស៊ីនស្កេន",openbot:"បើកបូត",
 h1:"ការពារ <em>លំហឌីជីថលរបស់អ្នក។</em>",sub:"ការត្រួតពិនិត្យឯកសារ និងតំណភ្ជាប់ដោយឆ្លាតវៃ សម្រាប់សហគមន៍ Telegram ដែលមានសុវត្ថិភាពជាង។",cta1:"ស្វែងរកមុខងារសុវត្ថិភាព",cta2:"ជួបស្ថាបនិក",
 demonote:"ទិន្នន័យសាកល្បងតែប៉ុណ្ណោះ។ មិនមែនជាការស្កេនផ្ទាល់ ឬស្ថិតិគំរាមកំហែងពិតទេ។",demo_h:"ការបង្ហាញតាមទែមីណាល់",demo_p:"ការបង្ហាញលើផ្នែកខាងមុខប៉ុណ្ណោះ។ ការស្កេនពិតដំណើរការលើប្រព័ន្ធខាងក្រោយដែលមានសុវត្ថិភាព។",run:"ដំណើរការសាកល្បង",
 feat_p:"ការត្រួតពិនិត្យជាក់ស្តែងសម្រាប់ឯកសារ និងតំណភ្ជាប់ក្នុង Telegram។ គ្មានឧបករណ៍សុវត្ថិភាពណាអាចរកឃើញគ្រប់ការគំរាមកំហែងទេ។",
@@ -394,7 +430,7 @@ intel_p:"របៀបដែលលទ្ធផលធ្វើដំណើរព�
 v1:"អ្នកផ្តល់សេវាបានត្រឡប់លទ្ធផលដោយគ្មានការរកឃើញ។",v2:"រកឃើញសញ្ញាមួយចំនួន។ ណែនាំឱ្យពិនិត្យដោយដៃ។",v3:"អ្នកផ្តល់សេវាបានដាក់ទង់ថាមានគ្រោះថ្នាក់។",v4:"គ្មានលទ្ធផល កំហុស ឬអស់ពេល។ មិនត្រូវបានចាត់ទុកថាសុវត្ថិភាពទេ។",
 about1:"STICC_DETECTIVE ជួយសហគមន៍ Telegram កំណត់អត្តសញ្ញាណឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលអាចមានគ្រោះថ្នាក់ តាមរយៈការត្រួតពិនិត្យសុវត្ថិភាពស្វ័យប្រវត្តិ។",about2:"វាផ្សំព័ត៌មានគំរាមកំហែងខាងក្រៅជាមួយលទ្ធផលច្បាស់លាស់ ដើម្បីជួយអ្នកសម្រេចចិត្តថាត្រូវបើកអ្វី។",about3:"លទ្ធផលគឺជាជំនួយក្នុងការវិនិច្ឆ័យ មិនមែនការធានាសុវត្ថិភាពទេ។",
 foot_p:"ការត្រួតពិនិត្យសុវត្ថិភាពសម្រាប់សហគមន៍ Telegram។",
-nav_prof:"ប្រវត្តិម្ចាស់",meet:"ជួបម្ចាស់ →",tg4:"// ប្រវត្តិម្ចាស់",pf_h:"ប្រវត្តិម្ចាស់",pf_more:"ព័ត៌មានបន្ថែម",pf_less:"លាក់ព័ត៌មាន",k1:"ឈ្មោះ",k2:"ថ្ងៃខែឆ្នាំកំណើត",v2n:"១៧ ឧសភា ២០០៨",k3:"ក្រុមហ៊ុនបច្ចុប្បន្ន",k4:"តួនាទី",v4n:"បច្ចេកវិទ្យាព័ត៌មាន និងលេខាធិការនាយក",k5:"គម្រោង",v5n:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",pf_f:"ការផ្តោតសំខាន់",c1t:"ប្រព័ន្ធសុវត្ថិភាព",c1d:"បង្កើត និងថែរក្សាការត្រួតពិនិត្យនៅពីក្រោយ STICC_DETECTIVE។",c2t:"សញ្ញាគំរាមកំហែង",c2d:"បំប្លែងសញ្ញាឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់គ្រោះថ្នាក់ទៅជាលទ្ធផលច្បាស់លាស់។",c3t:"បើកចំហសម្រាប់មនុស្សគ្រប់គ្នា",c3d:"ផ្តល់ការយល់ដឹងអំពីសុវត្ថិភាពដែលងាយយល់ និងអាចអនុវត្តបាន ដោយឥតគិតថ្លៃ។",tg5:"// ម៉ាក",brandp:"STICC DETECTIVE — បង្កើតដោយ EaMengheang។",ab_h:"អំពី STICC_DETECTIVE",tg3:"// ប្រវត្តិម្ចាស់",orole:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",odesc:"អភិវឌ្ឍប្រព័ន្ធសុវត្ថិភាពរបស់ STICC_DETECTIVE ដោយបំប្លែងសញ្ញាឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលមានគ្រោះថ្នាក់ ទៅជាការយល់ដឹងអំពីសុវត្ថិភាពឌីជីថលដែលងាយយល់ និងអាចអនុវត្តបាន សម្រាប់មនុស្សគ្រប់គ្នា — ដោយឥតគិតថ្លៃ។",disc:"ការបដិសេធ៖ ការស្កេនសុវត្ថិភាពមិនអាចធានាថារកឃើញគ្រប់ការគំរាមកំហែងទេ។ សូមប្រុងប្រយ័ត្នជាមួយឯកសារ និងតំណភ្ជាប់ដែលមិនស្គាល់។",
+nav_prof:"ប្រវត្តិម្ចាស់",meet:"ជួបម្ចាស់ →",tg4:"// ប្រវត្តិម្ចាស់",pf_h:"ប្រវត្តិម្ចាស់",pf_more:"ព័ត៌មានបន្ថែម",pf_less:"លាក់ព័ត៌មាន",k1:"ឈ្មោះ",k2:"ថ្ងៃខែឆ្នាំកំណើត",v2n:"១៧ ឧសភា ២០០៨",k3:"ក្រុមហ៊ុនបច្ចុប្បន្ន",k4:"តួនាទី",v4n:"បច្ចេកវិទ្យាព័ត៌មាន និងលេខាធិការនាយក",k5:"គម្រោង",v5n:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",pf_f:"ការផ្តោតសំខាន់",c1t:"ប្រព័ន្ធសុវត្ថិភាព",c1d:"បង្កើត និងថែរក្សាការត្រួតពិនិត្យនៅពីក្រោយ STICC_DETECTIVE។",c2t:"សញ្ញាគំរាមកំហែង",c2d:"បំប្លែងសញ្ញាឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់គ្រោះថ្នាក់ទៅជាលទ្ធផលច្បាស់លាស់។",c3t:"បើកចំហសម្រាប់មនុស្សគ្រប់គ្នា",c3d:"ផ្តល់ការយល់ដឹងអំពីសុវត្ថិភាពដែលងាយយល់ និងអាចអនុវត្តបាន ដោយឥតគិតថ្លៃ។",tg5:"// ម៉ាក",brandp:"STICC DETECTIVE — បង្កើតដោយ Ea Mengheang។",ab_h:"អំពី STICC_DETECTIVE",tg3:"// ប្រវត្តិម្ចាស់",orole:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",odesc:"អភិវឌ្ឍប្រព័ន្ធសុវត្ថិភាពរបស់ STICC_DETECTIVE ដោយបំប្លែងសញ្ញាឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលមានគ្រោះថ្នាក់ ទៅជាការយល់ដឹងអំពីសុវត្ថិភាពឌីជីថលដែលងាយយល់ និងអាចអនុវត្តបាន សម្រាប់មនុស្សគ្រប់គ្នា — ដោយឥតគិតថ្លៃ។",disc:"ការបដិសេធ៖ ការស្កេនសុវត្ថិភាពមិនអាចធានាថារកឃើញគ្រប់ការគំរាមកំហែងទេ។ សូមប្រុងប្រយ័ត្នជាមួយឯកសារ និងតំណភ្ជាប់ដែលមិនស្គាល់។",
 nav_road:"សមត្ថភាពសុវត្ថិភាពរបស់យើង",strength_tag:"// បង្កើតឡើងសម្រាប់សុវត្ថិភាពឌីជីថល",strength_intro:"ជំនួយការសុវត្ថិភាពក្នុង Telegram ដែលងាយប្រើ ផ្តល់ព័ត៌មានហានិភ័យច្បាស់លាស់ និងឥតគិតថ្លៃ។",
 strength1t:"ស្កេនពីរប្រព័ន្ធ + Claude AI",strength1d:"STICC_DETECTIVE ជាម៉ាស៊ីនស្កេនមេ Hybrid Analysis ជាជម្រើសទីពីរ ហើយ Claude AI ជួយពន្យល់លទ្ធផល។",
 strength2t:"សម្រាប់ក្រុម Telegram",strength2d:"ត្រួតពិនិត្យក្នុងផ្ទៃខាងក្រោយ និងជូនដំណឹងនៅពេលរកឃើញហានិភ័យ ដោយកាត់បន្ថយការជូនដំណឹងមិនចាំបាច់។",
@@ -407,6 +443,8 @@ ai1t:"🧠 ការពន្យល់ហានិភ័យដោយ AI",ai1d:"�
 ai_note:"មុខងារ AI ដែលបានគ្រោងទុក មិនទាន់ដំណើរការទេ រហូតដល់ការរួមបញ្ចូល និងការសាកល្បងបានបញ្ចប់។ ចម្លើយ AI អាចមានកំហុស។",
 mission_text:"បេសកកម្មរបស់យើង៖ ធ្វើឱ្យឧបករណ៍សុវត្ថិភាពឌីជីថលអាចប្រើបានដោយឥតគិតថ្លៃសម្រាប់គ្រប់គ្នា។",mission_tagline:"STICC_DETECTIVE — សុវត្ថិភាពឆ្លាតវៃជាងមុន។ ជីវិតឌីជីថលមានសុវត្ថិភាពជាងមុន។",current_feat:"ស្វែងយល់ពីមុខងារសុវត្ថិភាពបច្ចុប្បន្ន",feature_note:"ប្រព័ន្ធ៖ STICC_DETECTIVE (មេ) + Hybrid Analysis (ជម្រើស) + Claude AI (ពន្យល់លទ្ធផល)។ Claude មិនមែនជាម៉ាស៊ីនស្កេនមេរោគទីបីទេ។",
 ai_tease_title:"ប្រព័ន្ធសុវត្ថិភាព Claude AI",ai_tease_body:"Claude AI ជួយពន្យល់លទ្ធផលស្កេន វិភាគសារគួរឱ្យសង្ស័យ និងផ្តល់ការណែនាំសុវត្ថិភាព។",ai_tease_link:"មើលចំណុចខ្លាំងរបស់យើង"};
+Object.assign(KM,{nav_prof:"ជួបអ្នកបង្កើត",pf_h:"ជួបអ្នកបង្កើត",tg4:"// អ្នកបង្កើត",trust_h:"ការស្កេនសុវត្ថិភាពដោយគិតពីឯកជនភាព",trust_p:"ឯកសារ និងតំណភ្ជាប់ដែលអ្នកផ្ញើត្រូវបានដំណើរការដើម្បីផ្តល់លទ្ធផលសុវត្ថិភាព។ ការស្កេនអាចប្រើសេវាខាងក្រៅ។ សូមកុំផ្ញើឯកសារសម្ងាត់ខ្លាំងទៅឧបករណ៍ស្កេនអនឡាញ។",trust_b:"របៀបដំណើរការទិន្នន័យ",ai_status:"មុខងារ AI · គ្រោងទុក",ai_tease_body:"មុខងារ Claude AI គ្រោងនឹងជួយពន្យល់លទ្ធផលសុវត្ថិភាព បន្ទាប់ពីបង្កើត និងសាកល្បងរួច។",ai_intro:"មុខងារ Claude AI ដែលគ្រោងទុកនឹងជួយពន្យល់លទ្ធផលស្កេន និងហានិភ័យឌីជីថលជាភាសាខ្មែរ និងអង់គ្លេស។",oname:"Ea Mengheang",odesc:"អ្នកបង្កើត និងអភិវឌ្ឍ STICC_DETECTIVE ដោយឯករាជ្យ និងមានជំនួយ AI ក្នុងការអភិវឌ្ឍ។"});
+Object.assign(KM,{"purpose_h": "គោលបំណងរបស់យើង", "purpose_1": "STICC_DETECTIVE ត្រូវបានបង្កើតឡើងក្នុងគោលបំណងសំខាន់មួយ៖ <strong>ធ្វើឱ្យសុវត្ថិភាពអ៊ីនធឺណិតមានភាពសាមញ្ញ ងាយស្រួលប្រើ និងឥតគិតថ្លៃសម្រាប់មនុស្សគ្រប់គ្នា។</strong>", "purpose_2": "ជារៀងរាល់ថ្ងៃ មនុស្សទទួលបានឯកសារមិនស្គាល់ តំណភ្ជាប់គួរឱ្យសង្ស័យ និងសារដែលអាចមានគ្រោះថ្នាក់តាម Telegram និងវេទិកាឌីជីថលផ្សេងៗ។ អ្នកប្រើប្រាស់ជាច្រើនពិបាកសម្គាល់ហានិភ័យទាំងនេះ ដែលអាចប៉ះពាល់ដល់ឧបករណ៍ ព័ត៌មានផ្ទាល់ខ្លួន និងគណនីអនឡាញ។", "purpose_3": "STICC_DETECTIVE មានបំណងជួយដោះស្រាយបញ្ហានេះ តាមរយៈជំនួយការសុវត្ថិភាព Telegram ដែលអាចវិភាគឯកសារ និងតំណភ្ជាប់គួរឱ្យសង្ស័យ កំណត់ហានិភ័យ និងពន្យល់លទ្ធផលឱ្យងាយយល់។", "purpose_4": "គោលដៅរបស់យើងមិនត្រឹមតែរកឃើញការគំរាមកំហែងទេ ប៉ុន្តែថែមទាំង <strong>អប់រំអ្នកប្រើប្រាស់ បង្កើនការយល់ដឹងអំពីសុវត្ថិភាពអ៊ីនធឺណិត និងជួយឱ្យពួកគេសម្រេចចិត្តបានកាន់តែមានសុវត្ថិភាព។</strong>", "mission_h": "បេសកកម្មរបស់យើង", "mission_1": "ធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចប្រើប្រាស់បានសម្រាប់មនុស្សគ្រប់គ្នា ដោយមិនគិតពីចំណេះដឹងបច្ចេកទេស ឬស្ថានភាពហិរញ្ញវត្ថុ។", "vision_h": "ចក្ខុវិស័យរបស់យើង", "vision_1": "កសាងសហគមន៍ឌីជីថលដែលមានសុវត្ថិភាពជាងមុន ដែលមនុស្សអាចសម្គាល់ការគំរាមកំហែង ការពារព័ត៌មានរបស់ខ្លួន និងប្រើប្រាស់បច្ចេកវិទ្យាដោយទំនុកចិត្ត។", "motto_h": "ពាក្យស្លោករបស់យើង", "motto_1": "STICC_DETECTIVE — Smarter Security. Safer Digital Life.", "video_sample_label": "វីដេអូគំរូ — ការសន្ទនា Telegram សាកល្បង មិនមែនជាលទ្ធផលស្កេនពិតទេ។ សូមដាក់ឯកសារ MP4 នៅជាប់ឯកសារ HTML។", "demo_video_desc": "មើលវីដេអូគំរូអំពីរបៀបស្កេនតាម Telegram។ នេះជាការបង្ហាញគំនិត មិនមែនការស្កេនពិតទេ។", "odesc": "ខ្ញុំបានបង្កើត STICC_DETECTIVE ដើម្បីជួយមនុស្សសម្គាល់ហានិភ័យឌីជីថល និងសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពនៅលើអ៊ីនធឺណិត។", "contact_founder": "ទាក់ទងអ្នកបង្កើត"});
 const els=$$("[data-i18n]");els.forEach(e=>e.dataset.en=e.innerHTML);
 function setLang(l){document.documentElement.lang=l==="km"?"km":"en";els.forEach(e=>{e.innerHTML=l==="km"&&KM[e.dataset.i18n]?KM[e.dataset.i18n]:e.dataset.en});if($(".page.on"))typePage();try{localStorage.setItem("lang",l)}catch(e){}}
 let lang="en";try{lang=localStorage.getItem("lang")||"en"}catch(e){}
@@ -439,6 +477,32 @@ const rs=()=>{w=c.width=innerWidth;h=c.height=innerHeight;P=Array.from({length:M
 rs();addEventListener("resize",rs);
 (function f(){x.clearRect(0,0,w,h);x.fillStyle="#39ff88";P.forEach(p=>{p.y-=p.v;if(p.y<0){p.y=h;p.x=Math.random()*w}x.globalAlpha=.5;x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});requestAnimationFrame(f)})()})();
 route();
+</script>
+<script>
+/* Demo video: muted autoplay + looping, with accessible pause and opt-in synthetic tech sound. */
+(()=>{
+ const video=document.getElementById('demoVideo');
+ const play=document.getElementById('demoPlayback');
+ const sound=document.getElementById('demoSound');
+ if(!video||!play||!sound)return;
+ let audio=null,enabled=false,lastTick=-1;
+ function update(){const paused=video.paused;play.textContent=paused?'▶ Play':'⏸ Pause';play.setAttribute('aria-label',paused?'Play demonstration':'Pause demonstration');}
+ function beep(){if(!enabled||video.paused||document.hidden)return;
+   try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+     if(!audio)audio=new AC();if(audio.state==='suspended')audio.resume();
+     const osc=audio.createOscillator(),gain=audio.createGain(),t=audio.currentTime;
+     osc.type='sine';osc.frequency.setValueAtTime(520,t);osc.frequency.exponentialRampToValueAtTime(840,t+.085);
+     gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.025,t+.012);gain.gain.exponentialRampToValueAtTime(.0001,t+.13);
+     osc.connect(gain);gain.connect(audio.destination);osc.start(t);osc.stop(t+.14);
+   }catch(e){}
+ }
+ play.addEventListener('click',()=>{if(video.paused){video.play().catch(()=>{});}else video.pause();update();});
+ sound.addEventListener('click',()=>{enabled=!enabled;sound.textContent=enabled?'♫ Tech Sound: On':'♫ Tech Sound: Off';sound.setAttribute('aria-pressed',String(enabled));if(enabled)beep();});
+ video.addEventListener('play',update);video.addEventListener('pause',update);
+ video.addEventListener('timeupdate',()=>{const tick=Math.floor(video.currentTime/2);if(tick!==lastTick){lastTick=tick;beep();}});
+ video.addEventListener('seeked',()=>{lastTick=-1;});
+ update();video.play().catch(()=>{update();});
+})();
 </script>
 </body>
 </html>
