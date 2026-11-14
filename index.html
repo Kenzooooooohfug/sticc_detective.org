@@ -7,501 +7,405 @@
 <meta name="theme-color" content="#ffffff">
 <meta name="description" content="Intelligent file and URL security checks for safer Telegram communities.">
 <script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+Khmer:wght@400;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" id="fav">
 <style>
-:root{--bg:#07090a;--bg2:#0e1214;--line:#1c2a26;--tx:#d7e4de;--mut:#7f948b;--g:#39ff88;--c:#7cc4ff;--y:#ffc857;--r:#ff5468;
---mono:ui-monospace,"JetBrains Mono",Consolas,monospace;--sans:system-ui,"Segoe UI","Noto Sans Khmer",sans-serif;box-sizing:border-box}
+:root{--bg:#f4f7fb;--s:#fff;--line:#dbe4ee;--tx:#0b1626;--mut:#566a80;--b:#0b5fff;--b2:#e9f0ff;--ok:#0f8a4b;--warn:#b45309;--bad:#c81e3a;--r:10px;
+--head:"Space Grotesk","Noto Sans Khmer",system-ui,sans-serif;--body:"Inter","Noto Sans Khmer",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,Consolas,monospace;box-sizing:border-box}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 var(--sans);min-height:100vh;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
-background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;background-attachment:fixed}
-body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0,rgba(7,9,10,.2),var(--bg) 75%);pointer-events:none;z-index:0}
-#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.5}
-header,main,footer{position:relative;z-index:1}
-a{color:var(--g)}
-.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
-header{position:sticky;top:0;z-index:20;background:rgba(7,9,10,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
-.logo{display:flex;align-items:center;gap:10px;font:700 15px var(--mono);color:var(--tx);text-decoration:none;letter-spacing:.5px}
-.logo svg{width:26px;height:26px}.logo b{color:var(--g)}
-nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:0}
-nav a.l{display:block;padding:8px 12px;border-radius:6px;color:var(--mut);text-decoration:none;font-size:14px}
-nav a.l:hover,nav a.l[aria-current=page]{color:var(--g);background:rgba(57,255,136,.08)}
-.tools{display:flex;gap:8px;align-items:center}
-button,.btn{font:600 14px var(--sans);cursor:pointer;border-radius:6px;padding:9px 16px;border:1px solid var(--g);background:var(--g);color:#031008;text-decoration:none;display:inline-block;transition:.2s}
-button:hover,.btn:hover{box-shadow:0 0 18px rgba(57,255,136,.35)}
-.ghost{background:transparent;color:var(--g)}
-.sm{padding:6px 10px;font:600 12px var(--mono)}
-:focus-visible{outline:2px solid var(--c);outline-offset:2px}
-#burger{display:none;background:transparent;color:var(--g);padding:6px 10px}
-[hidden]{display:none!important}
-@media(max-width:820px){#burger{display:block}nav{position:absolute;left:0;right:0;top:60px;background:var(--bg);border-bottom:1px solid var(--line);display:none;padding:10px 20px}nav.open{display:block}nav ul{flex-direction:column}}
-.page{display:none;padding:56px 0 72px}.page.on{display:block}
-h1{font-size:clamp(2.2rem,6vw,4rem);line-height:1.05;margin:0 0 16px;letter-spacing:-1px}
-h1 em{font-style:normal;color:var(--g);text-shadow:0 0 24px rgba(57,255,136,.4)}
-h2{font-size:clamp(1.6rem,3.5vw,2.3rem);margin:0 0 10px}
-.tag{font:12px var(--mono);color:var(--c);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
-.lead{color:var(--mut);max-width:620px;font-size:1.1rem}
-.row{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
-.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center}
-@media(max-width:900px){.hero{grid-template-columns:1fr}}
-.term{background:#050707;border:1px solid var(--line);border-radius:10px;box-shadow:0 0 40px rgba(57,255,136,.07);overflow:hidden;font:13px/1.7 var(--mono)}
-.th{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);color:var(--mut);font-size:12px}
-.dots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--line);margin-right:5px}
-.tb{padding:14px;min-height:210px;white-space:pre-wrap;word-break:break-word}
-.tb .i{color:var(--c)}.tb .w{color:var(--y)}.tb .r{color:var(--g)}.tb .p{color:var(--mut)}
-.cur::after{content:"▋";color:var(--g);animation:bl 1s steps(1) infinite}
-@keyframes bl{50%{opacity:0}}
-.prog{height:4px;background:var(--line);margin:0 14px 14px;border-radius:2px;overflow:hidden}
-.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--c));transition:width .4s}
-.note{font:12px var(--mono);color:var(--mut);border-left:2px solid var(--y);padding:2px 10px;margin:14px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:28px}
-.card{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:20px;transition:.25s}
-.card:hover{border-color:var(--g);transform:translateY(-3px);box-shadow:0 8px 30px rgba(57,255,136,.08)}
-.card svg{width:26px;height:26px;stroke:var(--g);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:8px}
-.card h3{margin:0 0 6px;font-size:1.05rem}.card p{margin:0;color:var(--mut);font-size:.93rem}
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:28px 0;counter-reset:s}
-.flow div{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:14px 10px;font:12px var(--mono);text-align:center;position:relative;counter-increment:s}
-.flow div::before{content:"0" counter(s);display:block;color:var(--g);margin-bottom:4px}
-@media(max-width:820px){.flow{grid-template-columns:1fr 1fr}}
-.v{border-left:3px solid;padding:14px 16px}
-.v h3{font:700 14px var(--mono);letter-spacing:1px}
-.clean{border-color:var(--g)}.clean h3{color:var(--g)}.sus{border-color:var(--y)}.sus h3{color:var(--y)}
-.mal{border-color:var(--r)}.mal h3{color:var(--r)}.unk{border-color:var(--mut)}.unk h3{color:var(--mut)}
-.steps{counter-reset:n;padding:0;list-style:none}
-.steps li{counter-increment:n;padding:14px 0 14px 52px;position:relative;border-bottom:1px solid var(--line)}
-.steps li::before{content:counter(n);position:absolute;left:0;top:12px;width:34px;height:34px;border:1px solid var(--g);color:var(--g);border-radius:6px;display:grid;place-items:center;font:700 14px var(--mono)}
-code{font-family:var(--mono);background:#0b1210;border:1px solid var(--line);padding:1px 6px;border-radius:4px;color:var(--c);font-size:.88em}
-.prose{max-width:720px}.prose p,.prose li{color:var(--mut)}
-footer{border-top:1px solid var(--line);background:rgba(7,9,10,.92);padding:36px 0 28px;font-size:14px}
-.fg{display:flex;flex-wrap:wrap;gap:32px;justify-content:space-between}
-footer ul{list-style:none;padding:0;margin:8px 0 0}footer li{margin:4px 0}
-footer a{color:var(--mut);text-decoration:none}footer a:hover{color:var(--g)}
-.disc{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);color:var(--mut);font-size:13px}
-.owner{display:flex;gap:28px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:28px;margin-top:14px;max-width:820px;position:relative;overflow:hidden}
-.owner::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--g),var(--c))}
-.avatar{position:relative;flex:none;width:132px;height:132px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#0f1c17,#070a09);border:2px solid var(--g);box-shadow:0 0 30px rgba(57,255,136,.22),inset 0 0 24px rgba(57,255,136,.08)}
-.avatar svg{width:88%;height:88%;fill:none;stroke:var(--mut);stroke-width:3;opacity:.55;position:absolute}
-.avatar span{position:relative;font:700 30px var(--mono);color:var(--g);text-shadow:0 0 14px var(--g);margin-top:6px}
-.avatar::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1px dashed var(--c);opacity:.5;animation:spin 18s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.oi h3{margin:0;font-size:1.7rem;letter-spacing:-.3px}
-.role{font:600 13px var(--mono);color:var(--g);margin:6px 0 12px;letter-spacing:.3px}
-.oi p{margin:0;color:var(--mut)}
-@media(max-width:640px){.owner{flex-direction:column;text-align:center;padding:24px 18px}}
-h1.cur::after,h2.cur::after,h3.cur::after{margin-left:2px}
-.logo img{width:36px;height:36px;border-radius:50%;mix-blend-mode:screen}
-.recbox{max-width:820px;margin-top:16px;background:#050707;border:1px solid var(--line);border-radius:12px;overflow:hidden;font-family:var(--mono)}
-.rec{display:grid;grid-template-columns:170px 1fr;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:14px}
-.rec:last-child{border:0}.rec .k{color:var(--c)}.rec .k::after{content:":"}.rec .val{color:var(--tx)}
-@media(max-width:560px){.rec{grid-template-columns:1fr;gap:2px}}
-.brand{display:flex;gap:28px;align-items:center;margin-top:48px;padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);max-width:820px}
-.brand img{width:260px;max-width:45%;height:auto;mix-blend-mode:screen}
-@media(max-width:560px){.brand{flex-direction:column;text-align:center}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}#fx{display:none}}
-
-/* ===== V2: balanced cyber + modern visual system ===== */
-:root{--bg:#070b12;--bg2:#0e1720;--line:#203442;--tx:#e5f2f5;--mut:#9aafbc;--g:#49f4a2;--c:#6acaff}
-body{background-image:radial-gradient(ellipse at 80% 4%,rgba(44,130,168,.15),transparent 40%),linear-gradient(rgba(46,76,90,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(46,76,90,.15) 1px,transparent 1px);background-size:auto,52px 52px,52px 52px}
-header{background:rgba(7,11,18,.88)}
-.hero{min-height:420px}.hero h1{font-weight:850;letter-spacing:-2px}.hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}.hero-chips span{font:700 10px var(--mono);color:var(--c);border:1px solid #285064;background:rgba(30,74,92,.22);border-radius:99px;padding:6px 10px}
-.card,.owner,.trust,.soon,.mission,.ai-panel{box-shadow:0 12px 40px rgba(0,0,0,.16);background:linear-gradient(150deg,rgba(20,36,47,.96),rgba(9,18,26,.96))}
-.card:hover{border-color:var(--c);box-shadow:0 14px 38px rgba(56,167,208,.12)}
-.capacity{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin:28px 0 14px;padding:22px 26px;border:1px solid #276a5a;border-radius:14px;background:linear-gradient(110deg,rgba(57,255,136,.12),rgba(66,167,230,.07))}.capacity>div{display:flex;align-items:center;gap:20px}.capacity-number{font:800 3.2rem var(--mono);color:var(--g);line-height:1}.capacity-number span{font-size:1.2rem;margin-left:3px}.capacity strong{font-size:1rem}.capacity p{margin:3px 0 0;color:var(--mut);font-size:.9rem;max-width:440px}
-.video-stage{margin:30px 0 20px;min-height:370px;aspect-ratio:16/8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;position:relative;overflow:hidden;border:1px solid #315064;border-radius:20px;background:radial-gradient(circle at 50% 45%,rgba(48,154,185,.2),transparent 48%),repeating-linear-gradient(0deg,transparent 0 36px,rgba(91,186,225,.06) 37px),linear-gradient(135deg,#101d2b,#060b13)}.video-stage:before{content:"";position:absolute;inset:12px;border:1px solid rgba(106,202,255,.12);border-radius:12px;pointer-events:none}.video-orb{height:94px;width:94px;display:grid;place-items:center;border-radius:50%;color:var(--g);background:rgba(57,255,136,.09);border:1px solid rgba(57,255,136,.5);box-shadow:0 0 60px rgba(57,255,136,.13)}.video-eyebrow{font:11px var(--mono);letter-spacing:2px;color:var(--c)}.video-stage strong{font:700 clamp(1.2rem,3vw,2rem) var(--mono)}.video-stage small{color:var(--mut);padding:0 20px}
-.cyber-avatar svg{stroke:var(--g);opacity:.9}.cyber-avatar .avatar-label{position:absolute;bottom:15px;font-size:12px;letter-spacing:2px;background:#071015;padding:1px 7px;border-radius:5px}.telegram-contact{gap:9px;background:#112e42;color:#dff6ff;border-color:#229ed9}.telegram-contact:hover{box-shadow:0 0 18px rgba(34,158,217,.3)}
-@media(max-width:600px){.capacity{padding:18px}.capacity>div{align-items:flex-start;gap:14px}.capacity-number{font-size:2.5rem}.video-stage{min-height:280px;aspect-ratio:auto}.hero{min-height:0}}
-/* ===== mobile improvements + Telegram icon ===== */
-body{min-height:100dvh;-webkit-text-size-adjust:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
-.wrap{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-button,.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
-.sm{min-height:38px}
-footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
-footer li a{display:inline-block;padding:5px 0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.65 var(--body);min-height:100dvh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;
+background-image:linear-gradient(rgba(11,95,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(11,95,255,.045) 1px,transparent 1px);background-size:44px 44px}
 html:lang(km) body{line-height:1.85}
+a{color:var(--b)}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--b);outline-offset:2px}
 [tabindex="-1"]:focus{outline:none}
-.fab{position:fixed;z-index:30;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;display:block;box-shadow:0 6px 22px rgba(0,0,0,.6),0 0 0 3px rgba(7,9,10,.85);transition:transform .15s}
-.fab svg{display:block;width:100%;height:100%}
-.fab:hover{transform:scale(1.06)}.fab:active{transform:scale(.95)}
-@media(max-width:820px){
-body{background-attachment:scroll}
-#burger{min-width:44px;font-size:20px;line-height:1}
-nav{max-height:calc(100dvh - 60px - env(safe-area-inset-top,0px));overflow-y:auto;padding:4px 20px 16px}
-nav li{border-bottom:1px solid var(--line)}nav li:last-child{border:0}
-nav a.l{padding:15px 6px;font-size:17px;border-radius:0}
-.page{padding:36px 0 56px}
-.hero{gap:28px}
-.lead{font-size:1.02rem}
-}
-@media(max-width:640px){
+.wrap{max-width:1080px;margin:0 auto;padding:0 max(20px,env(safe-area-inset-left,0px))}
+h1,h2,h3{font-family:var(--head);margin:0;letter-spacing:-.02em;line-height:1.15}
+h1{font-size:clamp(2.2rem,6vw,3.9rem);font-weight:700;text-transform:uppercase;letter-spacing:-.03em;margin-bottom:16px}
+h1 em{font-style:normal;color:var(--b)}
+h2{font-size:clamp(1.5rem,3.2vw,2.1rem);font-weight:700;margin-bottom:10px}
+h3{font-size:1.05rem;font-weight:600}
+.tag{font:700 12px var(--mono);color:var(--b);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+.lead{color:var(--mut);max-width:640px;font-size:1.08rem;margin:0}
+p{margin:0}
+
+/* ---------- top bar ---------- */
+header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0)}
+.bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;min-height:64px}
+.logo{display:flex;align-items:center;gap:10px;font:700 15px var(--mono);color:var(--tx);text-decoration:none;letter-spacing:.3px;white-space:nowrap}
+.logo img{width:34px;height:34px;border-radius:50%;background:#0b1220}
+.logo b{color:var(--b)}
+nav{display:flex;justify-content:center;gap:4px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+nav::-webkit-scrollbar{display:none}
+.tab{flex:none;scroll-snap-align:center;display:flex;align-items:center;min-height:64px;padding:0 14px;font:700 12.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap}
+.tab:hover{color:var(--tx)}
+.tab[aria-current=page]{color:var(--b);border-bottom-color:var(--b)}
+.tools{display:flex;gap:8px;align-items:center}
+button,.btn{font:600 14px var(--head);cursor:pointer;border-radius:8px;padding:10px 18px;min-height:44px;border:1px solid var(--b);background:var(--b);color:#fff;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.18s}
+button:hover,.btn:hover{background:#0a4fd6;border-color:#0a4fd6;box-shadow:0 6px 18px rgba(11,95,255,.25)}
+.ghost{background:#fff;color:var(--b);border-color:#c5d4ee}
+.ghost:hover{background:var(--b2);color:var(--b);border-color:var(--b);box-shadow:none}
+.sm{padding:6px 12px;min-height:38px;font:700 12px var(--mono)}
+@media(max-width:900px){
+.bar{grid-template-columns:1fr auto;gap:0 12px;min-height:0;padding-top:8px}
+.logo{grid-column:1;grid-row:1;min-height:44px}
+.tools{grid-column:2;grid-row:1}
+nav{grid-column:1/-1;grid-row:2;justify-content:flex-start;margin:0 -20px;padding:0 20px;
+-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.tab{min-height:46px;padding:0 12px}
 .tools .btn{display:none}
-.row{flex-direction:column}.row .btn,.row button{width:100%}
-.tb{padding:12px;font-size:12.5px;min-height:170px}
-.card{padding:18px}
-.grid{grid-template-columns:1fr}
-.fg{flex-direction:column;gap:22px}
-.brand img{max-width:70%}
-.logo{font-size:14px}
-}
-@media(max-width:480px){
-.flow{grid-template-columns:1fr}
-.flow div{display:flex;gap:12px;align-items:center;text-align:left;padding:12px 14px}
-.flow div::before{margin:0}
 }
 
-/* ===== How it works + chat pictures ===== */
-.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:40px 28px;margin:36px 0 8px}
-.hs h3{margin:10px 0 4px;font-size:1.1rem}.hs>p{margin:0 0 16px;color:var(--mut);font-size:.95rem}
-.sn{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid var(--g);color:var(--g);border-radius:6px;font:700 14px var(--mono)}
-.phone{width:min(100%,290px);margin:0 auto;background:#0e1621;border:1px solid #2b3b4a;border-radius:28px;padding:8px;box-shadow:0 14px 40px rgba(0,0,0,.5)}
-.ph-top{display:flex;align-items:center;gap:10px;padding:11px 13px;background:#17212b;border-radius:20px 20px 0 0;font-size:14px;color:#e8eef4}
+/* ---------- pages & sections ---------- */
+.page{display:none;padding:56px 0 80px}.page.on{display:block}
+[id]{scroll-margin-top:130px}
+.sec{margin-top:80px}
+.sh{margin-bottom:28px}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 0}
+.note{font:12px/1.6 var(--mono);color:var(--mut);border-left:3px solid #c5d0de;padding:2px 12px;margin:16px 0 0}
+.card,.panel{background:var(--s);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 1px 2px rgba(11,22,38,.04)}
+.card{transition:.2s}.card:hover{border-color:#a9bfe8;box-shadow:0 10px 28px rgba(11,22,38,.07)}
+.card h3{margin-bottom:6px}.card p{color:var(--mut);font-size:.94rem}
+.card svg{width:26px;height:26px;stroke:var(--b);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px;display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.grid.g3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.grid.g3{grid-template-columns:1fr}}
+
+/* ---------- home ---------- */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:28px}}
+.handle{margin-top:16px;font:12px var(--mono);color:var(--mut)}
+.term{background:#0b1220;border-radius:12px;box-shadow:0 18px 44px rgba(11,22,38,.2);overflow:hidden;font:13px/1.7 var(--mono);color:#e2e8f0}
+.th{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid #1e293b;color:#94a3b8;font-size:12px}
+.dots i{display:inline-block;width:9px;height:9px;border-radius:50%;background:#334155;margin-right:5px}
+.term .sm{background:#4ade80;border-color:#4ade80;color:#052e16}
+.tb{padding:14px;min-height:190px;white-space:pre-wrap;word-break:break-word}
+.tb .i{color:#7dd3fc}.tb .w{color:#fbbf24}.tb .r{color:#4ade80}.tb .p{color:#94a3b8}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;background:var(--s);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.stats div{padding:18px 20px;border-right:1px solid var(--line)}.stats div:last-child{border:0}
+.stats b{display:block;font:700 1.25rem var(--head);color:var(--b)}.stats small{color:var(--mut);font-size:.85rem}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+.video-box{background:var(--s);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 8px 28px rgba(11,22,38,.06)}
+.video-box video{width:100%;max-height:540px;display:block;background:#0b1220;border-radius:10px}
+.demo-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:14px 0 4px}
+.demo-label{text-align:center;color:var(--mut);font:12px var(--mono);padding:6px 8px 2px}
+.callout{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:80px;padding:24px 26px;background:var(--b2);border:1px solid #cfdcf8;border-radius:var(--r)}
+.callout h3{font-size:1.15rem;margin-bottom:4px}.callout p{color:var(--mut);max-width:640px;font-size:.95rem}
+
+/* ---------- how it works ---------- */
+.steps{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+.step{flex:0 1 calc(33.333% - 14px);min-width:min(100%,250px);background:var(--s);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.step h3{margin:10px 0 4px}.step>p{color:var(--mut);font-size:.92rem;margin-bottom:16px;min-height:3em}
+.sn{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid var(--b);color:var(--b);border-radius:6px;font:700 14px var(--mono)}
+.phone{width:min(100%,250px);margin:0 auto;background:#0e1621;border:1px solid #2b3b4a;border-radius:24px;padding:6px;box-shadow:0 12px 30px rgba(11,22,38,.18)}
+.ph-top{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#17212b;border-radius:18px 18px 0 0;font-size:13px;color:#e8eef4}
 .ph-top small{display:block;color:#7d8e9e;font-size:11px;line-height:1.2}
-.av{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#1f9d63,#2b78b8);font:700 15px var(--mono);color:#fff}
-.ph-body{min-height:300px;padding:12px;display:flex;flex-direction:column;gap:8px;background:#0e1621;border-radius:0 0 20px 20px}
-.bub{max-width:88%;padding:8px 11px;border-radius:14px;font:13px/1.45 var(--sans);color:#e8eef4;overflow-wrap:anywhere}
+.av{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#1f9d63,#2b78b8);font:700 14px var(--mono);color:#fff}
+.ph-body{min-height:230px;padding:12px;display:flex;flex-direction:column;gap:8px;background:#0e1621;border-radius:0 0 18px 18px}
+.bub{max-width:90%;padding:8px 11px;border-radius:14px;font:12.5px/1.45 var(--body);color:#e8eef4;overflow-wrap:anywhere}
 .bub.in{align-self:flex-start;background:#182533;border-bottom-left-radius:4px}
 .bub.out{align-self:flex-end;background:#2b5278;border-bottom-right-radius:4px}
-.file{display:flex;gap:9px;align-items:center}.file i{flex:none;width:32px;height:32px;border-radius:50%;background:#3d8fd1;display:grid;place-items:center;font:700 10px var(--mono);font-style:normal}
+.file{display:flex;gap:9px;align-items:center}.file i{flex:none;width:30px;height:30px;border-radius:50%;background:#3d8fd1;display:grid;place-items:center;font:700 9px var(--mono);font-style:normal}
 .file small{color:#a9bccd}
-.vd{font:700 12px var(--mono);letter-spacing:.5px}.vd.g{color:var(--g)}.vd.y{color:var(--y)}.vd.r{color:var(--r)}
-.sbar{flex:1;background:#0e1621;border-radius:18px;padding:8px 14px;color:#7d8e9e;font-size:14px}
-.sbar.t{color:#e8eef4}
-.gr{height:46px;border-radius:10px;background:#17212b;opacity:.55}
-.res{display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;background:#17212b;color:#e8eef4;font-size:14px}
+.vd{font:700 12px var(--mono);letter-spacing:.5px}.vd.g{color:#4ade80}.vd.y{color:#fbbf24}.vd.r{color:#f87171}
+.sbar{flex:1;background:#0e1621;border-radius:18px;padding:7px 14px;color:#e8eef4;font-size:13px}
+.res{display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;background:#17212b;color:#e8eef4;font-size:13px}
 .res small{color:#7d8e9e}.res em{margin-left:auto;font:600 10px var(--mono);font-style:normal;color:#7d8e9e;border:1px solid #2b3b4a;border-radius:4px;padding:1px 5px}
-.svc{align-self:center;background:#182533;color:#9fb1c1;border-radius:12px;padding:3px 10px;font-size:11px}
-.startbtn{margin-top:auto;text-align:center;background:#3d8fd1;color:#fff;font-weight:700;border-radius:10px;padding:12px;letter-spacing:.06em}
-.mini{margin-top:16px;border:1px solid #2b3b4a;border-radius:14px;overflow:hidden;background:#0e1621}
-.mini .ph-top{padding:8px 12px;border-radius:0;font-size:12.5px}.mini .av{width:26px;height:26px;font-size:12px}
-.mini .ph-body{min-height:0;padding:10px;gap:6px;border-radius:0}.mini .bub{font-size:12px;padding:6px 9px}
+.svc{align-self:center;background:#182533;color:#9fb1c1;border-radius:12px;padding:3px 10px;font-size:11px;text-align:center}
+.startbtn{margin-top:auto;text-align:center;background:#3d8fd1;color:#fff;font-weight:700;border-radius:10px;padding:11px;letter-spacing:.06em;font-size:13px}
+.opts{display:flex;gap:6px;margin-top:6px}.opts span{flex:1;text-align:center;padding:6px;border-radius:8px;font:700 11px var(--mono);background:#223347;color:#e8eef4}
+.opts .rj{background:#4a2530;color:#fda4af}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:0 0 28px;counter-reset:s}
+.flow div{background:var(--s);border:1px solid var(--line);border-radius:8px;padding:12px 8px;font:12px/1.4 var(--mono);text-align:center;counter-increment:s}
+.flow div::before{content:"0" counter(s);display:block;color:var(--b);margin-bottom:4px;font-weight:700}
+@media(max-width:820px){.flow{grid-template-columns:1fr 1fr}}
+.v{border-left:4px solid}.v h3{font:700 13px var(--mono);letter-spacing:.1em}
+.v.clean{border-left-color:var(--ok)}.v.clean h3{color:var(--ok)}
+.v.sus{border-left-color:var(--warn)}.v.sus h3{color:var(--warn)}
+.v.mal{border-left-color:var(--bad)}.v.mal h3{color:var(--bad)}
+.v.unk{border-left-color:#94a3b8}.v.unk h3{color:#64748b}
 
-.trust,.soon{margin-top:56px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--bg2)}
-.trust h2,.soon h2{margin-top:0}.trust p,.soon p{color:var(--mut);margin:0 0 16px;max-width:680px}
-.pill{display:inline-block;font:600 11px var(--mono);padding:2px 9px;border-radius:99px;border:1px solid var(--y);color:var(--y);margin-bottom:12px}
-.pill.ai{border-color:var(--c);color:var(--c)}
-.ic.e{font-size:22px;line-height:1}
-.rm h2.sect{margin-top:56px}.rm .lead{margin-bottom:0}
-.mission{margin-top:56px;text-align:center;padding:32px 20px;border:1px solid var(--line);border-radius:14px;background:var(--bg2)}
-.mission p{margin:0 auto 10px;max-width:640px;color:var(--mut)}.mission b{display:block;font-size:1.15rem;color:var(--tx)}
-.strength-icon{display:block;font-size:25px;margin-bottom:10px}.ai-panel{margin-top:52px;border:1px solid #285245;border-radius:14px;padding:26px;background:linear-gradient(135deg,rgba(57,255,136,.065),rgba(124,196,255,.025))}.ai-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}.ai-head .pill{margin-top:8px}.ai-panel .grid{margin-top:20px}.strength-grid{margin-bottom:14px}@media(max-width:600px){.ai-panel{padding:18px}}
-.engine-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0}.engine-strip>div{padding:16px;background:#0e1714;border:1px solid #285245;border-radius:10px}.engine-strip strong{display:block;color:#39ff88;font:700 14px var(--mono)}.engine-strip small{display:block;color:#8ba69b;margin-top:5px}@media(max-width:700px){.engine-strip{grid-template-columns:1fr}}
+/* ---------- features ---------- */
+.capacity{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:22px 26px;border:1px solid #cfdcf8;border-radius:var(--r);background:var(--b2);margin-bottom:16px}
+.capacity>div{display:flex;align-items:center;gap:20px}
+.capnum{font:700 3rem var(--mono);color:var(--b);line-height:1}.capnum span{font-size:1.1rem;margin-left:3px}
+.capacity p{color:var(--mut);font-size:.92rem;max-width:460px}
+.newfeat{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;padding:26px;margin-bottom:16px;border:1px solid #bde3cf;border-radius:var(--r);background:#effaf4}
+@media(max-width:820px){.newfeat{grid-template-columns:1fr}}
+.badge{display:inline-block;font:700 11px var(--mono);letter-spacing:.12em;background:var(--ok);color:#fff;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.newfeat p{color:var(--mut)}
+.tl{display:flex;flex-direction:column;gap:8px;font:12.5px var(--mono)}
+.tl div{background:#fff;border:1px solid #cfe9db;border-radius:8px;padding:10px 14px;position:relative}
+.tl div:not(:last-child)::after{content:"↓";position:absolute;left:50%;bottom:-17px;color:var(--ok);font-weight:700;z-index:1}
+.tl div:last-child{border-color:var(--ok);color:var(--ok);font-weight:700}
+.engines{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.engines div{padding:16px;background:var(--s);border:1px solid var(--line);border-radius:var(--r)}
+.engines strong{display:block;color:var(--b);font:700 13px var(--mono)}.engines small{display:block;color:var(--mut);margin-top:4px}
+@media(max-width:700px){.engines{grid-template-columns:1fr}}
+.pill{display:inline-block;font:700 11px var(--mono);letter-spacing:.08em;padding:3px 10px;border-radius:99px;border:1px solid #bfd0f5;color:var(--b);background:var(--b2);margin-bottom:12px}
 
-.avatar.photo-avatar{width:180px;height:225px;flex:none;display:block;padding:3px;border:0;border-radius:20px;overflow:hidden;background:linear-gradient(150deg,var(--g),var(--c));box-shadow:0 0 28px rgba(57,255,136,.25),0 10px 30px rgba(0,0,0,.4)}
-.avatar.photo-avatar::after{display:none}
-.avatar.photo-avatar img{position:static;display:block;width:100%;height:100%;object-fit:cover;object-position:50% 12%;border-radius:17px;background:#fff}
-.owner.cofounder::before{background:linear-gradient(var(--c),var(--g))}
-@media(max-width:640px){.avatar.photo-avatar{width:200px;height:250px;margin:0 auto}}
-.purpose-panel{margin-top:32px;padding:clamp(20px,4vw,38px);border:1px solid #315064;border-radius:18px;background:linear-gradient(145deg,rgba(25,46,55,.85),rgba(7,13,17,.94));max-width:960px}
-.purpose-panel h3{font-size:1.28rem;color:var(--g);margin:20px 0 10px}.purpose-panel h3:first-child{margin-top:0}.purpose-panel p{color:var(--tx);line-height:1.85;max-width:820px}.purpose-panel .statement{font-weight:700;color:#e6fff1}.purpose-panel .motto{font:700 clamp(1rem,2.5vw,1.3rem) var(--mono);color:var(--c)}
-.video-stage video{width:100%;height:auto;max-height:550px;display:block;background:#060b13;border-radius:14px}.video-stage:has(video){display:block;min-height:0;aspect-ratio:auto;padding:12px}.video-stage .demo-label{padding:10px 8px;color:var(--mut);font-size:12px}
-.demo-controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:14px 8px 4px}.demo-controls button{min-width:150px}.demo-controls button:focus-visible{outline:2px solid var(--c)}
+/* ---------- about ---------- */
+.about-top{display:grid;grid-template-columns:1.3fr 1fr;gap:36px;align-items:center}
+@media(max-width:820px){.about-top{grid-template-columns:1fr}}
+.about-top p{color:var(--mut);margin-top:12px;max-width:620px}
+.brandimg{background:#0b1220;border-radius:14px;padding:14px;max-width:320px;justify-self:center}
+.brandimg img{width:100%;height:auto;display:block}
+.people{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.people{grid-template-columns:1fr}}
+.person{display:flex;gap:20px;align-items:flex-start;background:var(--s);border:1px solid var(--line);border-radius:14px;padding:22px;position:relative;overflow:hidden}
+.person::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--b)}
+.person img{flex:none;width:120px;height:150px;object-fit:cover;object-position:50% 12%;border-radius:12px;background:#e8edf5;border:1px solid var(--line)}
+.role{font:700 12px var(--mono);color:var(--b);letter-spacing:.08em;text-transform:uppercase}
+.person h3{font-size:1.35rem;margin:4px 0}
+.person .t{font:600 13px var(--mono);color:var(--tx);margin-bottom:8px}
+.person p{color:var(--mut);font-size:.93rem}
+.person .btn{margin-top:14px}
+@media(max-width:520px){.person{flex-direction:column;align-items:center;text-align:center}.person img{width:150px;height:188px}}
+.tg-ic{width:20px;height:20px}
+.mv{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:860px){.mv{grid-template-columns:1fr}}
+.mv h3{font:700 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--b);margin-bottom:8px}
+.mv p{color:var(--tx)}
+.motto{margin-top:16px;text-align:center;padding:18px;border:1px dashed #b6c6ea;border-radius:var(--r);font:700 clamp(.95rem,2.4vw,1.2rem) var(--mono);color:var(--b);background:#fff}
 
-/* ===== V3: clean & corporate light theme (calm, minimal) ===== */
-:root{--bg:#f6f8fb;--bg2:#ffffff;--line:#e2e8f0;--tx:#0f172a;--mut:#5b6b80;--g:#1d4ed8;--c:#0369a1;--y:#b45309;--r:#b91c1c;--ok:#15803d;
---sans:"Inter",system-ui,"Segoe UI","Noto Sans Khmer",sans-serif}
-body{background:var(--bg)!important;background-image:none!important;color:var(--tx)}
-body::before,#fx{display:none!important}
-a{color:var(--g)}
-header{background:rgba(255,255,255,.94)!important;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
-.logo{color:var(--tx)}.logo b{color:var(--g)}
-.logo img{mix-blend-mode:normal!important;background:#0b1220;border-radius:50%}
-nav a.l{color:var(--mut)}nav a.l:hover,nav a.l[aria-current=page]{color:var(--g);background:#eef3ff}
-button,.btn{background:var(--g);border-color:var(--g);color:#fff;border-radius:8px;box-shadow:none}
-button:hover,.btn:hover{box-shadow:0 4px 14px rgba(29,78,216,.25);background:#1e40af;border-color:#1e40af;color:#fff}
-.ghost,.btn.ghost,button.ghost{background:#fff;color:var(--g);border-color:#c7d4ee}
-.ghost:hover,.btn.ghost:hover,button.ghost:hover{background:#eef3ff;color:var(--g);border-color:var(--g)}
-.telegram-contact{background:#229ed9!important;color:#fff!important;border-color:#229ed9!important}
-:focus-visible{outline-color:var(--g)}
-@media(max-width:820px){nav{background:#fff;box-shadow:0 12px 24px rgba(15,23,42,.08)}}
-.page{padding:64px 0 80px}
-h1{letter-spacing:-1.2px;font-weight:800}.hero h1{font-weight:800;letter-spacing:-1.2px}
-h1 em{color:var(--g);text-shadow:none}
-.tag{color:var(--g);font-weight:600;letter-spacing:1.5px}
-.lead{color:var(--mut)}
-.hero-chips{display:none}
-.hero{min-height:0}
-.note{color:var(--mut);border-left-color:#cbd5e1;font-family:var(--sans)}
-/* surfaces */
-.card,.owner,.trust,.soon,.mission,.ai-panel,.capacity,.brand,.purpose-panel,.engine-strip>div,.recbox,.video-stage{background:#fff!important;border:1px solid var(--line)!important;box-shadow:0 1px 2px rgba(15,23,42,.04),0 6px 20px rgba(15,23,42,.04)!important;color:var(--tx)}
-.card:hover{transform:none;border-color:#b6c6ea!important;box-shadow:0 8px 24px rgba(15,23,42,.08)!important}
-.card svg{stroke:var(--g)}
-.card p,.trust p,.soon p,.mission p,.prose p,.prose li,.oi p,.purpose-panel p{color:var(--mut)}
-.purpose-panel p.statement,.purpose-panel .statement{color:var(--tx);font-weight:600}
-.purpose-panel h3{color:var(--g)}.purpose-panel .motto{color:var(--g)}
-.mission b{color:var(--tx)}
-.capacity{background:#f3f7ff!important;border-color:#d5e1fb!important}
-.capacity-number{color:var(--g)}
-.ai-panel{background:#fff!important}
-.engine-strip strong{color:var(--g)}.engine-strip small{color:var(--mut)}
-.strength-icon{filter:none}
-.pill{border-color:#cbd5e1;color:var(--mut)}.pill.ai{border-color:#bfd0f5;color:var(--g);background:#f3f7ff}
-.flow div{background:#fff;border-color:var(--line);color:var(--tx)}.flow div::before{color:var(--g)}
-.v.clean{border-left-color:var(--ok)!important}.v.clean h3{color:var(--ok)}
-.v.sus{border-left-color:var(--y)!important}.v.sus h3{color:var(--y)}
-.v.mal{border-left-color:var(--r)!important}.v.mal h3{color:var(--r)}
-.v.unk{border-left-color:#94a3b8!important}.v.unk h3{color:#64748b}
-.steps li::before{border-color:var(--g);color:var(--g)}
-code{background:#f1f5f9;border-color:var(--line);color:var(--c)}
-.sn{border-color:var(--g);color:var(--g);background:#fff}
-/* profiles */
-.owner{border-radius:16px;gap:32px}
-.owner::before{width:4px;background:var(--g)!important}
-.owner.cofounder::before{background:var(--g)!important}
-.role{color:var(--g);font-weight:600}
-.oi h3{color:var(--tx)}
-.avatar.photo-avatar{padding:0!important;background:#e8edf5!important;border:1px solid var(--line)!important;border-radius:16px;box-shadow:0 8px 24px rgba(15,23,42,.12)!important}
-.avatar.photo-avatar img{border-radius:15px}
-.recbox .th{color:var(--mut);border-color:var(--line)}.rec{border-color:var(--line)}.rec .k{color:var(--g)}.rec .val{color:var(--tx)}
-.brand img{mix-blend-mode:normal!important;background:#0b1220;border-radius:12px;padding:8px}
-/* dark code windows stay dark for contrast */
-.term{--g:#4ade80;--c:#7dd3fc;--y:#fbbf24;--mut:#94a3b8;--tx:#e2e8f0;background:#0f172a!important;border:1px solid #0f172a!important;box-shadow:0 10px 30px rgba(15,23,42,.18)!important;color:#e2e8f0}
-.term .th{border-color:#1e293b}.term button.sm{background:#4ade80;border-color:#4ade80;color:#052e16}
-.dots i{background:#334155}
-.prog{background:#1e293b}
-/* telegram mockups keep their own look */
-.phone,.mini{--g:#4ade80;--y:#fbbf24;--r:#f87171;--mut:#7d8e9e;--tx:#e8eef4}
-.phone{box-shadow:0 10px 30px rgba(15,23,42,.18)}
-.mini{border-color:#cbd5e1}
-/* video */
-.video-stage:before{display:none}.video-stage:has(video){padding:14px}
-.video-stage .demo-label{color:var(--mut)}
-/* footer */
-footer{background:#fff!important;border-top:1px solid var(--line)}
-footer a{color:var(--mut)}footer a:hover{color:var(--g)}
-.disc{border-color:var(--line)}
-.fab{box-shadow:0 6px 18px rgba(15,23,42,.25),0 0 0 3px #fff}
-.cur::after{content:none!important}
-@media(max-width:640px){.page{padding:40px 0 56px}}
+/* ---------- legal ---------- */
+.legal{max-width:760px}
+.legal h3{margin:22px 0 6px}.legal p{color:var(--mut)}
 
-nav a.l{white-space:nowrap;padding:8px 10px}
-@media(max-width:1340px){#burger{display:inline-flex;background:#fff;color:var(--g);border-color:#c7d4ee}
-nav{position:absolute;left:0;right:0;top:60px;background:#fff;border-bottom:1px solid var(--line);display:none;padding:4px 20px 16px;box-shadow:0 12px 24px rgba(15,23,42,.08);max-height:calc(100dvh - 60px);overflow-y:auto}
-nav.open{display:block}nav ul{flex-direction:column}nav li{border-bottom:1px solid var(--line)}nav li:last-child{border:0}nav a.l{padding:15px 6px;font-size:17px;border-radius:0}}
+/* ---------- footer ---------- */
+footer{background:#fff;border-top:1px solid var(--line);padding:32px 0 calc(90px + env(safe-area-inset-bottom,0px));font-size:14px}
+.fg{display:flex;flex-wrap:wrap;gap:28px;justify-content:space-between}
+footer ul{list-style:none;padding:0;margin:8px 0 0}footer li{margin:2px 0}
+footer a{color:var(--mut);text-decoration:none;display:inline-block;padding:4px 0}footer a:hover{color:var(--b)}
+footer b{font:700 12px var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.disc{margin-top:22px;padding-top:16px;border-top:1px solid var(--line);color:var(--mut);font-size:13px}
+.fab{position:fixed;z-index:25;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:50%;box-shadow:0 6px 18px rgba(11,22,38,.28),0 0 0 3px #fff;transition:transform .15s}
+.fab svg{display:block;width:100%;height:100%}.fab:hover{transform:scale(1.06)}
 
-/* ===== V4: phone polish (laptop layout unchanged) ===== */
 @media(max-width:640px){
-body{font-size:15.5px;line-height:1.6}
-.wrap{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
-.bar{height:56px}nav{top:56px!important}
-.page{padding:28px 0 44px}
-h1{font-size:2.05rem!important;line-height:1.1;letter-spacing:-.8px!important;margin-bottom:12px}
-h2{font-size:1.45rem;line-height:1.25;margin-bottom:8px}
-.tag{font-size:11px;letter-spacing:1.2px;margin-bottom:10px;line-height:1.5}
-.lead{font-size:1rem;line-height:1.6}
-.hero{gap:22px}
-.row{gap:10px;margin:18px 0}
-.btn,button{min-height:46px;font-size:15px;border-radius:10px}
-.sm{min-height:36px}
-.grid{gap:12px;margin-top:20px}
-.card{padding:16px;border-radius:14px}
-.card h3{font-size:1rem}.card p{font-size:.92rem}
-.card .mini{display:none}
-.trust,.soon,.mission,.ai-panel,.capacity,.brand{margin-top:28px;padding:20px 18px;border-radius:14px}
-.rm h2.sect{margin-top:36px}
-.owner{padding:20px 18px;gap:18px;border-radius:14px}
-.avatar.photo-avatar{width:150px!important;height:188px!important}
-.oi h3{font-size:1.4rem}
-.oi .row .btn,.oi .row button{width:100%}
-.purpose-panel{padding:20px 18px;border-radius:14px;margin-top:22px}
-.purpose-panel h3{font-size:1.1rem;margin:16px 0 8px}
-.purpose-panel p{line-height:1.7;font-size:.96rem}
-.how{gap:30px 0;margin-top:24px}
-.phone{width:min(100%,260px);border-radius:24px;padding:6px}
-.ph-body{min-height:190px}
-.hs h3{font-size:1.05rem}.hs>p{margin-bottom:12px;font-size:.92rem}
-.term{border-radius:12px}.tb{font-size:12px;min-height:150px;padding:12px}
-.capacity{flex-direction:column;align-items:flex-start;gap:14px}
-.capacity-number{font-size:2.3rem}
-.video-stage{margin:20px 0 14px;border-radius:14px}
-.demo-controls button{min-width:0;flex:1}
-.engine-strip{gap:10px;margin:18px 0}.engine-strip>div{padding:14px}
-.fab{width:48px;height:48px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px))}
-footer{padding:28px 0 calc(84px + env(safe-area-inset-bottom,0px))}
-.fg{display:grid;grid-template-columns:1fr 1fr;gap:20px 16px}
-.fg>div:first-child{grid-column:1/-1}
-
-footer li a{padding:3px 0}
-.disc{margin-top:18px;font-size:12.5px}
-.note{font-size:12px}
-.brand img{max-width:60%}
-.focus,.grid.focus{gap:10px}
+body{font-size:15.5px}
+.page{padding:32px 0 56px}
+.sec{margin-top:56px}
+h1{font-size:2.05rem}
+.row{flex-direction:column}.row .btn,.row button{width:100%}
+.capacity,.newfeat,.callout{padding:18px}
+.callout{margin-top:56px}
 }
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
-<canvas id="fx" aria-hidden="true"></canvas>
 <header>
 <div class="wrap bar">
-<a class="logo" href="#home" aria-label="STICC_DETECTIVE home"><img data-logo="e" alt="" width="36" height="36"><span>STICC<b>_</b>DETECTIVE</span></a>
-<nav id="nav" aria-label="Main"><ul>
-<li><a class="l" href="#home" data-i18n="nav_home">Home</a></li>
-<li><a class="l" href="#demo" data-i18n="nav_demo">Video Demo</a></li>
-<li><a class="l" href="#howto" data-i18n="nav_how">How it works</a></li>
-<li><a class="l" href="#features" data-i18n="nav_feat">Security Features</a></li>
-<li><a class="l" href="#intel" data-i18n="nav_intel">Threat Intelligence</a></li>
-<li><a class="l" href="#new" data-i18n="nav_road">Our Security Power</a></li>
-<li><a class="l" href="#about" data-i18n="nav_about">About</a></li>
-<li><a class="l" href="#profile" data-i18n="nav_prof">The Minds Behind STICC</a></li>
-</ul></nav>
+<a class="logo" href="#home" aria-label="STICC_DETECTIVE home"><img data-logo="e" alt="" width="34" height="34"><span>STICC<b>_</b>DETECTIVE</span></a>
+<nav id="nav" aria-label="Main">
+<a class="tab" href="#home" data-i18n="nav_home">Home</a>
+<a class="tab" href="#how" data-i18n="nav_how">How it works</a>
+<a class="tab" href="#features" data-i18n="nav_feat">Features</a>
+<a class="tab" href="#about" data-i18n="nav_about">About</a>
+<a class="tab" href="#legal" data-i18n="nav_legal">Privacy &amp; Terms</a>
+</nav>
 <div class="tools">
 <button class="ghost sm" id="lang" aria-label="Switch language">EN / ខ្មែរ</button>
-<a class="btn" data-cfg="DASHBOARD_URL" hidden data-i18n="launch">Launch Scanner</a>
-<a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a>
-<button id="burger" aria-expanded="false" aria-controls="nav" aria-label="Menu">☰</button>
-</div></div>
+<a class="btn sm" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a>
+</div>
+</div>
 </header>
 
 <main id="main">
+
+<!-- ================= HOME ================= -->
 <section class="page" data-page="home"><div class="wrap">
-<div class="hero"><div>
-<div class="tag" data-type data-i18n="tg1">// security operations · 50 MB FILE SCANNING</div>
-<div class="hero-chips"><span>◉ TELEGRAM SECURITY</span><span>50 MB FILE LIMIT</span><span>EN / ខ្មែរ</span></div>
-<h1 data-type data-i18n="h1">DEFEND YOUR <em>DIGITAL SPACE.</em></h1>
-<p class="lead" data-type data-i18n="sub">Intelligent file and URL security checks for safer Telegram communities.</p>
-<p class="tag" style="letter-spacing:0;text-transform:none">Telegram: <a data-cfg="BOT_URL" hidden>@sticcckys_secutiry_bot</a></p><div class="row"><a class="btn" href="#features" data-i18n="cta1">Explore Security Features</a><a class="btn ghost" href="#profile" data-i18n="cta2">The Minds Behind STICC</a><a class="btn ghost" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a></div>
+<div class="hero">
+<div>
+<div class="tag" data-i18n="tg1">// security operations · 50 MB file scanning</div>
+<h1 data-i18n="h1">DEFEND YOUR <em>DIGITAL SPACE.</em></h1>
+<p class="lead" data-i18n="sub">Intelligent file and URL security checks for safer Telegram communities.</p>
+<div class="row">
+<a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a>
+<a class="btn ghost" href="#features" data-i18n="cta1">Explore Features</a>
+<a class="btn ghost" href="#demo" data-i18n="cta2">Watch Demo</a>
 </div>
-<div><div class="term" role="img" aria-label="Demonstration terminal">
-<div class="th"><span class="dots"><i></i><i></i><i></i></span><span>DEMO — sample data</span></div>
-<div class="tb" id="t1"></div><div class="prog" aria-hidden="true"><span id="p1"></span></div></div>
-<div class="note" data-i18n="demonote">Demonstration data only. Not live scanning or real threat statistics.</div></div></div>
+<p class="handle">Telegram: <a data-cfg="BOT_URL" hidden>@sticcckys_secutiry_bot</a></p>
+</div>
+<div>
+<div class="term" role="img" aria-label="Demonstration terminal">
+<div class="th"><span class="dots"><i></i><i></i><i></i></span><span>DEMO — sample data</span><button class="sm" id="run" data-i18n="run">Run Demo</button></div>
+<div class="tb" id="t1" aria-live="polite"></div>
+</div>
+<div class="note" data-i18n="demonote">Demonstration data only. Not live scanning or real threat statistics.</div>
+</div>
+</div>
 
-<div class="trust"><h2 data-i18n="trust_h">Security scanning with privacy in mind</h2><p data-i18n="trust_p">Files and links you submit are processed to provide a security result. Scanning may involve external security providers. Avoid submitting highly confidential documents to online scanners.</p><a class="btn ghost" href="#privacy" data-i18n="trust_b">How scanning handles your data</a></div>
-<div class="soon"><span class="pill ai" data-i18n="ai_status">AI FEATURES · PLANNED</span><h2 data-i18n="ai_tease_title">Claude AI Security Intelligence</h2><p data-i18n="ai_tease_body">Planned Claude AI features aim to explain security findings and offer clearer cybersecurity guidance. Availability depends on implementation and testing.</p><a class="btn ghost" href="#new" data-i18n="ai_tease_link">Explore our strengths</a></div>
-<h2 style="margin-top:56px" data-i18n="demo_h">Terminal demonstration</h2>
-<p class="lead" data-i18n="demo_p">A frontend-only replay. Real scanning runs on a secured backend connected to the bot.</p>
-<div class="term" style="margin-top:20px"><div class="th"><span>sticc@demo:~$</span><button class="sm" id="run" data-i18n="run">Run Demo</button></div>
-<div class="tb" id="t2" aria-live="polite"></div></div>
+<div class="stats">
+<div data-i18n="st1"><b>50 MB</b><small>File scanning limit</small></div>
+<div data-i18n="st2"><b>Files &amp; URLs</b><small>Checked inside Telegram</small></div>
+<div data-i18n="st3"><b>EN · ខ្មែរ</b><small>Two languages</small></div>
+<div data-i18n="st4"><b>Free</b><small>No user subscription</small></div>
+</div>
+
+<div class="sec" id="demo">
+<div class="sh"><div class="tag">// demo</div><h2 data-i18n="demo_video_title">Watch STICC_DETECTIVE in action</h2>
+<p class="lead" data-i18n="demo_video_desc">A sample animated walkthrough of the Telegram scanning experience. This is a concept demo, not an actual scan.</p></div>
+<div class="video-box">
+<video id="demoVideo" autoplay muted loop playsinline preload="auto" aria-label="Illustrative STICC_DETECTIVE demonstration video"><source src="STICC_DETECTIVE_sample_demo.mp4" type="video/mp4">Your browser does not support HTML5 video.</video>
+<div class="demo-controls">
+<button type="button" id="demoPlayback" class="ghost sm" aria-label="Pause demonstration">⏸ Pause</button>
+<button type="button" id="demoSound" class="ghost sm" aria-pressed="false" aria-label="Enable technical sound effects">♫ Tech Sound: Off</button>
+</div>
+<div class="demo-label" data-i18n="video_sample_label">CONCEPT DEMO — simulated Telegram conversation, not a real scan.</div>
+</div>
+</div>
+
+<div class="callout">
+<div><h3 data-i18n="trust_h">Security scanning with privacy in mind</h3><p data-i18n="trust_p">Files and links you submit are processed to provide a security result. Scanning may involve external security providers. Avoid submitting highly confidential documents to online scanners.</p></div>
+<a class="btn ghost" href="#privacy" data-i18n="trust_b">How scanning handles your data</a>
+</div>
 </div></section>
 
-<section class="page" data-page="demo"><div class="wrap">
-<div class="tag">// SEE THE SYSTEM IN ACTION</div><h2 data-i18n="demo_video_title">Watch STICC_DETECTIVE in Action</h2>
-<p class="lead" data-i18n="demo_video_desc">Watch a sample animated walkthrough of the Telegram scanning experience. This is a concept demo, not an actual scan.</p>
-<div class="video-stage"><video id="demoVideo" autoplay muted loop playsinline preload="auto" aria-label="Illustrative STICC_DETECTIVE demonstration video"><source src="STICC_DETECTIVE_sample_demo.mp4" type="video/mp4">Your browser does not support HTML5 video.</video><div class="demo-controls"><button type="button" id="demoPlayback" class="ghost" aria-label="Pause demonstration">⏸ Pause</button><button type="button" id="demoSound" class="ghost" aria-pressed="false" aria-label="Enable technical sound effects">♫ Tech Sound: Off</button></div><div class="demo-label" data-i18n="video_sample_label">CONCEPT DEMO — simulated Telegram conversation, not a real scan. Keep the MP4 beside this HTML file.</div></div>
-<div class="row"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot on Telegram</a><a class="btn ghost" href="#howto" data-i18n="demo_guide">Explore the illustrated guide</a></div>
-</div></section>
-<section class="page" data-page="howto"><div class="wrap">
-<h2 data-i18n="nav_how">How it works</h2>
-<p class="lead" data-i18n="how_p">Start in under a minute. Everything happens inside Telegram, with nothing to install.</p>
-<div class="how" id="how"></div>
-<div class="note">Screens are illustrations with sample data, not live results.</div>
-<div class="row"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a><a class="btn ghost" href="#features">See all features</a><a class="btn ghost" href="#intel">What the verdicts mean</a></div>
-</div></section>
+<!-- ================= HOW IT WORKS ================= -->
+<section class="page" data-page="how"><div class="wrap">
+<div class="sh"><div class="tag">// getting started</div><h2 data-i18n="nav_how">How it works</h2>
+<p class="lead" data-i18n="how_p">Start in under a minute. Everything happens inside Telegram, with nothing to install.</p></div>
+<div class="steps" id="steps"></div>
+<div class="note" data-i18n="how_note">Screens are illustrations with sample data, not live results.</div>
+<div class="row"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a><a class="btn ghost" href="#features" data-i18n="cta1">Explore Features</a></div>
 
-<section class="page" data-page="features"><div class="wrap">
-<div class="tag">// capabilities</div><h2 data-type data-i18n="nav_feat">Security Features</h2>
-<p class="lead" data-i18n="feat_p">Practical checks for files and links shared in Telegram. No security tool can detect every threat.</p>
-<div class="capacity"><div><span class="capacity-number">50<span>MB</span></span><div><strong data-i18n="limit_title">File scanning support</strong><p data-i18n="limit_desc">Send supported files up to 50 MB through our Telegram bot for security analysis.</p></div></div><a class="btn ghost" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a></div>
-<div class="grid" id="fgrid"></div><div class="grid"><article class="card"><h3>🛡️ Dual-Engine Threat Detection</h3><p>STICC_DETECTIVE security scanning with optional Hybrid Analysis for additional investigation.</p></article><article class="card"><h3>🧠 Claude AI Threat Interpretation</h3><p>AI-assisted explanations of scanner findings, suspicious messages, and security questions.</p></article></div><div class="note" data-i18n="feature_note">Scanning architecture: STICC_DETECTIVE (primary) + Hybrid Analysis (optional) + Claude AI (interpretation). Claude is not a third malware scanning engine.</div>
-</div></section>
-
-<section class="page" data-page="intel"><div class="wrap">
-<div class="tag">// architecture</div><h2 data-type data-i18n="nav_intel">Threat Intelligence</h2>
-<p class="lead" data-i18n="intel_p">How a result travels from a Telegram message to a user alert. STICC_DETECTIVE analyzes each item and produces the result.</p>
-<div class="flow"><div>Telegram Message</div><div>File / URL Detection</div><div>Security Analysis</div><div>Result Validation</div><div>Threat Classification</div><div>User Alert</div></div>
-<h2 data-i18n="verd">Verdict classes</h2>
+<div class="sec" id="verdicts">
+<div class="sh"><div class="tag">// results</div><h2 data-i18n="verd">Verdict classes</h2>
+<p class="lead" data-i18n="intel_p">How a result travels from a Telegram message to a user alert. STICC_DETECTIVE analyzes each item and produces the result.</p></div>
+<div class="flow"><div data-i18n="fl1">Telegram message</div><div data-i18n="fl2">File / URL detected</div><div data-i18n="fl3">Security analysis</div><div data-i18n="fl4">Result validation</div><div data-i18n="fl5">Threat classification</div><div data-i18n="fl6">User alert</div></div>
 <div class="grid">
 <div class="card v clean"><h3>CLEAN</h3><p data-i18n="v1">Providers returned results with no detections.</p></div>
 <div class="card v sus"><h3>SUSPICIOUS</h3><p data-i18n="v2">Some indicators found. Manual review recommended.</p></div>
 <div class="card v mal"><h3>MALICIOUS</h3><p data-i18n="v3">Providers flagged the item as harmful.</p></div>
-<div class="card v unk"><h3>UNKNOWN</h3><p data-i18n="v4">No result, error, or timeout. Never treated as clean.</p></div></div>
+<div class="card v unk"><h3>UNKNOWN</h3><p data-i18n="v4">No result, error, or timeout. Never treated as clean.</p></div>
+</div>
+</div>
 </div></section>
 
+<!-- ================= FEATURES ================= -->
+<section class="page" data-page="features"><div class="wrap">
+<div class="sh"><div class="tag">// capabilities</div><h2 data-i18n="feat_h">Security features</h2>
+<p class="lead" data-i18n="feat_p">Practical checks for files and links shared in Telegram. No security tool can detect every threat.</p></div>
+
+<div class="capacity"><div><span class="capnum">50<span>MB</span></span><div><strong data-i18n="limit_title">File scanning support</strong><p data-i18n="limit_desc">Send supported files up to 50 MB through our Telegram bot for security analysis.</p></div></div><a class="btn ghost" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a></div>
+
+<div class="newfeat">
+<div><span class="badge" data-i18n="new_badge">NEW</span><h2 data-i18n="new_t">Auto-reject for unapproved devices</h2><p data-i18n="new_d">If nobody taps Accept or Reject, the bot automatically kicks the device out after 1 minute.</p></div>
+<div class="tl"><div data-i18n="tl1">Device asks for access</div><div data-i18n="tl2">Waiting for Accept / Reject</div><div data-i18n="tl3">No answer in 1 min → removed</div></div>
+</div>
+
+<div class="grid g3" id="fgrid"></div>
+
+<div class="sec" id="engines">
+<div class="sh"><div class="tag">// architecture</div><h2 data-i18n="eng_h">Layered security</h2></div>
+<div class="engines">
+<div><strong>01 · STICC_DETECTIVE</strong><small data-i18n="e1">Primary threat intelligence</small></div>
+<div><strong>02 · Hybrid Analysis</strong><small data-i18n="e2">Optional secondary engine</small></div>
+<div><strong>03 · Claude AI</strong><small data-i18n="e3">AI-assisted interpretation</small></div>
+</div>
+<div class="note" data-i18n="feature_note">Scanning architecture: STICC_DETECTIVE (primary) + Hybrid Analysis (optional) + Claude AI (interpretation). Claude is not a third malware scanning engine.</div>
+</div>
+
+<div class="sec" id="ai">
+<div class="panel">
+<span class="pill" data-i18n="ai_status">AI FEATURES · PLANNED</span>
+<h2 data-i18n="ai_title">Claude AI Integration</h2>
+<p class="lead" data-i18n="ai_intro">Planned Claude AI tools aim to interpret security findings, review suspicious messages, and explain digital risks in Khmer and English. Malware scanning is handled by STICC_DETECTIVE and, when enabled, Hybrid Analysis.</p>
+<div class="grid g3" style="margin-top:22px">
+<article class="card"><h3 data-i18n="ai1t">🧠 AI Threat Explanations</h3><p data-i18n="ai1d">Turn technical scan results into understandable safety guidance.</p></article>
+<article class="card"><h3 data-i18n="ai2t">🔍 Scam Message Review</h3><p data-i18n="ai2d">Highlight possible scam indicators in messages users choose to submit.</p></article>
+<article class="card"><h3 data-i18n="ai3t">💬 AI Security Assistant</h3><p data-i18n="ai3d">Answer general cybersecurity questions in Khmer and English.</p></article>
+</div>
+<div class="note" data-i18n="ai_note">Claude AI provides guidance, not a malware scan or a guarantee of safety. AI answers can be wrong.</div>
+</div>
+</div>
+</div></section>
+
+<!-- ================= ABOUT ================= -->
 <section class="page" data-page="about"><div class="wrap">
-<div class="tag" data-type data-i18n="tg2">// about</div><h2 data-type data-i18n="ab_h">About STICC_DETECTIVE</h2>
-<div class="prose">
+<div class="about-top">
+<div>
+<div class="tag">// about</div><h2 data-i18n="ab_h">About STICC_DETECTIVE</h2>
 <p data-i18n="about1">STICC_DETECTIVE helps Telegram communities identify suspicious files and potentially dangerous links through automated security checks.</p>
 <p data-i18n="about2">It combines external threat intelligence with clear verdicts, so administrators and members can decide what to open and what to avoid.</p>
-<p data-i18n="about3">Results are an aid to judgment, not a guarantee of safety.</p></div>
-<div class="row"><a class="btn" href="#profile" data-i18n="meet">The Minds Behind STICC →</a></div>
-</div></section>
+<p data-i18n="about3">Results are an aid to judgment, not a guarantee of safety.</p>
+</div>
+<div class="brandimg"><img data-logo="f" alt="STICC DETECTIVE logo, created by Ea Mengheang" width="260" height="208"></div>
+</div>
 
-<section class="page" data-page="profile"><div class="wrap">
-<div class="tag" data-i18n="pf_tag">// our team</div><h2 data-i18n="pf_title">The Minds Behind STICC</h2>
-<article class="owner">
-<div class="avatar photo-avatar"><img src="data:image/webp;base64,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" alt="Ea Mengheang, Founder and Developer of STICC_DETECTIVE" width="400" height="500"></div>
-<div class="oi">
+<div class="sec" id="team">
+<div class="sh"><div class="tag" data-i18n="pf_tag">// our team</div><h2 data-i18n="team_h">The Minds Behind STICC</h2></div>
+<div class="people">
+<article class="person">
+<img src="data:image/webp;base64,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" alt="Ea Mengheang, Founder and Developer of STICC_DETECTIVE" width="400" height="500">
+<div>
 <div class="role" data-i18n="fd_tag">Founder</div>
 <h3 data-i18n="oname">Ea Mengheang</h3>
-<div class="role" data-i18n="orole">Founder &amp; Developer of STICC_DETECTIVE</div>
+<div class="t" data-i18n="orole">Founder &amp; Developer of STICC_DETECTIVE</div>
 <p data-i18n="odesc">I created STICC_DETECTIVE to help people recognize digital threats and make safer decisions online.</p>
-<div class="row" style="margin:18px 0 0"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a>
-<a class="btn telegram-contact" href="https://t.me/mengheangea" target="_blank" rel="noopener noreferrer" aria-label="Contact founder Ea Mengheang on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><circle cx="12" cy="12" r="12" fill="#229ED9"/><path d="M17.6 7.3 15.4 17c-.1.5-.4.6-.8.4l-2.7-2-1.3 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2-.1-.3-.3-.1l-6.6 4.2-2.8-.9c-.6-.2-.6-.6.1-.9l10.9-4.2c.5-.2.9.1.8.9Z" fill="white"/></svg><span data-i18n="contact_founder">Contact Founder</span></a>
-<button class="ghost" id="more" aria-expanded="false" aria-controls="moreinfo"><span data-i18n="pf_more">More info</span><span data-i18n="pf_less" hidden>Hide info</span></button></div>
-</div></article>
-<article class="owner cofounder" style="margin-top:22px">
-<div class="avatar photo-avatar"><img src="data:image/webp;base64,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" alt="EvMonyleap, Co-Founder and Head of Operations of STICC_DETECTIVE" width="400" height="499" loading="lazy"></div>
-<div class="oi">
+<a class="btn telegram" href="https://t.me/mengheangea" target="_blank" rel="noopener noreferrer" aria-label="Contact founder Ea Mengheang on Telegram"><svg class="tg-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M17.6 7.3 15.4 17c-.1.5-.4.6-.8.4l-2.7-2-1.3 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2-.1-.3-.3-.1l-6.6 4.2-2.8-.9c-.6-.2-.6-.6.1-.9l10.9-4.2c.5-.2.9.1.8.9Z" fill="#229ED9"/></svg><span data-i18n="contact_founder">Contact Founder</span></a>
+</div>
+</article>
+<article class="person">
+<img src="data:image/webp;base64,UklGRr4iAABXRUJQVlA4ILIiAACQ3ACdASqQAfMBPmEwlUekIyIlI9M5cKAMCWduyPvsY7Kvy6691hFnEh/Vy9cGuzR6fNwX/5LzDpwmdtpR1EnyFQj79/5vGXwEfaf+44YMBHzmelt+T55/a32AuFB9V9gn9Cfsd7xX+75b/2X1Ef1364fpEfsyNnuh2U0waLZS3kw6MVgcnJlNMPdDspph7ntiO91f/1p5RXIYPYMDkuUiPSzjRcADFNApdP93qItVZdss7KaYe3bRPOMCz5NHdAuPLrU//XV0C7GeFr9giyX2S8k19UejC19kbgImFfi1qCpg4qSSPZeku2WdkTEC8buHVab6v6OONLEaQ3atwJ/YApRpRGtAvf1UlDxJaXGs/hFDnihHn53xbATn8P/ppxgX93qqeuHuh2U0woa0rIMvACvlgjLtq2XClSIY8zQc4lgtk2+OInvyRW3zUHqGMJ7OwoWBrk7J93R5TCZGOjuB/dgO6BdNbH5Dspph7lScU3E5ND5fmynzMPBvvBV/89AtwlO4NIg2xjCa7ksB9qFLNcQGYT3d6zmdIHNllN977YNwBSwPdDspoX0LVpCKaceK0QcI9I4F3vErxexUq3uu3M0JGF03BYiVEUh335IfQnFaqKBdbEeMI9LqJ5dss3nOCnC6KskH1TJHsgwPyVbZ64uMP8y0XBn580ASwM9Ud5bnCZxiZ5F0WeRqi1UkrFmQ6mGEkMRR3v3WO68bv2jh7odlNLzOwciC85FKyIKzdQDbjxlTPK4Uq+JpXYWJTZoFVe2+vAkHy3/M0VnXuUmuL5NdcFNyaN+YCXn0p5PcpX4xB+XpJp+QjRKd+eYH41Y9UYFAnIH1RnyomX9Ycm66QZEdVKP9zOibrcPJ3dC4WyozqEIAA5rT/sA5025iVOk23SPSYDaPYLjvoEARCGgG17UZTTD3QXG50DC0wODLZsake6S76VS3qidZb/lzg24Xih9O3xELbUoRSgIyi1X9fuRTM3NvGXs7BNQmYZBXYbVs4K2XpLtlmzwl7mpEj4+s6+0UHDbMRm4M1YsG2xay5BlfbnmVAANX1ico5WwBw74hYJNJCw/zYaHcJNhhG4hjy7ZZ2UwB/ejMBXCXHdnUzN548xG/kNsSZ95o4PTkHeWjj5BbGOb7vB9Boqpn06yyMN2xNOkIBy0/h7SOJh7odlM9Od3FpENNhAzyg7V5SJecFsqqInG7aTuZz8dbOYpfEPzakm+16bXswJ4kc6rPtADr6DUD8vSXbLBu3tDcWEmuwL642PulXlt3KhDFG+WYQdWcZf/3YtZHxd5BWYI33qAXKRkRORXM0brvNcdGKMvfnsvSXbLOyRFq7qxiyx7o49/80IDb0Cfgnd6aIBuMct+A5iwNGwPX99MVUwqsZE/Qhr6mmHuh2U0w/PgTl0gawu9NM8+3sIEVp1mqCjIJxE0Vhd/sn1fmIiaroDSLTQddhYlYl2yzspph7cHN5aARhpZpOQIJG26gXfarb7CczWBwFa9uilQwstZy0+3J6doXpFS/hYw90Oymf2XWBjQBB+TrQPg2Vzb2VTZa/9ZMQtXvlGH6S8ZmW15P5hxjgVn5b7oBHSVcl6S7ZW8drsH6nIbP/JvOc8wNTUzUUR87hkR5gnIDlBRwL7VE1f2LgBg4UXvp5iEUyZ/WGsfwP74c//lQz/WOsg5eX3zyBaaIzqx4rpl78ucP8tXCCVdYKkCN2IxWgyP+jZv8kyz0K7hjEz4m6uB/7qEjD+H5OnizGy/tl965soljPhalcTCT7hx5idNDNgTi1QlhaDxD0xacGW2Vpf1KLAqphq41izQGQD6Yz3EwAL+ep4nMNZeIaA+SjLBxOkRmafnij7MpD56vQfuNn/YuO7meQkC6e1zpla1IneyGL3KSVqpt/Gzx0fWrvVQhU66L88FvomBZv+8YVmcMDe1aN7Wf/eN53f/hu1qpymXXmOliW/s+MbQ0eg1lmlTBQNfSrDcXeGSRtEISRLNM8WAkDcYV+Vpm84gw4cm0/wceiuWuwUjtRsH0qwhvxKLWtOAnZMD6Lrntib8ADTX5IirOdPAEWGuUPpxXIoXZ5lRcuPrMhYhbP3TDWOOY+JGKFnHv5agYD6ioRmELC4ZnYDg0Ph7njyQX2HExUhsAGcordiDaOVVVNFY3Vm16EZevIPMeGJyXSnFmxXbfIP8h9fU3IY9Tp9Otc++C3bekVJkLCs2hUsTEMTqZ5iDQilcEUzucyXmtq2pmNAM5KhEWQeSmWRobXEgjYSIb0+4P+u6LMnwMEJIHUcFb1/2LfCDFjbx6GgusvVQSxb97NNEkGaBfOsAo20wxvYrpcrhjDWi39Bf06mCJJ3Hk45RaE6Ip6kmvYBwU5wAA/vlVAA9zzpeDiG9XbkGA4KOfhQeT62Un21xzb88sqrZWZHMWQUUAAGUfmi7NXVarU9ia1TiIB5vcp6vxwZRHytlCr8YS3wpSiJCfdR7PFYYhBTphToW5tWY/Cddiy8YVN/NZ8XIODQAFYGln7wHzMvup7ki6ugPfJsw5hygLeQVyECiykB/Mpxo8GgwBt2BhxET0u7HN33R3C79NV10f4aXrBrp/ZqJnZS4eJPkRxzEEOG1eS6bJGZYEKGEWhwfzEsopTLEAmjoXZYeMvfPix/r9aqOnhAmYgx2wOs+XPR7dKWR46jfwsH626AIl/xwMsDeCNxNbZ4zSE23x2nfwhib5OctY+9hul3UBVNDKw9+uQaOW9wHcr3esi0DLkdMcC8SzIp0wqglbLx7RPif9a5/dMp2vTV/edoDwBgAHLu5MMz+VLPx6ToR82YXF8pDso9bapIbNz06Z3vi+lrm3alY64/e6CdFxCo958LelLSk/7sx5vZY1sQg4GntFnho2Mk/8aYVjhHEeam3quU+LW+SIVgc0L/8gGjSl2r7c5a5WFIOVxvvhEJ8QODAdOK5HuGbli7laM4J2d6YviQLRKlu8ZefSjgBXrKhrVbqE9xvLq/UhTDs0tpTotdsxAxg7f8+6F49CBGfEHjdP/LtGZ4RHu1LXU7WKm3xOnd7Q/m8t2LGWf/Weq5p6IxPCZ808SChAy8iU57CYII0EPwdGChBh9AjFujtV9ttYwRxJq6sQvfO0QTWKdpdvT/DBRVtcsgdVseSTQq6hKvi1301eM2x/U/SxF4duYsgZq1klSTjvhAtuu1Rwuu8ac5SMHCGKNGYebZq3yXCgUPKVp+1oRN22mf0OM1huN68beRFud/AKcAA70etqxB0r+RYGLRyvjRJDFfIoUGFYcDZIzYuMoPRiousez41Yycfe0lLmc3H+83008gyTre2kNDCR/OTk/tYKnWYABQ+sZaHkbL5vP2yyS2GCXIvwo4sZ9tzDc01fRcLBsw3ZchWQ4XizUazWWSGDESPLJY1XuG200rUpWq7QPk5iuXMXp6ULqCX05z700yFsEgx54M0HMdpJtoFKj5uaMQygDYDjJ5BcQyviFaaIz8/d2YDEKc6csfcL7/3XtuSft7iGDikwY8rDP6X7SEB0f713DuYivGM7gsYAsLEk8QvaRr3mv+xaZKl5u4+XFfJxTX0EiBVZSGjBOnjYOt7DCCg2o2b5xIZCkndqXxmPHWh7O5I9HYog7LCsd9QB8EAYm1yq87nyLbF2v5AK3zAFG9MYdHvgkvkiBq4rCfgulbNhY9oS7Qps9XQ7KNmJ0Ch3EswhzWfyNZVHGH502PIWX2y5b2q0ekvJ0CCF7cujBy7hj4Z37alohwoHq1ZCTawkALOAmyqbnpgT+RYruaCgJxdjEohpiIiyOYoVXw5EnAewC/YEn4FDfEmRVlUZS2Pd7fjM0Gr5sbvRxOmVi695JHsokXPioSZ5u9Sc6hXIWR/uKu3sCzjaw/6TABQsrolGu8/i6X42T7tROnAVYTxwbUv//tXxhogRXyhMy7XVpEpM1IsMaqnYNK1MFV8rVmm6rdcHO4+hWX97cPTaOIK3DuyJBvcff1NERbbmTMQQoslvv5AQc5O63xpy7P8HBB9LlUkFd33dQYXsGQM/Dpi4qRCf4VSzxmSOFv+rVM1w04j6b29+oYGiZkZ/HoOp2XirSoK3fCfcT/N/n+f5pWACZGrcVuvQQUFi9w4KLj6aidMmVUmkNHpNS4N43OAC1s8pe2IoELW6TlbCb0AX2/CygXjKLRcOxIwitifVzMmiqwfZP1n/7BnS1gEHU2ualt2cMVmfiLgxA9yXX0MH/n0IJAfQ8xJXZbE6TFNuDJuc/e08jYAIDBE1m0FnmWYx20OYtgVWR8KV9TatuspVB0TujmgZoYABk8Q8mxn9P5BjINTCW3+nsjTJaRAlNNfqIFu2f6CXSWa9PJtciuvLOOjAxZb2clXx1e2myrm1yMSHaBLlcuXhHS6ody+7VDYO0XYLqIirshm4uLwGPFAdGbI7JAQPXutZ+WUqb9EWJ4kJzk8NKEEzZ4qvQjz2Nzs357ldk731GM8Sin+pOm0/grrzxlmIqJ2JqgNaIS4visIeO8oVrxWu06/xG4qrZ1HpboTPXd4PReM05YeIVvXSqwgGnuVBTQm0vkhL+X7CfSjMQpNt8LYxdUlQ75pGANkfuTkSF0XvzwYG2O0xeCrSXXmNnvEA6hpg7CfSgfjTMYmtS0i36+GSviwst/BuVNccczSn3RvXT+IaQ3R7JKHo2YBPNADzuWZUPUOWw6AIuM7Urm+74k8m7DZwWeGdKa7jSDWPwZ9U/V+F+V5mUHxm7yUYQ7j1NSA1DJio52ZYAEzJVCL+v7HgambLshMmny4WSW2l1aLSATnJPuJQjLOWwxIIcfq0a0GBmfOYAbkDAIy4maW41PFOo6xKPIIyyQLf7CDIDpsTczNENSFWiU3HUTZLHCmU/QIH6BICMTWyyfIzjBY/dIiYui1dlfEcu+n6ZjMY5wJkFgmsA6MV8S3kkyH8cvuSRB2YFP2KBdUI+Lu+Gfg2Jj3qpy2JSunRe6CWpWiGpztJPYJIK23i88CI++5U9D6J1f2dOUS1yU0q/QcD+wAYcswh2YlkcRsFkIkCsS5oGYBuV7xNMOmFDtuYmN9dS9Sc4eFqO4Jgxv25D22KrFTprWW1A09SsnpZpo1vSGeevaedhXDdcrn9QHqkEATNyjcd3qriz+g62zV4/hDZRYO1viNEPDvAga+A024a1tZu5pgPlwWpRyew9mYVI4HKFq4mysOS2ODFbXLEn2CkDjMlqW8jhdvGPwl/CgdYwNlyxZesBEapJUC6q7+EhH7GsLsu0SE7cHEKhr93C3duMEdGe6mNE4i7mhQmip38U2H27vg/lONKjxSzM3/vLbfmPafVcffEeCw+Hq3yF8avroGKRpGZL93RgRnC6sxwB3mQFIFnsXynrlymCw6ZCRIYyaRYEj7HT7BZpjLlN1+X2S8PMGdSXittkCrabC3981VGKvd6TnX6lwg4lEcgI04w2GxusWvA6UcXZg42wyV+R4ijOT3rDuTZLvDuNSgIIXoNiso/YGmcN8a5tM+hivsJj8VMSVq57juwG7OIJLkkL+ntS2a7zZ/6YRlflPhyEjJ72KIKWB55Cl/NP4gDfZMdCExTAQndSQO+Nh26HiJ7RCT4Np0B7u5F5o4Ww8mU2Hto27G4ws4dRy3RPsKBfN97rVrrQo+V5g/gxElZcN20yMr5Adpl1GWeHQJy6twFXM24enGDhx/AOnH1ne6fTAD+3zB4k/zLMaZSaNtNZu9bS4lYP+r+5T8mxpKIj8BDmuMOv+RU+1yf+wAtBy0KDXgmmoDBga2WJgGf5BT1Tlbu/2PKYfvxM2Y4cWHyb+dut1w79ooNi7LJgfui+gL+5ItR4eM3KnD1hAcKdsDryjEBcBFAsvoC4j+TuMJckVvBjs35FAwVzNDPa7lZ0oB4vHZa0Dk6SNBcTC75Psti6kUiKiL40ZbM6r6yIeMFN9/RJG4ZfWu7McJBvgIjwsQ6xncrF/NyyabQ43kpPC4nA3/ME89BTRw6HT9xon9vA/zmaL9K+TTskCqN9dvGN7dmhNyDkMUHRj/tla+NlzfOq8g3CyzWz9nQRHIg0snmg3CXS+7in/vI8yn4svk5AsPq8Qnv2DpMqt7qp/uiZG2hx/QgqbBhLbLBzaAe62cNqVNFSbxCQd7YorPj7zR6z0qCy21SSuT6Z2rYz/+QK2fhDM5TvE2t+j2Kp57EMMzU98lUDo5/DnwLKSd84SkLnQA3BHsz3FbLS6HxyLLNRvdO5TEiVx2fkJF/yAA9SPkEHWjGbHkJOeHfJF4K+fmScgN88mFB2O8qlCOoAH7yB+7javOoahYJk3hHmClO+CTIrJPY0g6A9qmDqMfqb+dVVWa/1sa11G4mwrU1kYeQ+zVOHVKioyp++0e6ElqhLMr00z/qyz9KBq1kubzT1SMZgjfzFMvuPbBGHZXZKbgeRNUMAlL/PauQc6PC2mGLkkTtUVfoWhEwob1lmjW1ZHrJpbLP0wuFaZTcpnDBCZmOYceeYAFOnCLmnHhQ8Q2KjyJSORxhmYtS5LcdjqIH/BRp1puGOpCHYWOuKXTEwm62h6BEN9/Gh61t/4LCaza97Ktbuofpksd15dy1DMp6qTCn8XqBmdPaxA6VKlxgiNs+ZqdIT9Z0E1KqL4nLyCNHD99lpeiuKCDUrOg4m89aQC0T/rT5Y45evvwR19y+v9yfPQ7NBG2aztAhLh4pKx02nIPp6ciIDxdem5AoL92ypwkdQjEaElmfEfdYUM1c+gSkSKKSYVgvo5SdZRCACPV8C086TznQcSzROii7JyLGXORbQzRszIXfVfhHmmbijWZ5lEAiygbfyBKc8ttoEYsGzv938FAij43nGPmLfl8srOK4VPNjDmsppXb9ku+HeLas3DdkpWsMayKH3tBa+qM566orvh58j/Ct5ghpJ9f3ldO+cWFaTtDkEDwCYn7PgU3mToxJdPq0wSRfsQMDXoaJaCzWtJ4sfzAodrMl76WsLgPM4JpSWZBpzUoSz6WlXTjI3dqxCnxgPF+Tc2SkaUA8ay1yqxelG5gs1c7xbYiVA59HIyaDYjuRuxuAb6JeBgDmXyIinEUFXcinJ+BSLNOtBQ4bEwU+fecKuWueja+mfa/WuU5i7u7xECcG1x0sZrn7D6q9PX1GWprRXhGpO09rPxrKgu4j+PXtMWILZyoANniK5vh6Pbx0zW+mc1iorz7ehyT61IY3F642xap6uGQ0jx8H0JzO+x6YGtBATFgOsaguxUgTgt229RGCcDNhuaCDMqQzvJacw5fAdFX2JpgD0mO93lXstIY2AgkCEORC7G90bPha8q9FKQsZxzi3XF27hfRSORZ421kbdHl2t0sfRa5hFSvdf0+P08ymu1k2bF5PFCk0vIuzAAujHGMsHDI3hYWYHbwl7t4FpoOMt04yDW0WxxUeiyn7u2oL3kdOovaWCSNVOt6nbUzrru+zMQe1euWw39tDmF8iy8b2C/qTyIYV+hHqrJiZN8/jlj5aUD66AJifqo1WU9rqdSWQs50ajjdh3ov9jTpUfdQUhAWFV6gaypt5nvcEx4rT8Iuxzwj+nKnEEeKpTHqLjidv/KJ1b4LXDi+KkyBGO3iR3kRuTJanp9KDRQtanI9irZS8cGuQ/Ctxha0b3M0LZHx2IsJ17CaKpFxBP19fhnAfo9gA8XX/8ny3s15rMH/w9jhq+5AK+SRVUtiCDW+hqdDe9dzGEr9RuvFiTaXbsgAAxGonEs/ePC/umqb/V4axOCHEUGjS+p6O8nAfFV3heuU7/nahmksmGBwWngTKWBAnkftqq8RqDDHcsE7GLtNUtwIRXkCuxhZV8N8b/pXeU7J+/ppuCWnroBDIxfTnYABJW86cXwhZsokzJcmD7fP7pUrc5qYq9ssjkwnYfczdbilvvAGgznRUeFW6fQoPwACTov0bK9B4amA26hdZZuRSiQdO3zfpaFcGXFyNaeRnvZlpkI+iCHC8ZLshdws51RlPS1ii1/vaiCjOolih90GKpVtr1TRm0d+LptKdiBMkNhCIw/w2AF1AAABK9Smq8rupFcaZvckU/BbA/D/5xil3/Hb+SNQ7LvNmS6Ln4YPP+lLFy+Z23EGQ+ZIkRlL6dAyhbkbmCOdmAQ9y9Ih3C1+Ov8RK2zxcz3xNIl2xZ5YrG4AiCKF7klU4fi4rp+sJRx/tLw4RCfSPu9AX0B8g/jtm1CPmYIW8Dt0IzajlmJ5c3RCc2r6i2nYvsWQsxet9GnBWFs0lwDq++502Amiiz7/pkJfh9pkacy7ORNAFyuZva7Aeo8fLXZlPZhx4xKshmDENB63bVOmM/fYuAmDDfXYj2ul2o1J49py/9XeYKub/8+ylDOSqoAAG3CfWPZwidOZ9L084ROxdyGV/+cpw1GrmR+V8uLlR+CfPTsKV25kOSUk585tFgSk9l13dR9l1q5GN5FFIvg0KTcxFtGdNh8k04qYPJM//Vt2p1ef+knHzRYiEamg9jIOpksoJx3KZyQd03No54ZCiVZCsENgj4C2cMM5umEiu5J2JQEQqCQb78lrEHxSHEkwFlEm/cyxlwcRRPvNFU3FI3SixAX3gvRQL2mkKaM3pN3DqpNDEWXtl+OsDMAdDI+s7+W629QCvS3VT7vQMCbj+sYsU89iPFIO/Thkqwd809tvZxHBMU2qsF2I7dVuBHklJKsrZxoeYSqjyzrCKfNeFr9fR/hbxGDJFxZbLIvixiNgyq+qna8g2UAIr413cbdNdkrdCTQDGGyzUnJx2D1vkyiysq88EfPzG2l6X9OW+/S5bL+uL1ZhUA1dGpqC1nliYlLp3A0np8AOypGPdzD5SU94faCqWx5LeteIawHnX8pd+hU+fzJKxa7gV70sqJgTyyFYJXi2kFKX3WC9EwysNemK7Jc7+wq6mKCZlnFyGF5p+gLLzpUwxIIDekMe5bgsBe2AQRodD47N30GA7fq67a8Q+qIvbryvxRb2QJtIFOHS1Kx+G4EY6cMMq17cGqT6f1jXLwM2DAPDqRu5HmkSTVeN8Qp+z1JCqIjZneoPc/5cj9k7pXxvUGPvcYoDHXPQZE7y1QH76Mss7ytQ1QE3hzvpBWuQrE6/+mKCurd1wVBXmmmTtQVY1s0sU2vIhtEb10OkdUukpuYmJT4CPcVf5QzIbdAxh52uhkCuEpzASpeiu3LWT3c5EOnP32sHF7v4muI3M4yGBcZmpuHrY81wxxCFjupms1v7kbClDm0zR0pc98Uodi2H7oz3E/9Iodr7osGWyq1qqCDSim9t53D2EzyRzp4Vj0oDsvyRsaVN6bG5KGbf6pO31/x0J+lXQZMxsFgreE3QYL5X/gxtW281Wb7pU5JBETIUU456xmJKn/6KM6xK0CZei5MFSk2+5F8UiAXiL5WwQsojNBuOu2Gz2FehmsTB/hQ/+hEqJ0i32Qn/B/tNNsypTvTmKZkgN7R0pea5WtMI1eWE8TBRE2whTVkRll1d9WG2TuEqlo+EheKVkdH+yFGJbKOUfjj3NGHKQ1speIHq0G6zKcI5KPvE8wTzwkSf07HiTW1eJItnFmgx1fJI+nqb8yF99wvmRKHEezII2HMRzbW8Vf/mfIAhBDd6pZ96vcQrW88WyXpTsFYJ109jNX7jfvv8p5uorHcG7i8a7Xa2CrcJ916eZJZuRmT0C/q4bES5zIIrCpty6Of/C/irHP4Fs4KKl/Vou68XUkGJAW/SF5JdodcDtT/xOyFoDSNxfnzuaVfjZA/RTgMBJslHpxs3upnXMpipk3QnabTZ2Rk9zVN091FNtk0rWRySQ8EC22NqON0NcKP7JRMd8RrMTtA4A+JPP9EdnG1aWjNXODxTKNjrpV40sbk/GhDBQZaQOSkOtxHaSkLDc6+kfZEgdHr4MZXI3F0KQAP9SpOLocxwqhgvtfwacxc6tf67linsf6hkT6tsfiDzVGP2qmJSh7BCpOtbwnwf3O/BX9f1FK1szFhwXK2Gx8fNEKCcVZt8vuFtfB6qkQtpIpw36zioiCgm2JzcGBAM5yogP+c1O34yflv6O8hWbj1+n8Ias8lLZ+ni4x+INr2PQvriiDMmQLkYNC7tByVP2aNfl2+GghXirgkEgD0b+wJf+rhOf/mzP4hCyuvzeY+IQQAtS+yCAzSFo+uR17R+J6kuuiaJQ8+IwfeRXOycW0ZDrO4mFFcD1WQ/HQ9KtarcyNlAX2a/FDF7wBbkzkfoGjGnii1JIFBrLf7bCjbnDJyOqrGaWCYKQ7jXlUl0oNIurYgjAxYn0Ir/UXRjHO0E9bqXlHDT+54gmecRMi0Z/jKNfDR9S5wTWHt4Pd2ikl6leE5nN//VYcAr9OBrQSHH2XpWqCIseej/yzh7/jg0Fwqy8P5qCAYQFvRGVPMgOzGl3TCzoW5a5BwWez3YoOEx1aaYgu+7TesWgs8UIIj4Fzysct+Rl4GIpK3WonkCggVQxQk9dLGCnJ1ngiFYBFlUT9tgvAemHldLV7EZp9mD0gVnn9RDpv85L78HFS4jAzgjL1DcmhfuwWFCGcy1tYCyVOAiELIt++aHv7tT9yfMzezlWHakb7eCwuU5Vi4sj3pCs4D+9PtFiVb9IRkE50KdJKhMfyUmIISqPOBXEIDtVst/OHKKbHoDtSwSFDvq1ff5G5prjOjah7SKqnt4w2C7CSTd33J3PWf4BhOVll2cVRZ4CW0AwZFZYbBITAqb/7eRE9HVD5upIrP4z+0W3SngE8O7z6GYh7zstPsOs9pM8MobtJMBc2NQcvMjSlxryw7SEQApVkCas9AUkiJe+xLsNCXx4B/QK/r6wYs2TxcVbtZpEJDTVtCdgLzx/n2NUdABpCc8JpLg44zHc559DzRyX+6Akjmzz68ESHAkFG39MM645iXl5FcIKFf+gygPKq2MujcBhAG5iHLsXeD7oohnYdsfn4leYL0ZlxYffxOqWY5+Kv2qYSurpa0j7YBQ7w7pvc6wiLmMxolEutZMWdnI8BCcceKRYReobiF/I3t2hzIMneGC06WdbGAVJDSzW01NkGl9YS1M9Rn0Li0JZQ5FYHchoPIx4/rgS2JuDLpY82tjvDWTccUtpZFi64pWuSSFLN5Vm/YW0FVFJ3TRRcvoUCuhldR0BiCulR0rix/CZo0U+Q6KPw/1/VRAnI3PnTyfE4lZwHCRQJsuur176vMMBMoTyvzJVzEpf1IPloI/wUAG6hlfHVY+yFBne6QJNH6GN0Hjm+M/7qKWFd3kNJWieZgAXQF6TUQbMBTx7IFQA0J4CRAymqelGB37MRzcCi06rBBxO0fsGkTYcqr/SrgivcYT9YsdR9zWpskEu0aSUCzKoSmoPgIb0DtQYyCA1A5vgQ2D8eiaN/VsLGz+7vMvENxZhta8yzbhBVusmeZIL68pyAYOGrEALPgvkQag03Fw2Q98oBQcpDLzg/BfktPGhQF56tVWgL/gAd1XANVwl4qnumsOBhSGM3RUMgvS6eJvb85gfo704vs9n+ShSjIpeVm1D+N+Y2ypg4vE5GhhgtIKwrqKIrTx5ujRh9F6M6YoQDvW53Ui4qsq9MlfcTCVapwObYifhI29nhlhh7ruJT3EpIkJN8X+rg8ICnurkNXbw2dF3doeb300CgjnkcFDyGudWVRRCxsVtpbwwixOj2NEIlL2VuzNjigdF+4Or2IbG4vl7RQ8fPPUXtoZUxlS2aHycrSPe2Q53Mn1/grzDg+yZKKhj1eSG3CLDVGM0rmhOck+r40oErQofgn1o2PBW7XboOfSmZSaZQEQZObKBEpdITsEYpJbMHi8by0SKPvudxtGxVDVeVr3JbtwFWvJ2gGyg6bwKEPQbd/aAoCLz1vQkmfGgYnAjGNUOCQMzY5a3cZX5sEeAAA==" alt="EvMonyleap, Co-Founder and Head of Operations of STICC_DETECTIVE" width="400" height="499" loading="lazy">
+<div>
 <div class="role" data-i18n="cf_tag">Co-Founder</div>
 <h3 data-i18n="cf_name">EvMonyleap</h3>
-<div class="role" data-i18n="cf_title">Co-Founder &amp; Head of Operations, STICC_DETECTIVE</div>
-<p data-i18n="cf_desc">Co-Founder &amp; Head of Operations at STICC_DETECTIVE, responsible for coordinating team operations, overseeing organizational activities, and supporting the company's growth and development.</p>
-</div></article>
-<section class="purpose-panel" aria-label="Our purpose, mission and vision">
-<h3 data-i18n="purpose_h">Our Purpose</h3>
-<p data-i18n="purpose_1" class="statement">STICC_DETECTIVE was created with one main purpose: <strong>to make cybersecurity simple, accessible, and free for everyone.</strong></p>
-<p data-i18n="purpose_2">Every day, people receive unknown files, suspicious links, and potentially harmful messages through Telegram and other digital platforms. Many users cannot easily recognize these threats, putting their devices, personal information, and online accounts at risk.</p>
-<p data-i18n="purpose_3">STICC_DETECTIVE aims to help solve this problem by providing an intelligent Telegram security assistant that can analyze suspicious files and links, identify potential threats, and explain security risks in a way everyone can understand.</p>
-<p data-i18n="purpose_4">Our goal is not just to detect threats, but also to <strong>educate users, raise cybersecurity awareness, and help people make safer decisions before trusting unknown digital content.</strong></p>
-<h3 data-i18n="mission_h">Our Mission</h3>
-<p class="statement" data-i18n="mission_1">To make digital security accessible to everyone, regardless of their technical knowledge or financial situation.</p>
-<h3 data-i18n="vision_h">Our Vision</h3>
-<p class="statement" data-i18n="vision_1">To build a safer digital community where people can recognize online threats, protect their information, and use technology with greater confidence.</p>
-<h3 data-i18n="motto_h">Our Motto</h3>
-<p class="motto" data-i18n="motto_1">STICC_DETECTIVE — Smarter Security. Safer Digital Life.</p>
-</section>
-<div id="moreinfo" class="recbox" hidden role="region" aria-label="Owner details">
-<div class="th"><span>~/owner/record.txt</span><span>Ea Mengheang</span></div>
-<div class="rec"><span class="k" data-i18n="k1">Name</span><span class="val" data-i18n="v1n">Ea Mengheang</span></div>
-<div class="rec"><span class="k" data-i18n="k5">Project</span><span class="val" data-i18n="v5n">Founder &amp; Developer, STICC_DETECTIVE</span></div>
+<div class="t" data-i18n="cf_title">Co-Founder &amp; Head of Operations</div>
+<p data-i18n="cf_desc">Responsible for coordinating team operations, overseeing organizational activities, and supporting the company's growth and development.</p>
 </div>
-<h2 style="margin-top:48px" data-i18n="pf_f">Focus</h2>
-<div class="grid">
-<article class="card"><h3 data-i18n="c1t">Security systems</h3><p data-i18n="c1d">Builds and maintains the checks behind STICC_DETECTIVE.</p></article>
-<article class="card"><h3 data-i18n="c2t">Threat signals</h3><p data-i18n="c2d">Turns suspicious file and malicious link signals into clear verdicts.</p></article>
-<article class="card"><h3 data-i18n="c3t">Open to everyone</h3><p data-i18n="c3d">Delivers accessible, actionable safety insights, freely.</p></article>
+</article>
 </div>
-<div class="brand"><img data-logo="f" alt="STICC DETECTIVE logo, created by Ea Mengheang" width="260" height="208"><div><div class="tag" data-i18n="tg5">// brand</div><p data-i18n="brandp">STICC DETECTIVE — created by Ea Mengheang.</p></div></div>
+</div>
+
+<div class="sec" id="purpose">
+<div class="sh"><div class="tag">// why we exist</div><h2 data-i18n="why_h">Purpose, mission and vision</h2></div>
+<div class="mv">
+<div class="card"><h3 data-i18n="purpose_h">Our Purpose</h3><p data-i18n="purpose_1">To make cybersecurity simple, accessible, and free for everyone, and to help people recognize threats before they trust unknown files, links, or messages.</p></div>
+<div class="card"><h3 data-i18n="mission_h">Our Mission</h3><p data-i18n="mission_1">To make digital security accessible to everyone, regardless of their technical knowledge or financial situation.</p></div>
+<div class="card"><h3 data-i18n="vision_h">Our Vision</h3><p data-i18n="vision_1">To build a safer digital community where people can recognize online threats, protect their information, and use technology with greater confidence.</p></div>
+</div>
+<div class="motto" data-i18n="motto_1">STICC_DETECTIVE — Smarter Security. Safer Digital Life.</div>
+</div>
 </div></section>
 
-<section class="page" data-page="new"><div class="wrap rm">
-<div class="tag" data-i18n="strength_tag">// our detection capabilities</div>
-<h2 data-i18n="nav_road">Our Security Power</h2>
-<p class="lead" data-i18n="strength_intro">Discover our layered security architecture, AI-assisted insights, and Telegram protection — built to make digital safety accessible to everyone.</p>
-<div class="engine-strip"><div><strong>01 · STICC_DETECTIVE</strong><small>Primary threat intelligence</small></div><div><strong>02 · Hybrid Analysis</strong><small>Optional secondary engine</small></div><div><strong>03 · Claude AI</strong><small>AI-assisted interpretation</small></div></div><div class="grid strength-grid">
-<article class="card"><span class="strength-icon">🛡️</span><h3 data-i18n="strength1t">Dual-Engine Scanning + Claude AI</h3><p data-i18n="strength1d">STICC_DETECTIVE provides primary scanning, optional Hybrid Analysis adds a second engine, and Claude AI helps interpret security findings. Up to two scan engines, plus an AI analysis layer.</p></article>
-<article class="card"><span class="strength-icon">👥</span><h3 data-i18n="strength2t">Built for Telegram groups</h3><p data-i18n="strength2d">Background monitoring helps communities notice flagged files without filling chats with unnecessary alerts.</p></article>
-<article class="card"><span class="strength-icon">📋</span><h3 data-i18n="strength3t">Results people can understand</h3><p data-i18n="strength3d">Clear scan summaries and additional details help users decide what deserves closer review.</p></article>
-<article class="card"><span class="strength-icon">🌏</span><h3 data-i18n="strength4t">Khmer & English</h3><p data-i18n="strength4d">Security information designed to be accessible to more people in their preferred language.</p></article>
-<article class="card"><span class="strength-icon">🔓</span><h3 data-i18n="strength5t">Free for everyone</h3><p data-i18n="strength5d">Built around a simple mission: make useful digital-safety tools accessible without a user subscription.</p></article>
-<article class="card"><span class="strength-icon">⚙️</span><h3 data-i18n="strength6t">Practical automation</h3><p data-i18n="strength6d">Security checks and alerts work inside Telegram, where users already share files and links.</p></article>
-</div>
-<div class="ai-panel"><div class="ai-head"><div><div class="tag" data-i18n="ai_tag">// AI-powered security intelligence</div><h2 data-i18n="ai_title">Claude AI Integration</h2></div><span class="pill ai" data-i18n="ai_status">AI FEATURES · PLANNED</span></div>
-<p class="lead" data-i18n="ai_intro">Planned Claude AI tools aim to interpret security findings, review suspicious messages, and explain digital risks in Khmer and English. Malware scanning is handled by STICC_DETECTIVE and, when enabled, Hybrid Analysis.</p>
-<div class="grid"><article class="card"><h3 data-i18n="ai1t">🧠 AI Threat Explanations</h3><p data-i18n="ai1d">Turn technical scan results into understandable safety guidance.</p></article><article class="card"><h3 data-i18n="ai2t">🔍 Scam Message Review</h3><p data-i18n="ai2d">Highlight possible scam indicators in messages users choose to submit.</p></article><article class="card"><h3 data-i18n="ai3t">💬 AI Security Assistant</h3><p data-i18n="ai3d">Answer general cybersecurity questions in Khmer and English.</p></article></div>
-<div class="note" data-i18n="ai_note">Claude AI provides guidance, not a malware scan or guarantee of safety. Hybrid Analysis is an optional second scanning engine.</div></div>
-<div class="mission"><p data-i18n="mission_text">Our mission: making practical cybersecurity tools free and accessible to everyone.</p><b data-i18n="mission_tagline">STICC_DETECTIVE — Smarter Security. Safer Digital Life.</b></div>
-<div class="row"><a class="btn" data-cfg="BOT_URL" hidden data-i18n="openbot">Open Bot</a><a class="btn ghost" href="#features" data-i18n="current_feat">Explore current security features</a></div>
-</div></section>
-
-<section class="page" data-page="privacy"><div class="wrap prose"><h2>Privacy Policy</h2>
+<!-- ================= LEGAL ================= -->
+<section class="page" data-page="legal"><div class="wrap legal">
+<div class="sh"><div class="tag">// legal</div><h2 data-i18n="legal_h">Privacy &amp; Terms</h2></div>
+<div id="privacy">
+<h2 style="font-size:1.5rem">Privacy Policy</h2>
 <p>Your documents are yours. This page explains what STICC_DETECTIVE does with what you send.</p>
 <h3>What we do</h3>
 <p>When you send a file or link to the bot, STICC_DETECTIVE scans and analyzes it to produce the result you asked for: a verdict and a report.</p>
 <h3>What we do not do</h3>
 <p>STICC_DETECTIVE is designed to analyze submissions for security threats, not to provide human document-reading services. However, file content may be processed by scanning systems and external providers. Do not upload sensitive or confidential documents.</p>
-<h3>Third-party analysis</h3><p>Security analysis may use third-party threat intelligence and scanning services. Their handling and retention policies may apply to submissions. Only submit content you have permission to share.</p><h3>AI features</h3>
+<h3>Third-party analysis</h3>
+<p>Security analysis may use third-party threat intelligence and scanning services. Their handling and retention policies may apply to submissions. Only submit content you have permission to share.</p>
+<h3>AI features</h3>
 <p>If AI features become available and you choose to use them, submitted messages may be processed by a third-party AI service. We will distinguish these features from malware scanning.</p>
 <h3>Your choice</h3>
-<p>Only send what you want checked. If a document is highly confidential, do not send it to any online scanner, including ours.</p></div></section>
-<section class="page" data-page="terms"><div class="wrap prose"><h2>Terms of Use</h2>
-<p>STICC_DETECTIVE provides informational security assessments, not guarantees of safety. Only submit files and links you have permission to analyze. Do not rely on a clean verdict as proof that an item is harmless. Service availability and supported file sizes may change.</p></div></section>
+<p>Only send what you want checked. If a document is highly confidential, do not send it to any online scanner, including ours.</p>
+</div>
+<div id="terms" style="margin-top:56px">
+<h2 style="font-size:1.5rem">Terms of Use</h2>
+<p>STICC_DETECTIVE provides informational security assessments, not guarantees of safety. Only submit files and links you have permission to analyze. Do not rely on a clean verdict as proof that an item is harmless. Service availability and supported file sizes may change.</p>
+</div>
+</div></section>
+
 </main>
 
 <footer><div class="wrap">
 <div class="fg">
-<div><div class="logo">STICC<b>_</b>DETECTIVE</div><p style="color:var(--mut);max-width:260px" data-i18n="foot_p">Security checks for Telegram communities.</p></div>
-<div><b>Navigate</b><ul><li><a href="#home">Home</a></li><li><a href="#demo">Video Demo</a></li><li><a href="#howto">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#intel">Threat Intelligence</a></li><li><a href="#new">What’s New</a></li><li><a href="#about">About</a></li><li><a href="#profile">The Minds Behind STICC</a></li></ul></div>
-<div><b>Contact</b><ul><li><a href="https://t.me/mengheangea" target="_blank" rel="noopener noreferrer">✈ Telegram · @mengheangea</a></li></ul><b>Legal</b><ul><li><a data-cfg="SUPPORT_URL" hidden>Support</a></li><li><a href="#privacy">Privacy Policy</a></li><li><a href="#terms">Terms of Use</a></li></ul></div>
+<div><div class="logo">STICC<b>_</b>DETECTIVE</div><p style="color:var(--mut);max-width:260px;margin-top:6px" data-i18n="foot_p">Security checks for Telegram communities.</p></div>
+<div><b data-i18n="ft_menu">Menu</b><ul>
+<li><a href="#home" data-i18n="nav_home">Home</a></li><li><a href="#how" data-i18n="nav_how">How it works</a></li><li><a href="#features" data-i18n="nav_feat">Features</a></li><li><a href="#about" data-i18n="nav_about">About</a></li></ul></div>
+<div><b data-i18n="ft_contact">Contact</b><ul><li><a href="https://t.me/mengheangea" target="_blank" rel="noopener noreferrer">✈ Telegram · @mengheangea</a></li><li><a data-cfg="SUPPORT_URL" hidden>Support</a></li><li><a href="#privacy" data-i18n="ft_privacy">Privacy Policy</a></li><li><a href="#terms" data-i18n="ft_terms">Terms of Use</a></li></ul></div>
 </div>
 <p class="disc" data-i18n="disc">Disclaimer: security scanning cannot guarantee detection of every threat. Always use caution with unknown files and links.</p>
 </div></footer>
@@ -518,138 +422,155 @@ try{const tg=window.Telegram&&Telegram.WebApp;if(tg&&tg.initData!==undefined){tg
 
 const LOGO={e:"data:image/webp;base64,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",f:"data:image/webp;base64,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"};
 $$("[data-logo]").forEach(i=>i.src=LOGO[i.dataset.logo]);$("#fav").href=LOGO.e;
+
 /* config-linked buttons */
 CONFIG.BOT_URL=CONFIG.BOT_USERNAME?"https://t.me/"+CONFIG.BOT_USERNAME.replace("@",""):"";
 $$("[data-cfg]").forEach(a=>{const u=CONFIG[a.dataset.cfg];if(u){a.href=u;a.hidden=false;if(!u.startsWith("#")){a.target="_blank";a.rel="noopener"}}});
-
 $$('a[data-cfg="BOT_URL"]').forEach(a=>a.addEventListener("click",e=>{try{const tg=Telegram.WebApp;if(tg.initData){e.preventDefault();tg.openTelegramLink(a.href)}}catch(x){}}));
+
 /* features */
-const ico={file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 3 7 3 7H3s3-1 3-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',rep:'<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/>',lang:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3"/>',gauge:'<path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/>'};
-const F=[["file","File Scanning","Analyzes supported files with the STICC_DETECTIVE security engine."],["link","URL Security Checks","Analyzes links for potential security risks."],["eye","Telegram Group Monitoring","Checks shared files and alerts when configured conditions are met."],["bell","Threat Alerts","Displays suspicious scan results and warnings."],["rep","Detailed Scan Reports","Presents available analysis results."],["lang","Khmer and English Support","Use the bot and this site in either language."],["key","Administrator Controls","Restricts configuration actions to authorized administrators."],["gauge","Performance Controls","Uses caching and concurrency limits to help manage scan requests."]];
-/* chat pictures */
+const ico={file:'<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',link:'<path d="M10 14a4 4 0 0 0 6 0l3-3a4 4 0 0 0-6-6l-1 1"/><path d="M14 10a4 4 0 0 0-6 0l-3 3a4 4 0 0 0 6 6l1-1"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 3 7 3 7H3s3-1 3-7"/><path d="M10 20a2 2 0 0 0 4 0"/>',rep:'<path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/>',lang:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3"/>',gauge:'<path d="M4 18a8 8 0 1 1 16 0"/><path d="m12 18 4-6"/>',heart:'<path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/>'};
+const F=[["file","File Scanning","Analyzes supported files with the STICC_DETECTIVE security engine."],["link","URL Security Checks","Analyzes links for potential security risks."],["eye","Telegram Group Monitoring","Checks shared files and alerts when configured conditions are met."],["bell","Threat Alerts","Displays suspicious scan results and warnings."],["rep","Detailed Scan Reports","Presents available analysis results."],["lang","Khmer and English Support","Use the bot and this site in either language."],["key","Administrator Controls","Restricts configuration actions to authorized administrators."],["gauge","Performance Controls","Uses caching and concurrency limits to help manage scan requests."],["heart","Free for everyone","Built around a simple mission: make useful digital-safety tools accessible without a user subscription."]];
+$("#fgrid").innerHTML=F.map(([i,t,d],n)=>`<article class="card"><svg viewBox="0 0 24 24" aria-hidden="true">${ico[i]}</svg><h3 data-i18n="f${n}t">${t}</h3><p data-i18n="f${n}d">${d}</p></article>`).join("");
+
+/* how-it-works phone pictures (illustrations, sample data) */
 const BU="@"+CONFIG.BOT_USERNAME.replace("@","");
 const H=(n,t)=>`<div class="ph-top"><span class="av">${n[0]}</span><span><b>${n}</b><small>${t}</small></span></div>`;
 const bu=(t,o)=>`<div class="bub ${o?"out":"in"}">${t}</div>`;
 const fl=n=>`<div class="file"><i>PDF</i><span>${n}<br><small>240 KB</small></span></div>`;
 const vd=(c,t,d)=>`<span class="vd ${c}">${t}</span><br>${d}`;
 const BOT=H("STICC_DETECTIVE","bot");
-const mini=(b,h)=>`<div class="mini" role="img" aria-label="Sample chat with the bot">${h||BOT}<div class="ph-body">${b}</div></div>`;
-const MINI=[
-mini(bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported."))),
-mini(bu("https://example.com/offer",1)+bu(vd("y","SUSPICIOUS","Some indicators found. Review manually."))),
-mini('<div class="svc">STICC_DETECTIVE is in this group</div>'+bu("setup.exe",0)+bu(vd("r","MALICIOUS","Shared file flagged. Do not open it.")),H("Community","group")),
-mini(bu(vd("r","THREAT ALERT","A shared file was flagged as harmful."))+bu(vd("y","WARNING","A link needs manual review."))),
-mini(bu(fl("report.pdf"),1)+bu("<b>Scan report</b><br>Item: report.pdf<br>Status: completed<br>Verdict: <span class=\"vd g\">CLEAN</span>")),
-mini(bu("Choose language")+bu("ខ្មែរ",1)+bu("បានប្តូរទៅភាសាខ្មែរ។")),
-mini(bu("Change settings",1)+bu("Only administrators can change settings.")),
-mini(bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","Result reused from a recent scan.")))];
 const ph=(al,top,b)=>`<div class="phone" role="img" aria-label="${al}">${top}<div class="ph-body">${b}</div></div>`;
 const HS=[
-["Open Telegram and tap Search","On your phone, open Telegram and tap the search bar at the top.",ph("Telegram search bar",`<div class="ph-top"><span class="sbar">Search</span></div>`,'<div class="gr"></div><div class="gr"></div><div class="gr"></div>')],
-["Search for the bot","Type @sticcckys_secutiry_bot. Open the result marked as a bot.",ph("Searching for the bot",`<div class="ph-top"><span class="sbar t">@sticcckys_secutiry_bot</span></div>`,`<div class="res"><span class="av">S</span><span><b>STICC_DETECTIVE</b><br><small class="botu">${BU}</small></span><em>BOT</em></div>`)],
-["Press Start","Tap Start at the bottom of the chat to begin.",ph("Bot chat with a Start button",BOT,bu("Send me a file or a link and I will check it.")+'<div class="startbtn">START</div>')],
-["Send a file","Attach a file and send it. STICC_DETECTIVE scans and analyzes it, then replies with a verdict.",ph("Sending a file to the bot",BOT,bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported.")))],
-["Send a link","Paste a link the same way to see a verdict before you open it.",ph("Sending a link to the bot",BOT,bu("https://example.com/offer",1)+bu(vd("y","SUSPICIOUS","Some indicators found. Review manually.")))],
-["Add it to your group","Add the bot to your group so it can check shared files and alert you.",ph("Bot alert in a group",H("Community","group"),'<div class="svc">STICC_DETECTIVE is in this group</div>'+bu("setup.exe",0)+bu(vd("r","MALICIOUS","Shared file flagged. Do not open it.")))]];
-$("#how").innerHTML=HS.map(([t,d,p],n)=>`<article class="hs"><span class="sn">${n+1}</span><h3>${t}</h3><p>${d}</p>${p}</article>`).join("");
-$("#fgrid").innerHTML=F.map(([i,t,d],n)=>`<article class="card"><svg viewBox="0 0 24 24" aria-hidden="true">${ico[i]}</svg><h3 data-i18n="f${n}t">${t}</h3><p data-i18n="f${n}d">${d}</p>${MINI[n]}</article>`).join("");
+["s1","Find the bot and press Start","Search for "+BU+", open the result marked BOT, then tap Start.",ph("Searching for the bot and pressing Start",`<div class="ph-top"><span class="sbar">${BU}</span></div>`,`<div class="res"><span class="av">S</span><span><b>STICC_DETECTIVE</b><br><small>${BU}</small></span><em>BOT</em></div><div class="startbtn">START</div>`)],
+["s2","Send a file","Attach a file and send it. STICC_DETECTIVE scans it and replies with a verdict.",ph("Sending a file to the bot",BOT,bu(fl("invoice.pdf"),1)+bu(vd("g","CLEAN","No detections reported.")))],
+["s3","Send a link","Paste a link the same way to see a verdict before you open it.",ph("Sending a link to the bot",BOT,bu("https://example.com/offer",1)+bu(vd("y","SUSPICIOUS","Some indicators found. Review manually.")))],
+["s4","Add it to your group","Add the bot to your group so it can check shared files and alert you.",ph("Bot alert in a group",H("Community","group"),'<div class="svc">STICC_DETECTIVE is in this group</div>'+bu("setup.exe",0)+bu(vd("r","MALICIOUS","Shared file flagged. Do not open it.")))],
+["s5","Approve or reject access","When a device asks for access, tap Accept or Reject. With no answer in 1 minute, the bot removes the device automatically.",ph("Device access request with Accept and Reject buttons",BOT,bu("<b>Access request</b><br>A new device wants to connect.<div class=\"opts\"><span>ACCEPT</span><span class=\"rj\">REJECT</span></div>")+'<div class="svc">No answer in 1 min · device removed</div>')]];
+$("#steps").innerHTML=HS.map(([k,t,d,p],n)=>`<article class="step"><span class="sn">${n+1}</span><h3 data-i18n="${k}t">${t}</h3><p data-i18n="${k}d">${d}</p>${p}</article>`).join("");
 
-/* router */
-const pages=$$(".page"),links=$$("a.l");
-function route(){$("#moreinfo").hidden=true;$("#more").setAttribute("aria-expanded","false");$("#more").children[0].hidden=false;$("#more").children[1].hidden=true;const h=(location.hash||"#home").slice(1);const id=pages.some(p=>p.dataset.page===h)?h:"home";
-pages.forEach(p=>p.classList.toggle("on",p.dataset.page===id));
-links.forEach(a=>a.getAttribute("href")==="#"+id?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
-$("#nav").classList.remove("open");$("#burger").setAttribute("aria-expanded","false");scrollTo(0,0);
-const hd=$(".page.on h1,.page.on h2");if(hd){hd.tabIndex=-1;hd.focus({preventScroll:true})}typePage();if(id==="home")runDemo($("#t2"),null,T2);
-try{const tg=Telegram.WebApp;if(id==="home"){tg.BackButton.hide()}else{tg.BackButton.show();tg.BackButton.onClick(()=>{location.hash="#home"})}}catch(e){}}
+/* router: 5 tabs; older links (#demo, #intel, #profile...) still work */
+const pages=$$(".page"),tabs=$$("a.tab");
+const A={home:{p:"home"},demo:{p:"home",s:"demo"},how:{p:"how"},howto:{p:"how"},verdicts:{p:"how",s:"verdicts"},intel:{p:"how",s:"verdicts"},features:{p:"features"},engines:{p:"features",s:"engines"},new:{p:"features",s:"engines"},ai:{p:"features",s:"ai"},about:{p:"about"},profile:{p:"about",s:"team"},team:{p:"about",s:"team"},legal:{p:"legal"},privacy:{p:"legal",s:"privacy"},terms:{p:"legal",s:"terms"}};
+function route(){
+const a=A[(location.hash||"#home").slice(1)]||A.home;
+pages.forEach(p=>p.classList.toggle("on",p.dataset.page===a.p));
+let cur=null;tabs.forEach(t=>{const on=t.getAttribute("href")==="#"+a.p;if(on){t.setAttribute("aria-current","page");cur=t}else t.removeAttribute("aria-current")});
+if(cur){const n=$("#nav");n.scrollTo({left:cur.offsetLeft-(n.clientWidth-cur.offsetWidth)/2,behavior:reduce?"auto":"smooth"})}
+const el=a.s&&document.getElementById(a.s);
+if(el){requestAnimationFrame(()=>el.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"}))}
+else{scrollTo(0,0);const hd=$(".page.on h1,.page.on h2");if(hd){hd.tabIndex=-1;hd.focus({preventScroll:true})}}
+if(a.p==="home")runDemo();
+try{const tg=Telegram.WebApp;if(a.p==="home"){tg.BackButton.hide()}else{tg.BackButton.show();tg.BackButton.onClick(()=>{location.hash="#home"})}}catch(e){}
+}
 addEventListener("hashchange",route);
-$("#burger").onclick=e=>{const o=$("#nav").classList.toggle("open");e.currentTarget.setAttribute("aria-expanded",o)};
 
 /* i18n */
-const KM={nav_demo:"វីដេអូបង្ហាញ",demo_video_title:"មើលការប្រើប្រាស់ STICC_DETECTIVE",demo_video_desc:"កន្លែងសម្រាប់វីដេអូបង្ហាញការស្កេនតាម Telegram។ វីដេអូនឹងមាននៅពេលក្រោយ។",video_coming:"វីដេអូបង្ហាញ នឹងមកដល់ឆាប់ៗ",video_note:"នេះជាកន្លែងទុកសម្រាប់វីដេអូ មិនទាន់មានវីដេអូពិតទេ។",demo_guide:"មើលការណែនាំជារូបភាព",limit_title:"គាំទ្រការស្កេនឯកសារ",limit_desc:"ផ្ញើឯកសារដែលគាំទ្រទំហំរហូតដល់ 50 MB ទៅបូត Telegram ដើម្បីវិភាគសុវត្ថិភាព។",contact_founder:"ទាក់ទងអ្នកបង្កើត",nav_road:"មានអ្វីថ្មី",road_p:"ថ្មីៗពី STICC_DETECTIVE៖ ឧបករណ៍ថ្មី ការកែលម្អ និងមុខងារ AI។",trust_h:"ឯកសាររបស់អ្នកនៅតែជាឯកជន",trust_p:"យើងមិនអាន យក ឬលួចឯកសារឯកជនរបស់អ្នកទេ។ នៅពេលអ្នកផ្ញើឯកសារ ឬតំណភ្ជាប់មក STICC_DETECTIVE យើងគ្រាន់តែស្កេន និងវិភាគវា ដើម្បីផ្តល់លទ្ធផលដែលអ្នកស្នើសុំ។",trust_b:"អានការសន្យាអំពីឯកជនភាព",nav_how:"របៀបប្រើប្រាស់",how_p:"ចាប់ផ្តើមក្នុងរយៈពេលតិចជាងមួយនាទី។ អ្វីៗទាំងអស់ធ្វើឡើងក្នុង Telegram ដោយមិនចាំបាច់ដំឡើងអ្វីទេ។",nav_home:"ទំព័រដើម",nav_feat:"មុខងារសុវត្ថិភាព",nav_intel:"ព័ត៌មានគំរាមកំហែង",nav_about:"អំពីយើង",launch:"បើកម៉ាស៊ីនស្កេន",openbot:"បើកបូត",
-h1:"ការពារ <em>លំហឌីជីថលរបស់អ្នក។</em>",sub:"ការត្រួតពិនិត្យឯកសារ និងតំណភ្ជាប់ដោយឆ្លាតវៃ សម្រាប់សហគមន៍ Telegram ដែលមានសុវត្ថិភាពជាង។",cta1:"ស្វែងរកមុខងារសុវត្ថិភាព",cta2:"ជួបស្ថាបនិក",
-demonote:"ទិន្នន័យសាកល្បងតែប៉ុណ្ណោះ។ មិនមែនជាការស្កេនផ្ទាល់ ឬស្ថិតិគំរាមកំហែងពិតទេ។",demo_h:"ការបង្ហាញតាមទែមីណាល់",demo_p:"ការបង្ហាញលើផ្នែកខាងមុខប៉ុណ្ណោះ។ ការស្កេនពិតដំណើរការលើប្រព័ន្ធខាងក្រោយដែលមានសុវត្ថិភាព។",run:"ដំណើរការសាកល្បង",
-feat_p:"ការត្រួតពិនិត្យជាក់ស្តែងសម្រាប់ឯកសារ និងតំណភ្ជាប់ក្នុង Telegram។ គ្មានឧបករណ៍សុវត្ថិភាពណាអាចរកឃើញគ្រប់ការគំរាមកំហែងទេ។",
-f0t:"ស្កេនឯកសារ",f0d:"វិភាគឯកសារដែលគាំទ្រដោយប្រព័ន្ធសុវត្ថិភាព STICC_DETECTIVE។",f1t:"ពិនិត្យសុវត្ថិភាព URL",f1d:"វិភាគតំណភ្ជាប់ដើម្បីរកហានិភ័យសុវត្ថិភាព។",f2t:"ត្រួតពិនិត្យក្រុម Telegram",f2d:"ពិនិត្យឯកសារដែលបានចែករំលែក ហើយជូនដំណឹងតាមលក្ខខណ្ឌដែលបានកំណត់។",f3t:"ការជូនដំណឹងគំរាមកំហែង",f3d:"បង្ហាញលទ្ធផលស្កេនគួរឱ្យសង្ស័យ និងការព្រមាន។",f4t:"របាយការណ៍ស្កេនលម្អិត",f4d:"បង្ហាញលទ្ធផលវិភាគដែលមាន។",f5t:"គាំទ្រខ្មែរ និងអង់គ្លេស",f5d:"ប្រើបូត និងគេហទំព័រនេះជាភាសាណាមួយ។",f6t:"ការគ្រប់គ្រងអ្នកគ្រប់គ្រង",f6d:"កំណត់សកម្មភាពកំណត់រចនាសម្ព័ន្ធសម្រាប់អ្នកគ្រប់គ្រងដែលមានសិទ្ធិ។",f7t:"ការគ្រប់គ្រងប្រតិបត្តិការ",f7d:"ប្រើឃ្លាំងសម្ងាត់ និងដែនកំណត់ដំណើរការស្របគ្នា ដើម្បីគ្រប់គ្រងសំណើស្កេន។",
-intel_p:"របៀបដែលលទ្ធផលធ្វើដំណើរពីសារ Telegram ទៅការជូនដំណឹង។ STICC_DETECTIVE វិភាគធាតុនីមួយៗ ហើយផ្តល់លទ្ធផល។",verd:"ប្រភេទលទ្ធផល",
+const KM={
+nav_home:"ទំព័រដើម",nav_how:"របៀបប្រើប្រាស់",nav_feat:"មុខងារ",nav_about:"អំពីយើង",nav_legal:"ឯកជនភាព & លក្ខខណ្ឌ",openbot:"បើកបូត",
+tg1:"// ប្រតិបត្តិការសុវត្ថិភាព · ស្កេនឯកសារ 50 MB",
+h1:"ការពារ <em>លំហឌីជីថលរបស់អ្នក។</em>",
+sub:"ការត្រួតពិនិត្យឯកសារ និងតំណភ្ជាប់ដោយឆ្លាតវៃ សម្រាប់សហគមន៍ Telegram ដែលមានសុវត្ថិភាពជាង។",
+cta1:"ស្វែងរកមុខងារ",cta2:"មើលវីដេអូបង្ហាញ",run:"ដំណើរការសាកល្បង",
+demonote:"ទិន្នន័យសាកល្បងតែប៉ុណ្ណោះ។ មិនមែនជាការស្កេនផ្ទាល់ ឬស្ថិតិគំរាមកំហែងពិតទេ។",
+st1:"<b>50 MB</b><small>ដែនកំណត់ស្កេនឯកសារ</small>",st2:"<b>ឯកសារ & តំណ</b><small>ពិនិត្យក្នុង Telegram</small>",st3:"<b>EN · ខ្មែរ</b><small>ពីរភាសា</small>",st4:"<b>ឥតគិតថ្លៃ</b><small>គ្មានការជាវសម្រាប់អ្នកប្រើ</small>",
+demo_video_title:"មើលការប្រើប្រាស់ STICC_DETECTIVE",
+demo_video_desc:"មើលវីដេអូគំរូអំពីរបៀបស្កេនតាម Telegram។ នេះជាការបង្ហាញគំនិត មិនមែនការស្កេនពិតទេ។",
+video_sample_label:"វីដេអូគំរូ — ការសន្ទនា Telegram សាកល្បង មិនមែនជាលទ្ធផលស្កេនពិតទេ។",
+trust_h:"ការស្កេនសុវត្ថិភាពដោយគិតពីឯកជនភាព",
+trust_p:"ឯកសារ និងតំណភ្ជាប់ដែលអ្នកផ្ញើត្រូវបានដំណើរការដើម្បីផ្តល់លទ្ធផលសុវត្ថិភាព។ ការស្កេនអាចប្រើសេវាខាងក្រៅ។ សូមកុំផ្ញើឯកសារសម្ងាត់ខ្លាំងទៅឧបករណ៍ស្កេនអនឡាញ។",
+trust_b:"របៀបដំណើរការទិន្នន័យ",
+how_p:"ចាប់ផ្តើមក្នុងរយៈពេលតិចជាងមួយនាទី។ អ្វីៗទាំងអស់ធ្វើឡើងក្នុង Telegram ដោយមិនចាំបាច់ដំឡើងអ្វីទេ។",
+s1t:"ស្វែងរកបូត ហើយចុច Start",s1d:"ស្វែងរក @sticcckys_secutiry_bot បើកលទ្ធផលដែលមានស្លាក BOT ហើយចុច Start។",
+s2t:"ផ្ញើឯកសារ",s2d:"ភ្ជាប់ និងផ្ញើឯកសារ។ STICC_DETECTIVE ស្កេន ហើយឆ្លើយតបជាមួយលទ្ធផល។",
+s3t:"ផ្ញើតំណភ្ជាប់",s3d:"បិទភ្ជាប់តំណភ្ជាប់តាមរបៀបដូចគ្នា ដើម្បីមើលលទ្ធផលមុនពេលបើក។",
+s4t:"បន្ថែមទៅក្រុមរបស់អ្នក",s4d:"បន្ថែមបូតទៅក្រុម ដើម្បីឱ្យវាពិនិត្យឯកសារដែលបានចែករំលែក និងជូនដំណឹង។",
+s5t:"អនុម័ត ឬបដិសេធការចូលប្រើ",s5d:"នៅពេលឧបករណ៍ស្នើសុំចូលប្រើ សូមចុច Accept ឬ Reject។ បើគ្មានចម្លើយក្នុងរយៈពេល ១ នាទី បូតនឹងដកឧបករណ៍ចេញដោយស្វ័យប្រវត្តិ។",
+how_note:"រូបភាពទាំងនេះជាការបង្ហាញ ជាមួយទិន្នន័យគំរូ មិនមែនលទ្ធផលពិតទេ។",
+verd:"ប្រភេទលទ្ធផល",
+intel_p:"របៀបដែលលទ្ធផលធ្វើដំណើរពីសារ Telegram ទៅការជូនដំណឹង។ STICC_DETECTIVE វិភាគធាតុនីមួយៗ ហើយផ្តល់លទ្ធផល។",
+fl1:"សារ Telegram",fl2:"រកឃើញឯកសារ / URL",fl3:"វិភាគសុវត្ថិភាព",fl4:"ផ្ទៀងផ្ទាត់លទ្ធផល",fl5:"ចាត់ថ្នាក់ការគំរាមកំហែង",fl6:"ជូនដំណឹងអ្នកប្រើ",
 v1:"អ្នកផ្តល់សេវាបានត្រឡប់លទ្ធផលដោយគ្មានការរកឃើញ។",v2:"រកឃើញសញ្ញាមួយចំនួន។ ណែនាំឱ្យពិនិត្យដោយដៃ។",v3:"អ្នកផ្តល់សេវាបានដាក់ទង់ថាមានគ្រោះថ្នាក់។",v4:"គ្មានលទ្ធផល កំហុស ឬអស់ពេល។ មិនត្រូវបានចាត់ទុកថាសុវត្ថិភាពទេ។",
-about1:"STICC_DETECTIVE ជួយសហគមន៍ Telegram កំណត់អត្តសញ្ញាណឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលអាចមានគ្រោះថ្នាក់ តាមរយៈការត្រួតពិនិត្យសុវត្ថិភាពស្វ័យប្រវត្តិ។",about2:"វាផ្សំព័ត៌មានគំរាមកំហែងខាងក្រៅជាមួយលទ្ធផលច្បាស់លាស់ ដើម្បីជួយអ្នកសម្រេចចិត្តថាត្រូវបើកអ្វី។",about3:"លទ្ធផលគឺជាជំនួយក្នុងការវិនិច្ឆ័យ មិនមែនការធានាសុវត្ថិភាពទេ។",
-foot_p:"ការត្រួតពិនិត្យសុវត្ថិភាពសម្រាប់សហគមន៍ Telegram។",
-nav_prof:"ប្រវត្តិម្ចាស់",meet:"ជួបម្ចាស់ →",tg4:"// ប្រវត្តិម្ចាស់",pf_h:"ប្រវត្តិម្ចាស់",pf_more:"ព័ត៌មានបន្ថែម",pf_less:"លាក់ព័ត៌មាន",k1:"ឈ្មោះ",k2:"ថ្ងៃខែឆ្នាំកំណើត",v2n:"១៧ ឧសភា ២០០៨",k3:"ក្រុមហ៊ុនបច្ចុប្បន្ន",k4:"តួនាទី",v4n:"បច្ចេកវិទ្យាព័ត៌មាន និងលេខាធិការនាយក",k5:"គម្រោង",v5n:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",pf_f:"ការផ្តោតសំខាន់",c1t:"ប្រព័ន្ធសុវត្ថិភាព",c1d:"បង្កើត និងថែរក្សាការត្រួតពិនិត្យនៅពីក្រោយ STICC_DETECTIVE។",c2t:"សញ្ញាគំរាមកំហែង",c2d:"បំប្លែងសញ្ញាឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់គ្រោះថ្នាក់ទៅជាលទ្ធផលច្បាស់លាស់។",c3t:"បើកចំហសម្រាប់មនុស្សគ្រប់គ្នា",c3d:"ផ្តល់ការយល់ដឹងអំពីសុវត្ថិភាពដែលងាយយល់ និងអាចអនុវត្តបាន ដោយឥតគិតថ្លៃ។",tg5:"// ម៉ាក",brandp:"STICC DETECTIVE — បង្កើតដោយ Ea Mengheang។",ab_h:"អំពី STICC_DETECTIVE",tg3:"// ប្រវត្តិម្ចាស់",orole:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",odesc:"អភិវឌ្ឍប្រព័ន្ធសុវត្ថិភាពរបស់ STICC_DETECTIVE ដោយបំប្លែងសញ្ញាឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលមានគ្រោះថ្នាក់ ទៅជាការយល់ដឹងអំពីសុវត្ថិភាពឌីជីថលដែលងាយយល់ និងអាចអនុវត្តបាន សម្រាប់មនុស្សគ្រប់គ្នា — ដោយឥតគិតថ្លៃ។",disc:"ការបដិសេធ៖ ការស្កេនសុវត្ថិភាពមិនអាចធានាថារកឃើញគ្រប់ការគំរាមកំហែងទេ។ សូមប្រុងប្រយ័ត្នជាមួយឯកសារ និងតំណភ្ជាប់ដែលមិនស្គាល់។",
-nav_road:"សមត្ថភាពសុវត្ថិភាពរបស់យើង",strength_tag:"// បង្កើតឡើងសម្រាប់សុវត្ថិភាពឌីជីថល",strength_intro:"ជំនួយការសុវត្ថិភាពក្នុង Telegram ដែលងាយប្រើ ផ្តល់ព័ត៌មានហានិភ័យច្បាស់លាស់ និងឥតគិតថ្លៃ។",
-strength1t:"ស្កេនពីរប្រព័ន្ធ + Claude AI",strength1d:"STICC_DETECTIVE ជាម៉ាស៊ីនស្កេនមេ Hybrid Analysis ជាជម្រើសទីពីរ ហើយ Claude AI ជួយពន្យល់លទ្ធផល។",
-strength2t:"សម្រាប់ក្រុម Telegram",strength2d:"ត្រួតពិនិត្យក្នុងផ្ទៃខាងក្រោយ និងជូនដំណឹងនៅពេលរកឃើញហានិភ័យ ដោយកាត់បន្ថយការជូនដំណឹងមិនចាំបាច់។",
-strength3t:"លទ្ធផលងាយយល់",strength3d:"សេចក្តីសង្ខេប និងព័ត៌មានបន្ថែមជួយអ្នកប្រើសម្រេចចិត្តថាអ្វីគួរពិនិត្យបន្ថែម។",
-strength4t:"ភាសាខ្មែរ និងអង់គ្លេស",strength4d:"ព័ត៌មានសុវត្ថិភាពដែលអាចប្រើប្រាស់បានតាមភាសាដែលអ្នកពេញចិត្ត។",
-strength5t:"ឥតគិតថ្លៃសម្រាប់គ្រប់គ្នា",strength5d:"បង្កើតឡើងដើម្បីឱ្យមនុស្សគ្រប់គ្នាអាចប្រើឧបករណ៍សុវត្ថិភាពឌីជីថល ដោយមិនចាំបាច់បង់ថ្លៃជាវ។",
-strength6t:"ស្វ័យប្រវត្តិកម្មក្នុង Telegram",strength6d:"ការត្រួតពិនិត្យ និងការជូនដំណឹងនៅក្នុង Telegram ដែលអ្នកប្រើប្រាស់ជាប្រចាំ។",
-ai_tag:"// បច្ចេកវិទ្យាសុវត្ថិភាព AI",ai_title:"ការរួមបញ្ចូល Claude AI",ai_status:"ដំណើរការដោយ AI",ai_intro:"Claude AI ជួយពន្យល់លទ្ធផលស្កេន វិភាគសារគួរឱ្យសង្ស័យ និងឆ្លើយសំណួរសុវត្ថិភាពជាភាសាខ្មែរ និងអង់គ្លេស។ STICC_DETECTIVE និង Hybrid Analysis (ជម្រើស) ជាអ្នកស្កេនមេរោគ។",
-ai1t:"🧠 ការពន្យល់ហានិភ័យដោយ AI",ai1d:"បម្លែងលទ្ធផលបច្ចេកទេសឱ្យទៅជាការណែនាំសុវត្ថិភាពងាយយល់។",ai2t:"🔍 ពិនិត្យសារបោកប្រាស់",ai2d:"រកសញ្ញាគួរឱ្យសង្ស័យក្នុងសារដែលអ្នកប្រើជ្រើសរើសផ្ញើ។",ai3t:"💬 ជំនួយការ AI សុវត្ថិភាព",ai3d:"ឆ្លើយសំណួរអំពីសុវត្ថិភាពឌីជីថលជាភាសាខ្មែរ និងអង់គ្លេស។",
-ai_note:"មុខងារ AI ដែលបានគ្រោងទុក មិនទាន់ដំណើរការទេ រហូតដល់ការរួមបញ្ចូល និងការសាកល្បងបានបញ្ចប់។ ចម្លើយ AI អាចមានកំហុស។",
-mission_text:"បេសកកម្មរបស់យើង៖ ធ្វើឱ្យឧបករណ៍សុវត្ថិភាពឌីជីថលអាចប្រើបានដោយឥតគិតថ្លៃសម្រាប់គ្រប់គ្នា។",mission_tagline:"STICC_DETECTIVE — សុវត្ថិភាពឆ្លាតវៃជាងមុន។ ជីវិតឌីជីថលមានសុវត្ថិភាពជាងមុន។",current_feat:"ស្វែងយល់ពីមុខងារសុវត្ថិភាពបច្ចុប្បន្ន",feature_note:"ប្រព័ន្ធ៖ STICC_DETECTIVE (មេ) + Hybrid Analysis (ជម្រើស) + Claude AI (ពន្យល់លទ្ធផល)។ Claude មិនមែនជាម៉ាស៊ីនស្កេនមេរោគទីបីទេ។",
-ai_tease_title:"ប្រព័ន្ធសុវត្ថិភាព Claude AI",ai_tease_body:"Claude AI ជួយពន្យល់លទ្ធផលស្កេន វិភាគសារគួរឱ្យសង្ស័យ និងផ្តល់ការណែនាំសុវត្ថិភាព។",ai_tease_link:"មើលចំណុចខ្លាំងរបស់យើង"};
-Object.assign(KM,{nav_prof:"ជួបអ្នកបង្កើត",pf_h:"ជួបអ្នកបង្កើត",tg4:"// អ្នកបង្កើត",trust_h:"ការស្កេនសុវត្ថិភាពដោយគិតពីឯកជនភាព",trust_p:"ឯកសារ និងតំណភ្ជាប់ដែលអ្នកផ្ញើត្រូវបានដំណើរការដើម្បីផ្តល់លទ្ធផលសុវត្ថិភាព។ ការស្កេនអាចប្រើសេវាខាងក្រៅ។ សូមកុំផ្ញើឯកសារសម្ងាត់ខ្លាំងទៅឧបករណ៍ស្កេនអនឡាញ។",trust_b:"របៀបដំណើរការទិន្នន័យ",ai_status:"មុខងារ AI · គ្រោងទុក",ai_tease_body:"មុខងារ Claude AI គ្រោងនឹងជួយពន្យល់លទ្ធផលសុវត្ថិភាព បន្ទាប់ពីបង្កើត និងសាកល្បងរួច។",ai_intro:"មុខងារ Claude AI ដែលគ្រោងទុកនឹងជួយពន្យល់លទ្ធផលស្កេន និងហានិភ័យឌីជីថលជាភាសាខ្មែរ និងអង់គ្លេស។",oname:"Ea Mengheang",odesc:"អ្នកបង្កើត និងអភិវឌ្ឍ STICC_DETECTIVE ដោយឯករាជ្យ និងមានជំនួយ AI ក្នុងការអភិវឌ្ឍ។"});
-Object.assign(KM,{"purpose_h": "គោលបំណងរបស់យើង", "purpose_1": "STICC_DETECTIVE ត្រូវបានបង្កើតឡើងក្នុងគោលបំណងសំខាន់មួយ៖ <strong>ធ្វើឱ្យសុវត្ថិភាពអ៊ីនធឺណិតមានភាពសាមញ្ញ ងាយស្រួលប្រើ និងឥតគិតថ្លៃសម្រាប់មនុស្សគ្រប់គ្នា។</strong>", "purpose_2": "ជារៀងរាល់ថ្ងៃ មនុស្សទទួលបានឯកសារមិនស្គាល់ តំណភ្ជាប់គួរឱ្យសង្ស័យ និងសារដែលអាចមានគ្រោះថ្នាក់តាម Telegram និងវេទិកាឌីជីថលផ្សេងៗ។ អ្នកប្រើប្រាស់ជាច្រើនពិបាកសម្គាល់ហានិភ័យទាំងនេះ ដែលអាចប៉ះពាល់ដល់ឧបករណ៍ ព័ត៌មានផ្ទាល់ខ្លួន និងគណនីអនឡាញ។", "purpose_3": "STICC_DETECTIVE មានបំណងជួយដោះស្រាយបញ្ហានេះ តាមរយៈជំនួយការសុវត្ថិភាព Telegram ដែលអាចវិភាគឯកសារ និងតំណភ្ជាប់គួរឱ្យសង្ស័យ កំណត់ហានិភ័យ និងពន្យល់លទ្ធផលឱ្យងាយយល់។", "purpose_4": "គោលដៅរបស់យើងមិនត្រឹមតែរកឃើញការគំរាមកំហែងទេ ប៉ុន្តែថែមទាំង <strong>អប់រំអ្នកប្រើប្រាស់ បង្កើនការយល់ដឹងអំពីសុវត្ថិភាពអ៊ីនធឺណិត និងជួយឱ្យពួកគេសម្រេចចិត្តបានកាន់តែមានសុវត្ថិភាព។</strong>", "mission_h": "បេសកកម្មរបស់យើង", "mission_1": "ធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចប្រើប្រាស់បានសម្រាប់មនុស្សគ្រប់គ្នា ដោយមិនគិតពីចំណេះដឹងបច្ចេកទេស ឬស្ថានភាពហិរញ្ញវត្ថុ។", "vision_h": "ចក្ខុវិស័យរបស់យើង", "vision_1": "កសាងសហគមន៍ឌីជីថលដែលមានសុវត្ថិភាពជាងមុន ដែលមនុស្សអាចសម្គាល់ការគំរាមកំហែង ការពារព័ត៌មានរបស់ខ្លួន និងប្រើប្រាស់បច្ចេកវិទ្យាដោយទំនុកចិត្ត។", "motto_h": "ពាក្យស្លោករបស់យើង", "motto_1": "STICC_DETECTIVE — Smarter Security. Safer Digital Life.", "video_sample_label": "វីដេអូគំរូ — ការសន្ទនា Telegram សាកល្បង មិនមែនជាលទ្ធផលស្កេនពិតទេ។ សូមដាក់ឯកសារ MP4 នៅជាប់ឯកសារ HTML។", "demo_video_desc": "មើលវីដេអូគំរូអំពីរបៀបស្កេនតាម Telegram។ នេះជាការបង្ហាញគំនិត មិនមែនការស្កេនពិតទេ។", "odesc": "ខ្ញុំបានបង្កើត STICC_DETECTIVE ដើម្បីជួយមនុស្សសម្គាល់ហានិភ័យឌីជីថល និងសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពនៅលើអ៊ីនធឺណិត។", "contact_founder": "ទាក់ទងអ្នកបង្កើត"});
-Object.assign(KM,{pf_h:"ជួបអ្នកបង្កើត",cf_tag:"$ សហស្ថាបនិក",cf_title:"សហស្ថាបនិក និងប្រធានប្រតិបត្តិការ",cf_org:"STICC_DETECTIVE",cf_desc:"សហស្ថាបនិក និងប្រធានប្រតិបត្តិការនៃ STICC_DETECTIVE ទទួលខុសត្រូវលើការសម្របសម្រួលប្រតិបត្តិការក្រុម ត្រួតពិនិត្យសកម្មភាពអង្គការ និងគាំទ្រការរីកចម្រើន និងការអភិវឌ្ឍរបស់ក្រុមហ៊ុន។"});
-Object.assign(KM,{pf_tag:"// ក្រុមរបស់យើង",pf_title:"អ្នកនៅពីក្រោយ STICC",fd_tag:"អ្នកបង្កើត",cf_tag:"សហស្ថាបនិក",cf_name:"EvMonyleap",cf_title:"សហស្ថាបនិក និងប្រធានប្រតិបត្តិការ, STICC_DETECTIVE"});
-Object.assign(KM,{nav_prof:"អ្នកនៅពីក្រោយ STICC",cta2:"អ្នកនៅពីក្រោយ STICC",meet:"អ្នកនៅពីក្រោយ STICC →"});
+feat_h:"មុខងារសុវត្ថិភាព",
+feat_p:"ការត្រួតពិនិត្យជាក់ស្តែងសម្រាប់ឯកសារ និងតំណភ្ជាប់ក្នុង Telegram។ គ្មានឧបករណ៍សុវត្ថិភាពណាអាចរកឃើញគ្រប់ការគំរាមកំហែងទេ។",
+limit_title:"គាំទ្រការស្កេនឯកសារ",limit_desc:"ផ្ញើឯកសារដែលគាំទ្រទំហំរហូតដល់ 50 MB ទៅបូត Telegram ដើម្បីវិភាគសុវត្ថិភាព។",
+new_badge:"ថ្មី",new_t:"បដិសេធដោយស្វ័យប្រវត្តិសម្រាប់ឧបករណ៍ដែលមិនទាន់អនុម័ត",
+new_d:"ប្រសិនបើគ្មាននរណាចុច Accept ឬ Reject បូតនឹងដកឧបករណ៍ចេញដោយស្វ័យប្រវត្តិ បន្ទាប់ពី ១ នាទី។",
+tl1:"ឧបករណ៍ស្នើសុំចូលប្រើ",tl2:"រង់ចាំ Accept / Reject",tl3:"គ្មានចម្លើយក្នុង ១ នាទី → ដកចេញ",
+f0t:"ស្កេនឯកសារ",f0d:"វិភាគឯកសារដែលគាំទ្រដោយប្រព័ន្ធសុវត្ថិភាព STICC_DETECTIVE។",
+f1t:"ពិនិត្យសុវត្ថិភាព URL",f1d:"វិភាគតំណភ្ជាប់ដើម្បីរកហានិភ័យសុវត្ថិភាព។",
+f2t:"ត្រួតពិនិត្យក្រុម Telegram",f2d:"ពិនិត្យឯកសារដែលបានចែករំលែក ហើយជូនដំណឹងតាមលក្ខខណ្ឌដែលបានកំណត់។",
+f3t:"ការជូនដំណឹងគំរាមកំហែង",f3d:"បង្ហាញលទ្ធផលស្កេនគួរឱ្យសង្ស័យ និងការព្រមាន។",
+f4t:"របាយការណ៍ស្កេនលម្អិត",f4d:"បង្ហាញលទ្ធផលវិភាគដែលមាន។",
+f5t:"គាំទ្រខ្មែរ និងអង់គ្លេស",f5d:"ប្រើបូត និងគេហទំព័រនេះជាភាសាណាមួយ។",
+f6t:"ការគ្រប់គ្រងអ្នកគ្រប់គ្រង",f6d:"កំណត់សកម្មភាពកំណត់រចនាសម្ព័ន្ធសម្រាប់អ្នកគ្រប់គ្រងដែលមានសិទ្ធិ។",
+f7t:"ការគ្រប់គ្រងប្រតិបត្តិការ",f7d:"ប្រើឃ្លាំងសម្ងាត់ និងដែនកំណត់ដំណើរការស្របគ្នា ដើម្បីគ្រប់គ្រងសំណើស្កេន។",
+f8t:"ឥតគិតថ្លៃសម្រាប់គ្រប់គ្នា",f8d:"បង្កើតឡើងដើម្បីឱ្យមនុស្សគ្រប់គ្នាអាចប្រើឧបករណ៍សុវត្ថិភាពឌីជីថល ដោយមិនចាំបាច់បង់ថ្លៃជាវ។",
+eng_h:"សុវត្ថិភាពច្រើនស្រទាប់",e1:"ព័ត៌មានគំរាមកំហែងមេ",e2:"ម៉ាស៊ីនទីពីរ (ជម្រើស)",e3:"ជំនួយ AI ក្នុងការពន្យល់",
+feature_note:"ប្រព័ន្ធ៖ STICC_DETECTIVE (មេ) + Hybrid Analysis (ជម្រើស) + Claude AI (ពន្យល់លទ្ធផល)។ Claude មិនមែនជាម៉ាស៊ីនស្កេនមេរោគទីបីទេ។",
+ai_status:"មុខងារ AI · គ្រោងទុក",ai_title:"ការរួមបញ្ចូល Claude AI",
+ai_intro:"មុខងារ Claude AI ដែលគ្រោងទុកនឹងជួយពន្យល់លទ្ធផលស្កេន និងហានិភ័យឌីជីថលជាភាសាខ្មែរ និងអង់គ្លេស។ ការស្កេនមេរោគធ្វើដោយ STICC_DETECTIVE និង Hybrid Analysis (ពេលបើក)។",
+ai1t:"🧠 ការពន្យល់ហានិភ័យដោយ AI",ai1d:"បម្លែងលទ្ធផលបច្ចេកទេសឱ្យទៅជាការណែនាំសុវត្ថិភាពងាយយល់។",
+ai2t:"🔍 ពិនិត្យសារបោកប្រាស់",ai2d:"រកសញ្ញាគួរឱ្យសង្ស័យក្នុងសារដែលអ្នកប្រើជ្រើសរើសផ្ញើ។",
+ai3t:"💬 ជំនួយការ AI សុវត្ថិភាព",ai3d:"ឆ្លើយសំណួរអំពីសុវត្ថិភាពឌីជីថលជាភាសាខ្មែរ និងអង់គ្លេស។",
+ai_note:"Claude AI ផ្តល់ការណែនាំ មិនមែនការស្កេនមេរោគ ឬការធានាសុវត្ថិភាពទេ។ ចម្លើយ AI អាចមានកំហុស។",
+ab_h:"អំពី STICC_DETECTIVE",
+about1:"STICC_DETECTIVE ជួយសហគមន៍ Telegram កំណត់អត្តសញ្ញាណឯកសារគួរឱ្យសង្ស័យ និងតំណភ្ជាប់ដែលអាចមានគ្រោះថ្នាក់ តាមរយៈការត្រួតពិនិត្យសុវត្ថិភាពស្វ័យប្រវត្តិ។",
+about2:"វាផ្សំព័ត៌មានគំរាមកំហែងខាងក្រៅជាមួយលទ្ធផលច្បាស់លាស់ ដើម្បីជួយអ្នកសម្រេចចិត្តថាត្រូវបើកអ្វី។",
+about3:"លទ្ធផលគឺជាជំនួយក្នុងការវិនិច្ឆ័យ មិនមែនការធានាសុវត្ថិភាពទេ។",
+pf_tag:"// ក្រុមរបស់យើង",team_h:"អ្នកនៅពីក្រោយ STICC",
+fd_tag:"អ្នកបង្កើត",oname:"Ea Mengheang",orole:"ស្ថាបនិក និងអ្នកអភិវឌ្ឍន៍ STICC_DETECTIVE",
+odesc:"ខ្ញុំបានបង្កើត STICC_DETECTIVE ដើម្បីជួយមនុស្សសម្គាល់ហានិភ័យឌីជីថល និងសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពនៅលើអ៊ីនធឺណិត។",
+contact_founder:"ទាក់ទងអ្នកបង្កើត",
+cf_tag:"សហស្ថាបនិក",cf_name:"EvMonyleap",cf_title:"សហស្ថាបនិក និងប្រធានប្រតិបត្តិការ",
+cf_desc:"ទទួលខុសត្រូវលើការសម្របសម្រួលប្រតិបត្តិការក្រុម ត្រួតពិនិត្យសកម្មភាពអង្គការ និងគាំទ្រការរីកចម្រើន និងការអភិវឌ្ឍរបស់ក្រុមហ៊ុន។",
+why_h:"គោលបំណង បេសកកម្ម និងចក្ខុវិស័យ",
+purpose_h:"គោលបំណងរបស់យើង",purpose_1:"ធ្វើឱ្យសុវត្ថិភាពអ៊ីនធឺណិតសាមញ្ញ ងាយស្រួលប្រើ និងឥតគិតថ្លៃសម្រាប់មនុស្សគ្រប់គ្នា ព្រមទាំងជួយមនុស្សសម្គាល់ការគំរាមកំហែង មុនពេលជឿទុកចិត្តឯកសារ តំណភ្ជាប់ ឬសារដែលមិនស្គាល់។",
+mission_h:"បេសកកម្មរបស់យើង",mission_1:"ធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចប្រើប្រាស់បានសម្រាប់មនុស្សគ្រប់គ្នា ដោយមិនគិតពីចំណេះដឹងបច្ចេកទេស ឬស្ថានភាពហិរញ្ញវត្ថុ។",
+vision_h:"ចក្ខុវិស័យរបស់យើង",vision_1:"កសាងសហគមន៍ឌីជីថលដែលមានសុវត្ថិភាពជាងមុន ដែលមនុស្សអាចសម្គាល់ការគំរាមកំហែង ការពារព័ត៌មានរបស់ខ្លួន និងប្រើប្រាស់បច្ចេកវិទ្យាដោយទំនុកចិត្ត។",
+motto_1:"STICC_DETECTIVE — Smarter Security. Safer Digital Life.",
+legal_h:"ឯកជនភាព & លក្ខខណ្ឌ",
+foot_p:"ការត្រួតពិនិត្យសុវត្ថិភាពសម្រាប់សហគមន៍ Telegram។",ft_menu:"ម៉ឺនុយ",ft_contact:"ទំនាក់ទំនង",ft_privacy:"គោលការណ៍ឯកជនភាព",ft_terms:"លក្ខខណ្ឌប្រើប្រាស់",
+disc:"ការបដិសេធ៖ ការស្កេនសុវត្ថិភាពមិនអាចធានាថារកឃើញគ្រប់ការគំរាមកំហែងទេ។ សូមប្រុងប្រយ័ត្នជាមួយឯកសារ និងតំណភ្ជាប់ដែលមិនស្គាល់។"
+};
 const els=$$("[data-i18n]");els.forEach(e=>e.dataset.en=e.innerHTML);
-function setLang(l){document.documentElement.lang=l==="km"?"km":"en";els.forEach(e=>{e.innerHTML=l==="km"&&KM[e.dataset.i18n]?KM[e.dataset.i18n]:e.dataset.en});if($(".page.on"))typePage();try{localStorage.setItem("lang",l)}catch(e){}}
 let lang="en";try{lang=localStorage.getItem("lang")||"en"}catch(e){}
-function getFull(e){const k=e.dataset.i18n;return lang==="km"&&KM[k]?KM[k]:e.dataset.en}
-function typeEl(e,delay){clearTimeout(e._t);if(e.dataset.en===undefined)e.dataset.en=e.innerHTML;const full=getFull(e);
-if(true){e.innerHTML=full;e.classList.remove("cur");return}
-e.innerHTML="";e.classList.add("cur");let i=0;const per=Math.max(1,Math.ceil(full.length/70));
-const step=()=>{for(let c=0;c<per&&i<full.length;c++){if(full[i]==="<")i=full.indexOf(">",i)+1;else if(full[i]==="&")i=full.indexOf(";",i)+1;else i++}
-if(i>=full.length){e.innerHTML=full;e.classList.remove("cur");return}
-e.innerHTML=full.slice(0,i);e._t=setTimeout(step,22)};e._t=setTimeout(step,delay)}
-function typePage(){$$(".page.on :is(h1,h2,h3,p,li,.tag,.role,.note,.flow div)").forEach((e,n)=>typeEl(e,Math.min(n*80,1100)))}
+function setLang(l){document.documentElement.lang=l==="km"?"km":"en";els.forEach(e=>{e.innerHTML=l==="km"&&KM[e.dataset.i18n]?KM[e.dataset.i18n]:e.dataset.en});try{localStorage.setItem("lang",l)}catch(e){}}
 setLang(lang);$("#lang").onclick=()=>{lang=lang==="en"?"km":"en";setLang(lang)};
 
-$("#more").onclick=e=>{const b=e.currentTarget,box=$("#moreinfo"),open=box.hidden;box.hidden=!open;b.setAttribute("aria-expanded",open);b.children[0].hidden=open;b.children[1].hidden=!open;
-if(open)$$(".k,.val",box).forEach((x,i)=>typeEl(x,i*160))};
-/* terminal demos */
+/* terminal demo (sample data) */
 const DEMO=[["p","$ sticc scan sample.pdf"],["i","[INFO] Initializing file analysis..."],["i","[INFO] Checking available threat intelligence..."],["w","[WARN] Analysis status requires review"],["r","[RESULT] Demonstration output only"]];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const T1={n:0},T2={n:0};
-async function runDemo(el,bar,T){const my=++T.n;el.innerHTML="";if(bar)bar.style.width="0";
-for(let i=0;i<DEMO.length;i++){const [c,t]=DEMO[i],d=document.createElement("div");d.className=c;el.appendChild(d);
-if(reduce){d.textContent=t}else{d.classList.add("cur");for(let k=1;k<=t.length;k++){if(T.n!==my)return;d.textContent=t.slice(0,k);await sleep(16)}d.classList.remove("cur");await sleep(260)}
-if(T.n!==my)return;if(bar)bar.style.width=((i+1)/DEMO.length*100)+"%"}}
-(async()=>{for(;;){await runDemo($("#t1"),$("#p1"),T1);if(reduce)return;await sleep(6000)}})();
-$("#run").onclick=()=>runDemo($("#t2"),null,T2);
+let runId=0;
+async function runDemo(){const el=$("#t1"),my=++runId;el.innerHTML="";
+for(const [c,t] of DEMO){const d=document.createElement("div");d.className=c;el.appendChild(d);
+if(reduce){d.textContent=t}else{for(let k=1;k<=t.length;k++){if(runId!==my)return;d.textContent=t.slice(0,k);await sleep(16)}await sleep(260)}}}
+$("#run").onclick=runDemo;
 
-/* particles */
-(()=>{return;const c=$("#fx"),x=c.getContext("2d");let w,h,P=[];
-const rs=()=>{w=c.width=innerWidth;h=c.height=innerHeight;P=Array.from({length:Math.min(40,w/30)},()=>({x:Math.random()*w,y:Math.random()*h,v:.15+Math.random()*.35,r:Math.random()*1.4+.4}))};
-rs();addEventListener("resize",rs);
-(function f(){x.clearRect(0,0,w,h);x.fillStyle="#39ff88";P.forEach(p=>{p.y-=p.v;if(p.y<0){p.y=h;p.x=Math.random()*w}x.globalAlpha=.5;x.beginPath();x.arc(p.x,p.y,p.r,0,6.3);x.fill()});requestAnimationFrame(f)})()})();
 route();
 </script>
 <script>
-/* Demo video: muted autoplay + looping, with accessible pause and opt-in synthetic tech sound. */
+/* Demo video: muted autoplay + loop, accessible pause, opt-in synthetic tech sound. */
 (()=>{
- const video=document.getElementById('demoVideo');
- const play=document.getElementById('demoPlayback');
- const sound=document.getElementById('demoSound');
+ const video=document.getElementById('demoVideo'),play=document.getElementById('demoPlayback'),sound=document.getElementById('demoSound');
  if(!video||!play||!sound)return;
  let audio=null,enabled=false,lastTick=-1;
- function update(){const paused=video.paused;play.textContent=paused?'▶ Play':'⏸ Pause';play.setAttribute('aria-label',paused?'Play demonstration':'Pause demonstration');}
+ function update(){const p=video.paused;play.textContent=p?'▶ Play':'⏸ Pause';play.setAttribute('aria-label',p?'Play demonstration':'Pause demonstration');}
  function beep(){if(!enabled||video.paused||document.hidden)return;
-   try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
-     if(!audio)audio=new AC();if(audio.state==='suspended')audio.resume();
-     const osc=audio.createOscillator(),gain=audio.createGain(),t=audio.currentTime;
-     osc.type='sine';osc.frequency.setValueAtTime(520,t);osc.frequency.exponentialRampToValueAtTime(840,t+.085);
-     gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.025,t+.012);gain.gain.exponentialRampToValueAtTime(.0001,t+.13);
-     osc.connect(gain);gain.connect(audio.destination);osc.start(t);osc.stop(t+.14);
-   }catch(e){}
+  try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+   if(!audio)audio=new AC();if(audio.state==='suspended')audio.resume();
+   const o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime;
+   o.type='sine';o.frequency.setValueAtTime(520,t);o.frequency.exponentialRampToValueAtTime(840,t+.085);
+   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.025,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+.13);
+   o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+.14);
+  }catch(e){}
  }
  play.addEventListener('click',()=>{if(video.paused){video.play().catch(()=>{});}else video.pause();update();});
  sound.addEventListener('click',()=>{enabled=!enabled;sound.textContent=enabled?'♫ Tech Sound: On':'♫ Tech Sound: Off';sound.setAttribute('aria-pressed',String(enabled));if(enabled)beep();});
  video.addEventListener('play',update);video.addEventListener('pause',update);
- video.addEventListener('timeupdate',()=>{const tick=Math.floor(video.currentTime/2);if(tick!==lastTick){lastTick=tick;beep();}});
+ video.addEventListener('timeupdate',()=>{const k=Math.floor(video.currentTime/2);if(k!==lastTick){lastTick=k;beep();}});
  video.addEventListener('seeked',()=>{lastTick=-1;});
- update();video.play().catch(()=>{update();});
+ update();video.play().catch(()=>update());
 })();
 </script>
 </body>
